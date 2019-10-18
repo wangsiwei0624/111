@@ -1,0 +1,83 @@
+var warningApi = require("../../../api/warning.js")
+var env = require("../../../config/host.js")
+const app = getApp()
+Component({
+  properties: {
+    warningId: {
+      type: String,
+      value: '0'
+    },
+    showBtn: {
+      type: Boolean,
+      value: false
+    }
+  },
+  data: {
+    showBtnArr: ['0', '0', '0', '0'],
+    warningRecord: {},
+    token: '',
+    domain: '',
+    fileArr: [],
+    marginTop: ''
+  },
+  attached: function(options) {
+    this.setData({
+      domain: env.domain,
+      token: app.globalData.token
+    })
+    // this.queryWarningRecord(this.properties.warningId)
+  },
+  methods: {
+    // 获取按钮高度
+    getBodyHeight() {
+      var that = this
+      var query = wx.createSelectorQuery();
+      query.select('.lala').boundingClientRect(function (rect) {
+        console.log(rect)
+        if (that.data.showBtn) {
+          that.setData({
+            marginTop: rect.height / 2 + 'px'
+          })
+        } else {
+          that.setData({
+            marginTop: '-20rpx',
+          })
+        }
+        console.log(marginTop)
+        
+      }).exec();
+    },
+    // 点开右侧按钮
+    onclickBtn() {
+      this.setData({
+        showBtn: !this.data.showBtn,
+        showBtnArr: ['0', '0', '0', '0']
+      })
+    },
+    // 点击右侧按钮
+    scrollTo(e) {
+      const selector = e.currentTarget.dataset.text
+      const index = e.currentTarget.dataset.index
+      var arr = this.data.showBtnArr
+      for (var i = 0; i < this.data.showBtnArr.length; i++) {
+        if (i == index) {
+          arr[i] = '1'
+        } else {
+          arr[i] = '0'
+        }
+      }
+      this.setData({
+        showBtnArr: arr
+      })
+      wx.pageScrollTo({
+        selector: '.' + selector
+      })
+    },
+    // 点击最外层view收起按钮
+    clickOuter() {
+      this.setData({
+        showBtn: false
+      })
+    }
+  }
+})

@@ -1,0 +1,31 @@
+import axiso from '../lib/axiso.requeset.js'
+
+/**
+ * 公众上报
+ */
+module.exports = {
+  report: function({
+    remarks,
+    location,
+    lon,
+    lat,
+    createBy,
+    attachId,
+    videoId
+  }) {
+    const data = {
+      remarks:remarks,
+      location:location,
+      lon:lon,
+      lat:lat,
+      createBy:createBy,
+      attachId:attachId,
+      videoId:videoId
+    };
+    return axiso.request({
+      url: "wx/massesReport/save",
+      method: "post",
+      data,
+    });
+  }
+}

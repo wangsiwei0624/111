@@ -1,0 +1,22 @@
+.input-ex-contaner {
+  position: relative;
+}
+.wux-input-ex {
+  position: relative;
+  padding: 12rpx 12rpx;
+  border: 1px solid #ddd;
+  border-radius: 5rpx;
+  margin: 9rpx 0rpx;
+  overflow-x: scroll;
+  height: 56rpx;
+}
+.input-value {
+  line-height: 56rpx;
+  white-space:nowrap;
+}
+.input-value-placeholder {
+  font-size: 28rpx;
+  color: #999;
+  font-family: PingFangSC;
+  font-weight: 400;
+}

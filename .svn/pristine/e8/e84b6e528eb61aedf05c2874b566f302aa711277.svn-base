@@ -1,0 +1,60 @@
+<signle-fab-button icon="iconshujushangbaoshangchuan-shangchuan"  bindtap="goReport"></signle-fab-button>
+<!--pages/report/index.wxml-->
+<view class="report-list-page">
+  <wux-tabs controlled current="{{ currentTab }}" theme="positive" bindchange="onTabsChange">
+    <wux-tab key="0" title="灾害上报"></wux-tab>
+    <wux-tab key="1" title="新增隐患点"></wux-tab>
+  </wux-tabs>
+  <swiper class="list-contaner" current="{{ currentTab }}" bindchange="onSwiperChange">
+    <!-- 灾害上报 -->
+    <block wx:key="0">
+      <swiper-item>
+        <view class="content-list" on>
+          <wux-refresher id="reportList" bind:refresh="onReportRefresh" bind:loadmore="onReportLoadmore" scrollTop="{{scrollTop}}">
+            <view class="list-in">
+              <view class="list-no-data" hidden="{{reportList.length > 0}}">
+                <image src="../../static/images/no-data.png"></image>
+              </view>
+              <view class="list-item" wx:for="{{reportList}}" wx:key="{{index}}" bindtap="goReportDetail" data-id="{{item.id}}">
+                  <view class="list-item-title">
+                    <text>{{item.remarks}}</text>
+                  </view>
+                  <view class="list-item-footer">
+                    <view class="postion">
+                      <text><i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>{{item.location}} </text>
+                    </view>
+                    <text class="time">{{item.createDate}}</text>
+                  </view>
+                </view>
+            </view>
+          </wux-refresher>
+        </view>
+      </swiper-item>
+    </block>
+    <!-- 新增隐患点 -->
+    <block wx:key="2"> 
+      <swiper-item>
+        <view class="content-list">
+           <wux-refresher id="dangerList" bind:refresh="onDangerRefresh" bind:loadmore="onDangerLoadmore" scrollTop="{{scrollTop}}">
+            <view class="list-in">
+              <view class="list-no-data" hidden="{{dangerList.length > 0}}">
+                <image src="../../static/images/no-data.png"></image>
+              </view>
+              <view class="list-item" wx:for="{{dangerList}}" wx:key="{{index}}" bindtap="goDangerDetail" data-id="{{item.id}}">
+                  <view class="list-item-title">
+                    <text>{{item.dangerName}}</text>
+                  </view>
+                  <view class="list-item-footer">
+                    <view class="postion">
+                      <text><i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>{{item.location}} </text>
+                    </view>
+                    <text class="time">{{item.createDate}}</text>
+                  </view>
+                </view>
+            </view>
+          </wux-refresher>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

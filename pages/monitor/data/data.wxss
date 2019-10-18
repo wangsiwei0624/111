@@ -1,0 +1,339 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+}
+
+.page {
+  margin-bottom: 30rpx;
+}
+
+.page .content {
+  height: 80rpx;
+  background-color: #fff;
+  padding-left: 29rpx;
+}
+
+.page .content .item {
+  margin-right: 27rpx;
+  /* margin-bottom: 20rpx; */
+  display: inline-block;
+  /* line-height: 80rpx; */
+  vertical-align: bottom;
+}
+
+.page .content .item text {
+  font-size: 32rpx;
+  color: #666;
+}
+
+.page .content .item .triangle {
+  height: 25rpx;
+}
+
+.page .content .item.active .triangle {
+  width: 0;
+  height: 0;
+  border: 20rpx solid;
+  border-color: transparent transparent #eaeff1;
+  margin: 0 auto;
+  /* align-self:  */
+}
+
+.page .content .item.active text {
+  font-weight: bold;
+  color: #2a7ad7;
+}
+
+.page .point {
+  height: 98rpx;
+  background-color: #eaeff1;
+  padding-left: 20rpx;
+}
+
+.page .point .item {
+  display: inline-block;
+  margin-right: 20rpx;
+  padding: 22rpx;
+}
+
+.page .point .item text {
+  color: #666;
+  font-size: 26rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  display: inline-block;
+}
+
+.page .point .item.active text {
+  color: #fff;
+  background-color: #2a7ad7;
+  border-radius: 54rpx;
+  min-width: 120rpx;
+  text-align: center;
+  display: inline-block;
+}
+
+.page .sel-content {
+  height: 636rpx;
+}
+
+.page .sel-content .sel-body {
+  border: 1rpx solid #eaeaea;
+  padding: 20rpx 30rpx;
+}
+
+.page .sel-content .title {
+  display: inline-block;
+  margin-bottom: 20rpx;
+  height: 27rpx;
+  border-bottom: 18rpx solid #9bc0ec;
+}
+
+.page .sel-content .title text {
+  color: #333;
+  font-size: 26rpx;
+  line-height: 45rpx;
+}
+
+.page .sel-content .item {
+  border: 1rpx solid #2a7ad7;
+  padding: 18rpx 20rpx;
+  color: #2a7ad7;
+  font-size: 24rpx;
+  border-radius: 30rpx;
+  display: inline-block;
+  margin-right: 30rpx;
+  margin-bottom: 20rpx;
+}
+
+.page .sel-content .item.active {
+  background-color: #2a7ad7;
+  color: #fff;
+}
+
+/* 改变wux-pop的居中显示 */
+
+.wux-popup__content {
+  text-align: left !important;
+}
+
+.page .sel-content .sel-bottom {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 79rpx;
+  line-height: 109rpx;
+}
+
+.page .sel-content .sel-bottom text {
+  color: #333;
+  font-size: 28rpx;
+  margin-left: 70rpx;
+}
+
+.page .body {
+  padding: 30rpx;
+  margin-bottom: 180rpx;
+}
+
+.page .charts {
+  position: relative;
+  background-color: #fff;
+  border-radius: 30rpx;
+  height: 850rpx;
+}
+
+.page .charts.height {
+  height: 1636rpx;
+}
+
+.page .charts .date {
+  width: 100%;
+  height: 78rpx;
+  display: flex;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+  background-color: #e5ebee;
+}
+
+.page .charts .date .item {
+  color: #8297ae;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 78rpx;
+  width: 25%;
+}
+
+.page .charts .date .item:first-child {
+  border-top-left-radius: 30rpx;
+}
+
+.page .charts .date .item:last-child {
+  border-top-right-radius: 30rpx;
+}
+
+.page .charts .date .item.active {
+  color: #2a7ad7;
+  background-color: #fff;
+}
+
+.page .container {
+  top: 10%;
+  left: 0;
+}
+
+.page .body .max-min {
+  position: absolute;
+  top: 75%;
+  left: 10%;
+  width: 80%;
+}
+
+.page .body .max-min .val-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page .body .max-min .val-wrap .item text {
+  display: block;
+  text-align: center;
+}
+
+.page .body .max-min .val-wrap .item .num {
+  font-size: 52rpx;
+  margin-bottom: 10rpx;
+}
+
+.page .body .max-min .val-wrap .item .num.max {
+  color: #e21313;
+}
+
+.page .body .max-min .val-wrap .item .num.min {
+  color: #1bbf23;
+}
+
+.page .body .max-min .val-wrap .item .txt {
+  color: #333;
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+}
+
+.page .body .max-min .val-wrap .item .time {
+  color: #999;
+  font-size: 24rpx;
+}
+
+.page .container .no-data {
+  text-align: center;
+  padding-top: 30%;
+}
+
+.no-data image{
+  width: 374rpx;
+  height: 288rpx;
+}
+
+.page .container .line {
+  width: 100%;
+  border-top: 1rpx dashed #ccc;
+  position: absolute;
+  top: 51%;
+}
+
+.page .container .unfold {
+  position: absolute;
+  top: 2%;
+  right: -2%;
+  z-index: 9998;
+  width: 88rpx;
+  height: 88rpx;
+  background-color: #2a7ad7;
+  border-radius: 88rpx;
+}
+
+.page .container .unfold cover-image {
+  width: 44rpx;
+  height: 44rpx;
+  margin: 22rpx auto;
+}
+
+.page .container .unfold.st-line {
+  top: 55%;
+}
+
+ec-canvas {
+  width: 100%;
+  height: 70%;
+}
+
+.container.two-charts ec-canvas {
+  height: 50%;
+}
+
+.container.two-charts {
+  top: 5%;
+}
+
+ec-canvas.none {
+  display: none;
+}
+
+#mychart-dom-multi-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+#mychart-dom-multi-scatter {
+  position: absolute;
+  top: 53%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.page .bottom {
+  width: 101%;
+  height: 98rpx;
+  background-color: #fff;
+  position: fixed;
+  left: -1rpx;
+  /* right: -1rpx; */
+  bottom: -1rpx;
+  border-top: 1rpx solid #eaeff1;
+  display: flex;
+  justify-content: space-between;
+  z-index: 9999;
+}
+
+.page .place {
+  width: 100%;
+  height: 69rpx;
+  background-color: #fff;
+}
+
+.page .bottom .item {
+  width: 26%;
+  line-height: 98rpx;
+  color: #333;
+  font-size: 28rpx;
+  text-align: center;
+  display: inline-block;
+}
+
+.page .bottom .item cover-view {
+  line-height: 98rpx;
+}
+
+.page .bottom .item.active {
+  color: #fff;
+  background-color: #2A7AD7;
+}
+/* 去掉scroll-view的滚动条 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

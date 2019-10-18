@@ -1,0 +1,54 @@
+<!--pages/components/user-selector/index.wxml-->
+<view class="user-selector">
+  <wux-white-space body-style="height: 10rpx" />
+  <view class="select-contaner input-contaner">
+    <view class="input-box-contaner {{expand?'expand':''}}" bindtap="expandSelect">
+      <view class="input-box {{label?'':'placeholder'}}">{{label || placeholder}}</view>
+      <i class="expand-icon right-icon iconfont icon-lishijingqing-liebiaojiantou"></i>
+    </view>
+    <i class="select-icon iconfont icon-fasongduanxin-tongxunlu" bindtap="openUserPage"></i>
+  </view>
+</view>
+<!-- 通讯录页面 -->
+<view class="user-page" hidden="{{!showUserPage}}">
+  <view class="user-page-header">
+    <wux-row class="org-select">
+      <wux-col span="6">
+        <view class="input-contaner org-unit">
+          <view class="input-box-contaner" bindtap="">
+            <i class="left-icon iconfont icon-paiqianrenyuan-danwei"></i>
+            <view class="input-box placeholder">选择单位</view>
+            <i class="right-icon iconfont icon-lishijingqing-liebiaojiantou"></i>
+          </view>
+        </view>
+      </wux-col>
+      <wux-col span="6">
+        <view class="input-contaner org-dept">
+          <view class="input-box-contaner" bindtap="">
+            <i class="left-icon iconfont icon-paiqianrenyuan-bumen"></i>
+            <view class="input-box placeholder">选择部门</view>
+            <i class="right-icon iconfont icon-lishijingqing-liebiaojiantou"></i>
+          </view>
+        </view>
+      </wux-col>
+       <wux-col span="12">
+        <view class="input-contaner">
+          <view class="input-box-contaner" bindtap="">
+            <input class="input-box" placeholder="请输入姓名或电话号码"></input>
+            <i class="right-icon iconfont icon-paiqianrenyuan-sousuo"></i>
+          </view>
+        </view>
+       </wux-col>
+    </wux-row>
+  </view>
+  <view class="user-page-body">
+    <wux-index height="100%" bind:change="onChange">
+      <wux-index-item wx:for="{{ alphabet }}" wx:key="" name="{{ item.initial }}">
+        <view class="demo-item" wx:for="{{ item.cells }}" wx:for-item="cell" wx:key="">{{ cell }}</view>
+      </wux-index-item>
+    </wux-index>
+  </view>
+  <view class="user-page-footer">
+
+  </view>
+</view>

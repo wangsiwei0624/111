@@ -1,0 +1,4 @@
+<!-- 浮动按钮 -->
+<view class="fab-button-contaner" style="{{ fabStyle }} background:{{backgrounColor}}; box-shadow:{{shadow}}">
+  <i class="iconfont {{ icon }}"></i>
+</view>

@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="banner">
+    <view class="hd">
+      <image src="../../../../static/images/bind1.png" class="bindbanner"></image>
+    </view>
+    <wux-form id="wux-form" >
+      <wux-cell-group>
+        <wux-cell hover-class="none">
+          <wux-field name="user" class="user">
+            <wux-input placeholder="请输入手机号" bind:change="onUserChange" placeholder-style="color:#cccccc;font-size: 28rpx"/>
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell-group>
+        <wux-cell hover-class="none">
+          <wux-field name="password" class="password">
+            <wux-input  cursor-spacing="200rpx" placeholder="请输入验证码" bind:change="onCodeChange" placeholder-style="color:#cccccc;font-size: 28rpx;"/>
+            <button class="yzm" bindtap="get" bindtap="onCode" wx:if="{{timeText}}">获取验证码</button>
+            <button class="yzm" bindtap="get" wx:else>剩余{{time}}s</button>
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <view class="btn-area">
+        <button bindtap="onSubmit" class="button"><text>登录</text></button>
+      </view>
+    </wux-form>
+  </view>
+  <view class="footer" bindtap="toPassword">
+    <text>使用账号密码登录</text>
+    <i class="iconfont icondenglu-duanxindenglujiantou"></i>
+  </view>
+</view>

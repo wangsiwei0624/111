@@ -1,0 +1,459 @@
+var warnListApi = require("../../../api/userList.js")
+ 
+import {
+  $startWuxRefresher,
+  $stopWuxRefresher,
+  $stopWuxLoader 
+} from '../../../components/index'
+const getList = (count = 10, step = 0) => [...new Array(count)].map((n, i) => ({
+  title: `Pull down ${i + step}`,
+  content: 'Wux Weapp'
+}))
+
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    currentTab: 'tab1',
+    color: '',
+    items: [],
+    count: 0,
+    scrollTop: 0,
+    listonoff1: false,
+    listonoff2: false,
+    listonoff3: false,
+
+    waitscrollTop: 0,
+    waitList: [],
+    waitPage: 1,
+
+    judgedscrollTop: 0,
+    judgedList: [],
+    judgedPage: 1,
+
+    historyscrollTop: 0,
+    historyList: [],
+    historyPage: 1,
+
+    tabs: [
+      {
+        key: 'tab1',
+        title: '待办警情',
+        content: 'Content of tab 1',
+      },
+      {
+        key: 'tab2',
+        title: '专家研判',
+        content: 'Content of tab 2',
+      },
+      {
+        key: 'tab3',
+        title: '历史警情',
+        content: 'Content of tab 3',
+      },
+    ],
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    $startWuxRefresher('#waitList')
+    $startWuxRefresher("#judgedList");
+    $startWuxRefresher("#historyList");
+
+  //   //代办警情
+  //   warnListApi.warningList().then(res => {
+  //     wx.showLoading({
+  //       title: '加载中',
+  //       success: (res) => {
+  //         wx.hideLoading();
+  //       }
+  //     })
+  //     console.log(res)
+  //     if (res.data.list.length == 0) {
+  //       that.setData({
+  //         listonoff1: true,
+  //       })
+  //     }
+  //     let color;
+  //     for (var i = 0; i < res.data.list.length; i++) {
+  //       switch (res.data.list[i].warningGrade) {
+  //         case '1':
+  //           res.data.list[i].color = '#CE5B5B'
+  //           break;
+  //         case '2':
+  //           res.data.list[i].color = '#E78839'
+  //           break;
+  //         case '3':
+  //           res.data.list[i].color = '#F4C93C'
+  //           break;
+  //         case '4':
+  //           res.data.list[i].color = '#108EE9'
+  //           break;
+  //       }
+  //     }
+  //     that.setData({
+  //       listMessage: res.data.list,
+  //     })
+  //     // console.log(res.data.list)
+  //   })
+
+  //   //专家研判
+  //   warnListApi.warningJudged().then(res => {
+  //     console.log(res)
+  //     if (res.data.list.length == 0) {
+  //       that.setData({
+  //         listonoff2: true,
+  //       })
+  //     }
+  //     let color;
+  //     for (var i = 0; i < res.data.list.length; i++) {
+  //       switch (res.data.list[i].warningGrade) {
+  //         case '1':
+  //           res.data.list[i].color = '#CE5B5B'
+  //           break;
+  //         case '2':
+  //           res.data.list[i].color = '#E78839'
+  //           break;
+  //         case '3':
+  //           res.data.list[i].color = '#F4C93C'
+  //           break;
+  //         case '4':
+  //           res.data.list[i].color = '#108EE9'
+  //           break;
+  //       }
+  //     }
+  //     that.setData({
+  //       listJudged: res.data.list
+  //     })
+  //   })
+
+  //   //历史警情
+  //   warnListApi.warningHistory().then(res => {
+  //     console.log(res)
+  //     if (res.data.list.length == 0) {
+  //       that.setData({
+  //         listonoff3: true,
+  //       })
+  //     }
+  //     that.setData({
+  //       listHistory: res.data.list
+  //     })
+  //   })
+  },
+
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function() {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function() {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function() {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
+  },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+  onWaitListScroll(e) {
+    this.setData({
+      waitscrollTop: e.detail.scrollTop
+    })
+  },
+  onJudgedListScroll(e) {
+    console.log(e)
+    this.setData({
+      judgedscrollTop: e.detail.scrollTop
+    })
+  },
+  onHistoryListScroll(e) {
+    this.setData({
+      historyscrollTop: e.detail.scrollTop
+    })
+  },
+
+  //页面swiper效果开始
+  onChange(e) {
+    console.log('onChange', e)
+    this.setData({
+      current: e.detail.key,
+    })
+  },
+  onTabsChange(e) {
+    console.log('onTabsChange', e)
+    const { key } = e.detail
+    const index = this.data.tabs.map((n) => n.key).indexOf(key)
+
+    this.setData({
+      key,
+      index,
+    })
+  },
+  onSwiperChange(e) {
+    console.log('onSwiperChange', e)
+    const { current: index, source } = e.detail
+    const { key } = this.data.tabs[index]
+
+    if (!!source) {
+      this.setData({
+        key,
+        index,
+      })
+    }
+  },
+  //页面swiper效果结束
+
+
+  //待办警情
+  onWaitRefresh: function () {
+    this.setData({
+      waitPage: 1,
+      waitList: [],
+    })
+    this.loadWaitList();
+  },
+  onWaitLoadmore: function () {
+    this.setData({
+      waitPage: this.data.waitPage + 1
+    })
+    this.loadWaitList();
+  },
+  loadWaitList: function () {
+    warnListApi.warningList({
+      pageNo: this.data.waitPage
+    }).then(res => {
+      if (res.data.list.length == 0) {
+        this.setData({
+          listonoff1: true,
+        })
+      }
+      let color;
+      for (var i = 0; i < res.data.list.length; i++) {
+        switch (res.data.list[i].warningGrade) {
+          case '1':
+            res.data.list[i].color = '#CE5B5B'
+            break;
+          case '2':
+            res.data.list[i].color = '#E78839'
+            break;
+          case '3':
+            res.data.list[i].color = '#F4C93C'
+            break;
+          case '4':
+            res.data.list[i].color = '#108EE9'
+            break;
+        }
+      }
+      if (res.code === 200) {
+        let list = this.data.waitList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#waitList");
+          $stopWuxLoader("#waitList", this, true);
+        } else {
+          $stopWuxRefresher("#waitList");
+          $stopWuxLoader("#waitList");
+          let tplist = [];
+          this.setData({
+            waitList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#waitList");
+        $stopWuxLoader("#waitList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#waitList");
+      $stopWuxLoader("#waitList", this, true);
+    })
+  },
+
+  //专家研判
+  onJudgedRefresh: function () {
+    this.setData({
+      judgedPage: 1,
+      judgedList: [],
+    })
+    this.loadJudgedList();
+  },
+  onJudgedLoadmore: function () {
+    this.setData({
+      judgedPage: this.data.judgedPage + 1
+    })
+    this.loadJudgedList();
+  },
+  loadJudgedList: function () {
+    warnListApi.warningJudged({
+      pageNo: this.data.judgedPage
+    }).then(res => {
+      if (res.data.list.length == 0) {
+        this.setData({
+          listonoff2: true,
+        })
+      }
+      let color;
+      for (var i = 0; i < res.data.list.length; i++) {
+        switch (res.data.list[i].warningGrade) {
+          case '1':
+            res.data.list[i].color = '#CE5B5B'
+            break;
+          case '2':
+            res.data.list[i].color = '#E78839'
+            break;
+          case '3':
+            res.data.list[i].color = '#F4C93C'
+            break;
+          case '4':
+            res.data.list[i].color = '#108EE9'
+            break;
+        }
+      }
+      if (res.code === 200) {
+        let list = this.data.judgedList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#judgedList");
+          $stopWuxLoader("#judgedList", this, true);
+        } else {
+          $stopWuxRefresher("#judgedList");
+          $stopWuxLoader("#judgedList");
+          let tplist = [];
+          this.setData({
+            judgedList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#judgedList");
+        $stopWuxLoader("#judgedList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#judgedList");
+      $stopWuxLoader("#judgedList", this, true);
+    })
+  },
+
+  //历史警情
+  onHistoryRefresh: function () {
+    this.setData({
+      historyPage: 1,
+      historyList: [],
+    })
+    this.loadHistoryList();
+  },
+  onHistoryLoadmore: function () {
+    this.setData({
+      historyPage: this.data.historyPage + 1
+    })
+    this.loadHistoryList();
+  },
+  loadHistoryList: function () {
+    warnListApi.warningHistory({
+      pageNo: this.data.historyPage
+    }).then(res => {
+      if (res.data.list.length == 0) {
+        this.setData({
+          listonoff3: true,
+        })
+      }
+      if (res.code === 200) {
+        let list = this.data.historyList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#historyList");
+          $stopWuxLoader("#historyList", this, true);
+        } else {
+          $stopWuxRefresher("#historyList");
+          $stopWuxLoader("#historyList");
+          let tplist = [];
+          this.setData({
+            historyList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#historyList");
+        $stopWuxLoader("#historyList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#historyList");
+      $stopWuxLoader("#historyList", this, true);
+    })
+  },
+
+
+  //跳转
+  goDetail: function(e) {
+    const id = e.currentTarget.dataset.id
+    const type = e.currentTarget.dataset.type
+    const leader = e.currentTarget.dataset.leader
+    wx.navigateTo({
+      url: '/pages/warning/info/info?id=' + id + '&type=' + type + '&leader=' + leader,
+    })
+  },
+  goHistory: function (e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/warning/history/history?id=' + id,
+    })
+  },
+
+  onNewBuilt: function() {
+    wx.navigateTo({
+      url: '/pages/warning/report/index',
+    })
+  }
+})

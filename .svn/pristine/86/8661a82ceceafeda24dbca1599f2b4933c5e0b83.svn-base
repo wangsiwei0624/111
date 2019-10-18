@@ -1,0 +1,30 @@
+import axiso from '../lib/axiso.requeset.js'
+
+/**
+ * 新建警情
+ */
+module.exports = {
+  report: function ({
+    remarks,
+    attachId,
+    warningGrade,
+    projectId,
+    planType,
+    taskstatus
+  }) {
+    const data = {
+      remarks: remarks,
+      attachId: attachId,
+      warningGrade: warningGrade,
+      projectId: projectId,
+      taskstatus: taskstatus,
+      planType: planType,
+      
+    };
+    return axiso.request({
+      url: "wx/patrolTask/saveTempTask",
+      method: "get",
+      data,
+    });
+  } 
+}

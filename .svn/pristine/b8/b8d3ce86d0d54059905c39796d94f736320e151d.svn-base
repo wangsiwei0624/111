@@ -1,0 +1,93 @@
+<signle-fab-button icon="iconrengongjingqingshangbao" bindtap="onNewBuilt"></signle-fab-button>
+<view class="page">
+  <!-- <wux-tabs controlled current="{{ currentTab }}" defaultCurrent="tab1" theme="positive" bindchange="onChange">
+    <wux-tab key="tab1" title="待办警情"></wux-tab>
+    <wux-tab key="tab2" title="专家研判"></wux-tab>
+    <wux-tab key="tab3" title="历史警情"></wux-tab>
+  </wux-tabs>  -->
+  <wux-tabs wux-class="bordered" controlled current="{{ key }}" bindchange="onTabsChange" theme="positive">
+            <block wx:for="{{ tabs }}" wx:key="key">
+                <wux-tab key="{{ item.key }}" title="{{ item.title }}"></wux-tab>
+            </block>
+  </wux-tabs> 
+
+
+  <!-- list -->
+  <swiper class="list-contaner" current="{{ index }}" bindchange="onSwiperChange">
+    <block wx:key="0">
+      <swiper-item>
+        <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}">
+          <view class="list-in">
+            <view class="list-in-cell-no" wx:if="{{listonoff1}}">
+              <text>暂无待办警情</text>
+            </view>
+            <view class="list-in-cell-detail" wx:for="{{listMessage}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" data-type="1" data-leader="{{ item.leader }}">
+              <view class="list-in-cell-detail-cell" wx:if="{{item.warningStatus == '0'}}">
+                <view class="detail-theme">
+                  <text>{{item.description}}</text>
+                </view>
+                <view class="detail-address">
+                  <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                  <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+                  <text>|  {{item.warningStatusName}}</text>
+                  <text class="time">{{item.warningTime}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </wux-refresher>
+    </swiper-item>
+  </block>
+
+    <block wx:key="1">
+        <swiper-item>
+          <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}">
+            <view class="list-in">
+              <view class="list-in-cell-no" wx:if="{{listonoff2}}">
+                <text>暂无专家研判</text>
+              </view>
+              <view class="list-in-cell-detail" wx:for="{{listJudged}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" data-type="1" data-leader="{{ item.leader }}">
+                <view class="list-in-cell-detail-cell">
+                  <view class="detail-theme">
+                    <text>{{item.description}}</text>
+                  </view>
+                  <view class="detail-address">
+                    <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                    <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+                    <text>|  {{item.warningStatusName}}</text>
+                    <text>|  {{item.warningStatusName}}</text>
+                    <text class="time">{{item.judgedStatusName}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </wux-refresher>
+      </swiper-item>
+    </block>
+
+    <block wx:key="2">
+        <swiper-item>
+          <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" >
+            <view class="list-in">
+              <view class="list-in-cell-no" wx:if="{{listonoff3}}">
+                <text>暂无历史警情</text>
+              </view>
+              <view class="list-in-cell-detail" wx:for="{{listHistory}}" wx:key="{{index}}" bindtap="goHistory" data-id="{{item.id}}">
+                <view class="list-in-cell-detail-cell">
+                  <view class="detail-theme">
+                    <text>{{item.description}}</text>
+                  </view>
+                  <view class="detail-address">
+                    <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                    <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+                    <text>| {{item.warningStatusName}}</text>
+                    <text class="time">{{item.updateDate}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </wux-refresher>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

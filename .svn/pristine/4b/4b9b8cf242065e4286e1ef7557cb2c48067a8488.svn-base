@@ -1,0 +1,21 @@
+<!--index.wxml-->
+<view class="modal" wx:if="{{yn}}" bindtap="changeModel">
+      <image src="../../static/images/m-submit.png" class="mimg1"></image>
+</view>
+<view class="page">
+  
+  <view class="list-no-data" wx:if="{{hdif}}">
+    <image src="../../static/images/no-data.png"></image>
+  </view>
+
+  <view class="hd">
+    <view class="list" wx:for="{{message}}" wx:key="{{item.id}}" bindtap="detail" data-id="{{item.id}}" >
+      <p>{{item.title}}</p>
+      <p>{{item.createtime}}</p>
+      <image src="{{item.cover}}"></image>
+    </view>
+  </view>
+  
+  <main-tabbar current-tab-index="{{0}}"></main-tabbar>
+</view>
+

@@ -1,0 +1,55 @@
+<!--pages/submit/submit.wxml-->
+<wux-toptips id="wux-toptips" />
+<view class="upload-mask" wx:if="{{showUploadMask}}">
+  <image class="upload-status" src="../../../static/images/upload-{{showUploadStatus}}.gif"></image>
+</view>
+<view class="page">
+  <wux-white-space body-style="height: 20px" />
+  <wux-form id="wux-form">
+    <view wx:key="{{item.name}}" wx:for="{{formField}}">
+      <wux-cell-group>
+        <wux-cell class="form-field">
+          <view class="form-field-title">
+            <text class="form-field-require" wx:if="{{item.required}}">*</text>{{item.title}}
+            <text class="form-field-subtitle" wx:if="{{item.subtitle}}" >{{item.subtitle}}</text></view>
+            <!-- start user select -->
+            <wux-search-bar wx:if="{{item.type === 'user'}}" clear show-cancel></wux-search-bar>
+            <!-- end user select -->
+
+            <!-- start select -->
+            <wux-radio-group wx:if="{{item.type === 'select'}}" value="{{item.value}}" data-name="{{item.name}}" bind:change="onRadioChange">
+                <wux-radio title="升级" value="1" />
+                <wux-radio title="降级" value="2" />
+            </wux-radio-group>
+            <!-- end select -->
+
+          <!-- start textarea -->
+          <wux-field wx:if="{{item.type === 'textarea'}}" name="{{item.name}}" initialValue="">
+            <wux-textarea rows="{{item.rows || 5}}" placeholder="{{item.placeholder}}" />
+          </wux-field>
+          <!-- end textarea -->
+          <!-- start upload image -->
+          <wux-upload wx:if="{{item.type === 'image'}}" progress data-name="{{item.name}}" max="{{item.max || 5}}" count="{{item.max || 5}}" listType="picture-card" fileList="{{ item.fileList }}" url="{{uploadServer}}" bind:change="onChange" bind:success="onSuccess"
+            bind:fail="onFail" bind:complete="onComplete" bind:progress="onProgress" bind:preview="onPreview">
+            <view>
+              <i class="upload-btn-icon iconfont icon-shujushangbaoshangchuan-shangchuan"></i>
+            </view>
+          </wux-upload>
+          <!-- end upload image -->
+          <!-- start upload video -->
+          <wux-upload wx:if="{{item.type === 'video'}}" progress data-name="{{item.name}}" max="{{item.max || 5}}" count="{{item.max || 5}}" listType="picture-card" fileList="{{ item.fileList }}" url="{{uploadServer}}" bind:change="onChange" bind:success="onSuccess"
+            bind:fail="onFail" bind:complete="onComplete" bind:progress="onProgress" bind:preview="onPreview">
+            <view>
+              <i class="upload-btn-icon iconfont icon-shujushangbaoshangchuan-shangchuan"></i>
+            </view>
+          </wux-upload>
+          <!-- end upload video -->
+        </wux-cell>
+      </wux-cell-group>
+      <wux-white-space body-style="height: 20px" />
+    </view>
+    <view class="btn-area">
+      <wux-button block type="positive" bind:click="onSubmit">提交</wux-button>
+    </view>
+  </wux-form>
+</view>

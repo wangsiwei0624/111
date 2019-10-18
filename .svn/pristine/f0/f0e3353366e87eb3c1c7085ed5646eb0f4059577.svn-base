@@ -1,0 +1,11 @@
+<view hidden="{{!showAuthBtn}}" class="login">
+  <image src="../../static/images/login-banner.png" class="banner"></image>
+  <view class="message">
+    <text class="tips">PC端登录申请</text>
+    <view class="gain">
+      <text>该账号申请授权登录PC端，请确认是否本人操作</text>
+    </view>
+  </view>
+  <button type="primary" shape="circle" size="small" bindtap="authWeb" class="button"> 允许登录Web端</button>
+  <view class="visitor-button" bindtap="onIgnore">忽略申请</view>
+</view>

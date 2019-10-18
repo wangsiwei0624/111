@@ -1,0 +1,35 @@
+<view class="page">
+  <view class="banner">
+    <view class="hd">
+      <image src="../../../static/images/bind1.png" class="bindbanner"></image>
+    </view>
+    <wux-form id="wux-form" >
+      <wux-cell-group class="wux-username">
+        <wux-cell hover-class="none">
+          <wux-field name="username" class="username">
+            <wux-input placeholder="请输入账号" placeholder-style="color:#cccccc" />
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell-group class="wux-password">
+        <wux-cell hover-class="none">
+          <wux-field name="password" class="password">
+            <wux-input  cursor-spacing="500rpx" placeholder="请输入密码"  bind:change="onInput" type="password" placeholder-style="color:#cccccc" wx:if="{{eye}}" style="width：{{width}} "/>
+            <wux-input  cursor-spacing="500rpx" placeholder="请输入密码"  bind:change="onInput" type="text" placeholder-style="color:#cccccc" wx:else style="width：{{width}} "/>
+            <view wx:if="{{iconState}}">
+              <i class="iconfont icondenglu-yanjingbiyan" wx:if="{{eye}}" catchtap="onDisplay"></i>
+              <i class="iconfont icondenglu-yanjingzhengyan" wx:else catchtap="onHide"></i>
+            </view>
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <view class="btn-area">
+        <button bindtap="onSubmit" class="button">登录</button>
+      </view>
+    </wux-form>
+  </view>
+  <view class="footer" bindtap="toPhone">
+    <text>使用短信验证码登录</text>
+    <i class="iconfont icondenglu-duanxindenglujiantou"></i>
+  </view>
+</view>

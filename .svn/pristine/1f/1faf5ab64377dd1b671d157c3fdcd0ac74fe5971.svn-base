@@ -1,0 +1,20 @@
+var config = require("./config.js")
+
+const PROFILES = {
+  'dev': {
+    'online': false,
+    // 'domain': 'http://192.168.0.131:8080/api/'
+    'domain': 'http://192.168.0.183:8789/api/'
+  },
+  'test': {
+    'online': false,
+    'domain': 'http://test.v2.clzytech.com:8082/api/'
+    // 'domain':
+  },
+  'prod': {
+    'online': true,
+    'domain': 'http://v2.clzytech.com:8083/api/'
+  }
+};
+const ENV = PROFILES[config.active];
+module.exports = ENV;

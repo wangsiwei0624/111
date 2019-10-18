@@ -1,0 +1,303 @@
+<view class="page" bindtap="clickOuter">
+  <view class="tab-class">
+    <wux-tabs controlled current="{{ currentTab }}" theme="positive" bindchange="onChange">
+      <wux-tab key="tab1" title="基本信息"></wux-tab>
+      <wux-tab key="tab2" title="处理记录"></wux-tab>
+      <wux-tab key="tab3" title="历史警情"></wux-tab>
+    </wux-tabs>
+  </view>
+  <!-- 预警详情 -->
+  <view wx:if="{{ currentTab === 'tab1' }}" class="tab-page">
+    <!-- <warning-info warningId="{{ warningId }}"></warning-info> -->
+    <view class="tab-wrap">
+      <view class="title">
+        <view class="icon"></view>
+        <text>预警信息</text>
+      </view>
+      <view class="content">
+        <wux-row>
+          <wux-col span="5">
+            <view class="info-row">
+              <text class="label">预警等级：</text>
+              <text class="value">{{ warningDetail.preWarningGradeName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">警情等级：</text>
+              <text class="value">{{ warningDetail.warningGradeName }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="5">
+            <view class="info-row">
+              <text class="label">警情状态：</text>
+              <text class="value">{{ warningDetail.warningStatusName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">警情来源：</text>
+              <text class="value">{{ warningDetail.warningFrom }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <text class="label">预警类型：</text>
+              <text class="value">{{ warningDetail.warningTypeName }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="5" class="wux-text--right">
+            <view class="info-row">
+              <text class="label">响应人：</text>
+              <text class="value">{{ warningDetail.responseName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">派遣人员：</text>
+              <text class="value">{{ warningDetail.dispatcher }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <text class="label">预警时间：</text>
+              <text class="value">{{ warningDetail.warningTime }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <view class="left">
+                <text class="label">警情描述：</text>
+              </view>
+              <view class="right">
+                <text class="value">{{ warningDetail.description }}</text>
+              </view>
+            </view>
+            <attach-show attachId="{{ warningDetail.attachId }}"></attach-show>
+          </wux-col>
+        </wux-row>
+      </view>
+    </view>
+    <view class="tab-wrap">
+      <view class="title">
+        <view class="icon"></view>
+        <text>项目信息</text>
+      </view>
+      <view class="content last-content">
+        <view class="info-row">
+          <view class="info-flex">
+            <view class="item-wrap">
+              <view class="item">
+                <text class="label">项目位置：</text>
+              </view>
+              <view class="">
+                <text class="value">{{ projectDetail.location }}</text>
+              </view>
+            </view>
+            <view class="loca" data-lat="{{ projectDetail.lat }}" data-lon="{{ projectDetail.lon }}" bindtap="gotoMap">
+              <i class="iconfont iconrenwuxiangqing-chakanweizhi addr"></i>
+            </view>
+          </view>
+        </view>
+        <wux-divider show-text="{{ false }}" />
+        <view class="info-row">
+          <view class="info-flex overview">
+            <view class="item">
+              <text class="label">项目概况：</text>
+            </view>
+            <view class="">
+              <text class="value">{{ projectDetail.overview }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="bottom">
+      <view wx:if="{{ btnType == 1 }}" class="bot-wrap">
+        <view class="five-btn">
+          <view wx:if="{{ btnStatus.showFinishButton }}" class="{{ btnStatus.canOperation ? 'item': 'item disable' }}" bindtap="goPage" data-url="/pages/warning/oper/index?operType=7">
+            <i class="iconfont iconjingqingxiangqing-wanjie1 finish"></i>
+            <text>完结</text>
+          </view>
+          <view wx:if="{{ btnStatus.showFeedButton }}" class="{{ btnStatus.canOperation ? 'item': 'item disable' }}" bindtap="goPage" data-url="/pages/warning/oper/index?operType=1">
+            <i class="iconfont iconjingqingxiangqing-fankui litter"></i>
+            <text>反馈</text>
+          </view>
+          <view wx:if="{{ btnStatus.showSendButton }}" class="{{ btnStatus.canOperation ? 'item': 'item disable' }}" bindtap="goPage" data-url="/pages/warning/oper/index?operType=0">
+            <i class="iconfont iconjingqingxiangqing-paiqianrenyuan litter"></i>
+            <text>派遣人员</text>
+          </view>
+          <view wx:if="{{ btnStatus.showUpButton ||  btnStatus.showDownButton}}" class="{{ btnStatus.canOperation ? 'item': 'item disable' }}" bindtap="goPage" data-url="/pages/warning/oper/index?operType={{ operType }}">
+            <i class="iconfont iconjingqingxiangqing-shengjiangji"></i>
+            <text>升降级</text>
+          </view>
+          <view wx:if="{{ btnStatus.showExpertButton }}" class="{{ btnStatus.canOperation ? 'item last': 'item last disable' }}" bindtap="goPage" data-url="/pages/warning/oper/index?operType=6">
+            <i class="iconfont iconjingqingxiangqing-yijiaozhuanjia litter"></i>
+            <text>移交专家</text>
+          </view>
+        </view>
+        <view class="two-btn">
+          <view wx:if="{{ btnStatus.showMessageButton }}" class="{{ btnStatus.canOperation ? 'btn-item': 'btn-item disable' }}">
+            <view class="btn green" bindtap="goPage" data-url="/pages/warning/oper/index?operType=4">发送短信</view>
+          </view>
+          <view wx:if="{{ btnStatus.showOpinionButton }}" class="{{ btnStatus.canOperation ? 'btn-item': 'btn-item disable' }}">
+            <view class="btn blue" bindtap="goPage" data-url="/pages/warning/oper/index?operType=5">发表意见</view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{ btnType == 2 }}" class="bot-wrap big">
+        <view class="{{ isLeader == 'false' || warningDetail.judgedStatus == '1' ? 'btn-item disable': 'btn-item' }}">
+          <view class="big btn green" bindtap="goPage" data-url="/pages/warning/oper/index?operType=11">下结论</view>
+        </view>
+        <view class="{{ warningDetail.judgedStatus == '1' ? 'btn-item disable' : 'btn-item' }}">
+          <view class="big btn blue" bindtap="goPage" data-url="/pages/warning/oper/index?operType=12">发表意见</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 处理记录 -->
+  <view wx:if="{{ currentTab === 'tab2' }}" class="tab-page">
+    <warning-record warningId="{{ warningId }}" showBtn="{{ showBtn }}"></warning-record>
+    <view class="tab-wrap expert">
+      <view class="title">
+        <view class="icon"></view>
+        <text>专家意见(结论)</text>
+      </view>
+      <view wx:if="{{ warningRecord.judgedRecord.length > 0 }}" class="content">
+        <view wx:for="{{ warningRecord.judgedRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="label">专家组成员：</text>
+            <text class="value">{{ item.expertNames }}</text>
+          </view>
+          <wux-divider show-text="{{ false }}" />
+          <view wx:if="{{ item.opinionList.length > 0 }}">
+            <view wx:for="{{ item.opinionList }}" wx:key="{{ key }}">
+              <view class="info-row">
+                <text class="label">专家组交流意见：</text>
+                <text class="value">{{ item.expertName }}  {{ item.expertTime }}</text>
+              </view>
+              <view class="info-row">
+                <text class="value">{{ item.content }}</text>
+              </view>
+            </view>
+          </view>
+          <view wx:else>
+            <view class="info-row">
+              <text class="label">专家组交流意见：</text>
+              <text class="value no-data">暂无意见</text>
+            </view>
+          </view>
+          <wux-divider show-text="{{ false }}" />
+          <view wx:if="{{ item.resultList.length > 0 }}">
+            <view wx:for="{{ item.resultList }}" wx:key="{{ key }}">
+              <view class="info-row">
+                <text class="label">专家组结论：</text>
+                <text class="value">{{ item.expertName }}  {{ item.expertTime }}</text>
+              </view>
+              <view class="info-row">
+                <text class="value">{{ item.content }}</text>
+              </view>
+            </view>
+          </view>
+          <view wx:else>
+            <view class="info-row">
+              <text class="label">专家组结论：</text>
+              <text class="value no-data">暂无结论</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="content-nodata">暂无意见</view>
+    </view>
+    <view class="tab-wrap feedback">
+      <view class="title">
+        <view class="icon"></view>
+        <text>反馈记录</text>
+      </view>
+      <view wx:if="{{ warningRecord.feedbackRecord.length > 0 }}" class="content">
+        <view wx:for="{{ warningRecord.feedbackRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.feedName == null ? '' : item.feedName }}  {{ item.feedTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+          <!-- <view class="info-img">
+            <image wx:for="{{ item.imgAttachId }}" wx:key="{{ key }}" wx:for-item="data" src="{{ data }}"></image>
+          </view>
+          <view class="info-img">
+            <video wx:for="{{ item.videoAttachId }}" wx:key="{{ key }}" wx:for-item="data" src="{{ data }}" controls></video>
+          </view> -->
+          <attach-show attachId="{{ item.imgAttachId }}"></attach-show>
+          <attach-show attachId="{{ item.videoAttachId }}"></attach-show>
+          <wux-divider show-text="{{ false }}" />
+        </view>
+      </view>
+      <view wx:else class="content-nodata">暂无记录</view>
+    </view>
+    <view class="tab-wrap onduty">
+      <view class="title">
+        <view class="icon"></view>
+        <text>值班人员意见</text>
+      </view>
+      <view wx:if="{{ warningRecord.opinionRecord.length > 0 }}" class="content">
+        <view wx:for="{{ warningRecord.opinionRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.name == null ? '': item.name }}  {{ item.opinionTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="content-nodata">暂无意见</view>
+    </view>
+    <view class="tab-wrap change">
+      <view class="title">
+        <view class="icon"></view>
+        <text>变更记录</text>
+      </view>
+      <view wx:if="{{ warningRecord.changedRecord.length > 0 }}" class="content">
+        <view wx:for="{{ warningRecord.changedRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.name == null ? '': item.name }}  {{ item.changedTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="content-nodata">暂无记录</view>
+    </view>
+  </view>
+  <!-- 历史警情 -->
+  <view wx:if="{{ currentTab === 'tab3' }}" class="tab-page">
+    <view wx:if="{{ historyData.length == 0 }}" class="no-data" style="margin-top: {{ (allHeight - height) / 2 - 67 }}px">
+      <image src="../../../static/images/no-data.png"></image>
+    </view>
+    <view wx:else>
+      <view wx:for="{{ historyData }}" wx:key="{{ key }}" class="his-item" bindtap="gotoHistory" data-id="{{ item.id }}">
+        <text class="title">{{ item.description }}</text>
+        <view class="right">
+          <text class="time">{{ item.warningTime }}</text>
+          <i class="iconfont iconlishijingqing-liebiaojiantou"></i>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

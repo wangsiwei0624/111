@@ -1,0 +1,141 @@
+@import '../../../static/icon/iconfont.wxss';
+page{
+  height: 100%;
+}
+.page{
+  height: 100%;
+  width: 100%;
+  border-top: 1rpx solid #E4EBEE; 
+}
+.wux-whitespace--default{
+  background: #f7f9fa;
+}
+/* .wux-whitespace:nth-child()--default{
+  background: #ffffff;
+} */
+.wuxform{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.flex{
+  flex: 1;
+  overflow: auto;
+}
+
+.wux-cell{
+  /* width: 96%; */
+  margin-left:30rpx; 
+}
+.wux-cell--hover::active{
+  background: #ffffff !important;
+}
+.wux-cell::after{
+  border-bottom: 0rpx solid #d9d9d9 !important;
+}
+.message{
+  height: 80rpx;
+  width: 100%;
+  border-bottom: 1rpx solid #EEEEEE; 
+}
+.oblong{
+  height: 30rpx;
+  width: 7rpx;
+  margin-left: 30rpx;
+  margin-top: 25rpx;
+  background: #2A7AD7;
+  line-height: 80rpx;
+  float: left;
+}
+.message text{
+  line-height: 80rpx;
+  font-size: 30rpx;
+  color: #2A7AD7;
+  font-weight: bold;
+  margin-left: 5rpx;
+  float: left;
+  /* padding-left: 5rpx; */
+}
+.text-name text{
+  line-height: 80rpx;
+  font-size: 28rpx;
+  color: #7D9AB6;
+}
+.wux-cell{
+  border-bottom:1rpx solid #dfdfdf;
+}
+.wux-cell text{
+  line-height: 40rpx;
+   
+}
+.textleft{
+  width: 22%;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight:400;
+  float: left;
+}
+.textright{
+  width: 78%;
+  font-size: 28rpx;
+  color: #7D9AB6;
+  font-weight:400;
+  float: left;
+}
+.textleftlocation{
+  width: 22%;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight:400;
+  float: left;
+}
+.textrightlocation{
+  width: 70%;
+  font-size: 28rpx;
+  color: #7D9AB6;
+  font-weight:400;
+  float: left;
+}
+.text-remarks{
+  font-size: 28rpx;
+  color: #7D9AB6;
+  font-weight:400; 
+}
+.imgandvideo {
+  display: flex;
+  flex-wrap: wrap;
+}
+.own image{
+  width: 220rpx;
+  height: 150rpx;
+  margin-top: 10rpx;
+  border: 1rpx solid #EEEEEE;
+  margin-right: 5rpx;
+}
+.own video{
+  width: 220rpx;
+  height: 150rpx;
+  margin-top: 10rpx;
+  border: 1rpx solid #EEEEEE;
+  margin-right: 5rpx;
+}
+.iconfont{
+  color: #1EBD0B;
+  float: right;
+}
+/* .wux-button{
+  position: fixed;
+  bottom: 0;
+} */
+.wux-button--block{
+  margin-top: 0rpx !important;
+  margin-bottom: 0rpx !important;
+}
+.wux-button--full{
+  margin-top: 0rpx !important;
+  margin-bottom: 0rpx !important;
+}
+wux-button.wuxbutton button {
+  border-radius: 0px;
+}

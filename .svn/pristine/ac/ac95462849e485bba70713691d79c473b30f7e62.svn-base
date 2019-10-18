@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "navigationBarTitleText": "通讯录",
+  "usingComponents": {
+    "address-books": "../../components/address-books/index"
+  }
+}

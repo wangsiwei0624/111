@@ -1,0 +1,15 @@
+import axiso from '../lib/axiso.requeset.js'
+
+
+module.exports = {
+  // 获取行政区域
+  getAreaList: function (code) {
+    return axiso.request({
+      url: "sys/area/getAreaList",
+      method: "post",
+      data: {
+        parentCode: code
+      }
+    });
+  }
+}

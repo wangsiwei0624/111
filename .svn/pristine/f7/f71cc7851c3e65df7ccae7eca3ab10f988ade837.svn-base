@@ -1,0 +1,16 @@
+ <view>
+  <view class="right-btn">
+    <view class="{{ showBtn == true?'active': 'no-active' }}">
+      <view wx:if="{{ showBtn }}" class="btn-wrap">
+        <view class="btn {{ showBtnArr[0] == true?'blue': '' }}" catchtap="scrollTo" data-text="expert" data-index="0">专</view>
+        <view class="btn {{ showBtnArr[1] == true?'blue': '' }}" catchtap="scrollTo" data-text="feedback" data-index="1">反</view>
+        <view class="btn {{ showBtnArr[2] == true?'blue': '' }}" catchtap="scrollTo" data-text="onduty" data-index="2">值</view>
+        <view class="btn {{ showBtnArr[3] == true?'blue': '' }}" catchtap="scrollTo" data-text="change" data-index="3">变</view>
+      </view>
+      <view class="iron" catchtap="onclickBtn">
+        <i wx:if="{{ !showBtn }}" class="iconfont iconchulijilu-cecaidanshouqi"></i>
+        <i wx:else class="iconfont iconchulijilu-cecaidanshouqi-left-copy"></i>
+      </view>
+    </view>
+  </view>
+</view>   

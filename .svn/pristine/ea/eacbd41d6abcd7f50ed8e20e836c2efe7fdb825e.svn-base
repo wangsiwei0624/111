@@ -1,0 +1,112 @@
+<signle-fab-button icon="iconrengongjingqingshangbao" bindtap="onNewBuilt"></signle-fab-button>
+<view class="page">
+  <!-- <wux-tabs controlled current="{{ currentTab }}" defaultCurrent="tab1" theme="positive" bindchange="onChange">
+    <wux-tab key="tab1" title="待办警情"></wux-tab>
+    <wux-tab key="tab2" title="专家研判"></wux-tab>
+    <wux-tab key="tab3" title="历史警情"></wux-tab>
+  </wux-tabs>  -->
+  <wux-tabs class="wuxtabs" wux-class="bordered" controlled current="{{ key }}" bindchange="onTabsChange" theme="positive">
+            <block wx:for="{{ tabs }}" wx:key="key">
+                <wux-tab key="{{ item.key }}" title="{{ item.title }}"></wux-tab>
+            </block>
+  </wux-tabs> 
+
+
+  <!-- list -->
+  <swiper class="list-contaner" current="{{ index }}" bindchange="onSwiperChange">
+    <block wx:key="0">
+      <swiper-item>
+        <view class="content-list" >
+          <scroll-view scroll-y class="content-list" bindscroll="onWaitListScroll" >
+            <wux-refresher id="waitList" bind:refresh="onWaitRefresh" bind:loadmore="onWaitLoadmore" scrollTop="{{waitscrollTop}}" >
+              <view class="list-in">
+                <!-- <view class="list-in-cell-no" >
+                  <text>暂无待办警情</text>
+                </view> -->
+                <view class="list-no-data" wx:if="{{showWaitNoData}}">
+                  <image src="../../../static/images/no-data.png"></image>
+                </view>
+                <view class="list-in-cell-detail" wx:for="{{waitList}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" data-type="1" data-leader="{{ item.leader }}">
+                  <view class="list-in-cell-detail-cell" wx:if="{{item.warningStatus != '3' }}">
+                    <view class="detail-theme">
+                      <text>{{item.monitoringProject.shortName}}</text>
+                    </view>
+                    <view class="detail-address">
+                      <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+                      <text>|  {{item.warningStatusName}}</text>
+                      <text class="time">{{item.warningTime}}</text>
+                      <text wx:if="{{item.responseName}}">|  {{item.responseName}} </text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+
+    <block wx:key="1">
+      <swiper-item>
+        <view class="content-list" >
+          <scroll-view scroll-y class="content-list" bindscroll="onJudgedListScroll" >
+            <wux-refresher id="judgedList" bind:refresh="onJudgedRefresh" bind:loadmore="onJudgedLoadmore" scrollTop="{{judgedscrollTop}}" >
+              <view class="list-in">
+                <!-- <view class="list-in-cell-no" wx:if="{{listonoff2}}">
+                  <text>暂无专家研判</text>
+                </view> -->
+                <view class="list-no-data" wx:if="{{listonoff2}}">
+                  <image src="../../../static/images/no-data.png"></image>
+                </view>
+                <view class="list-in-cell-detail" wx:for="{{judgedList}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" data-type="2" data-leader="{{ item.leader }}">
+                  <view class="list-in-cell-detail-cell">
+                    <view class="detail-theme">
+                      <text>{{item.monitoringProject.shortName}}</text>
+                    </view>
+                    <view class="detail-address">
+                      <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text style="color:{{item.color}}">{{item.warningGradeName}}  </text>
+                      <text>|  {{item.warningStatusName}}  </text>
+                      <text>|  {{item.judgedStatusName}}  </text>
+                      <text class="time">{{item.warningTime}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+
+    <block wx:key="2">
+      <swiper-item>
+        <view class="content-list" >
+          <scroll-view scroll-y class="content-list" bindscroll="onHistoryListScroll" >
+            <wux-refresher id="historyList" bind:refresh="onHistoryRefresh" bind:loadmore="onHistoryLoadmore" scrollTop="{{historyscrollTop}}" >
+              <view class="list-in">
+                <view class="list-no-data" wx:if="{{showHistoryNoData}}">
+                  <image src="../../../static/images/no-data.png"></image>
+                </view>
+                <view class="list-in-cell-detail" wx:for="{{historyList}}" wx:key="{{index}}" bindtap="goHistory" data-id="{{item.id}}">
+                  <view class="list-in-cell-detail-cell">
+                    <view class="detail-theme">
+                      <text>{{item.monitoringProject.shortName}}</text>
+                    </view>
+                    <view class="detail-address">
+                      <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+                      <text>| {{item.warningStatusName}}</text>
+                      <text class="time">{{item.updateDate}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

@@ -1,0 +1,31 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+  margin-bottom: 70rpx;
+  border-top: 1rpx solid #efefef;
+}
+/* .wux-textarea__item{
+  margin-top: 18rpx;
+  border: 1rpx solid #dddddd !important;
+  padding-left: 15rpx;
+  padding-top: 15rpx;
+  margin: 12rpx;
+} */
+button {
+  background-color: #0c60ee !important;
+  color: #fff !important;
+  border-radius: 0px;
+  margin-top: 20rpx;
+  padding: 0 24rpx;
+  min-width: 104rpx;
+  vertical-align: middle;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 32rpx;
+  cursor: pointer;
+}
+
+button::after {
+  border: 0;
+}

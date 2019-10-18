@@ -1,0 +1,11 @@
+
+const utils = {
+  isImage: function (type) {
+    return "png" === type || "jpg" === type || "jpeg" === type || "bmp" === type || "gif" === type;
+  },
+  isVideo: function (type) {
+    return "mp4" === type;
+  }
+}
+
+module.exports = utils;

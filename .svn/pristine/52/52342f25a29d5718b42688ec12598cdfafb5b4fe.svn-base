@@ -1,0 +1,42 @@
+<!--pages/mine/miine.wxml-->
+<view class="page">
+    <view class="hd">
+      <!--头部-->
+      <view class="mine">
+        <image src="../../static/images/m-banner1.png" class="m-banner"></image>
+        <view class="mine-in">
+          <image class="avatar" src='{{avatarUrl || "../../static/images/user-avator.png"}}' class="headimg"></image>
+          <button class="headname" open-type="getUserInfo" bindgetuserinfo="doLogin">{{nickName || '点击授权'}}</button>
+        </view>
+      </view>
+     
+      <view class="list">
+        <wux-cell-group title="">
+            <wux-cell thumb="" title="账号认证" wx:if="{{showBind}}" extra="" is-link url="/pages/mine/bind/index" class="list-cell">
+              <i class="iconfont iconwode-zhanghaorenzheng"></i>
+            </wux-cell>
+            <wux-cell thumb="" title="扫一扫" wx:if="{{!showBind}}" extra="" is-link bindtap="doScan" class="list-cell">
+              <i class="iconfont iconwode-saoyisao"></i>
+            </wux-cell>
+             <wux-white-space body-style="height: 10rpx; background:#F7F9FA"/>
+            <wux-cell thumb="" title="通讯录" wx:if="{{!showBind}}" extra="" is-link url="/pages/mine/addressBook/index" is-link  class="list-cell">
+              <i class="iconfont iconfasongduanxin-tongxunlu"></i>
+            </wux-cell>
+            <wux-white-space body-style="height: 10rpx; background:#F7F9FA" />
+            <wux-cell thumb="" title="关于我们" extra="" url="/pages/mine/about/index" is-link class="list-cell">
+              <i class="iconfont iconwode-guanyuwomen"></i>
+            </wux-cell>
+            <wux-white-space body-style="height: 10rpx; background:#F7F9FA"/>
+            <wux-cell thumb="" title="意见反馈" extra="" url="/pages/mine/idea/index" is-link  class="list-cell">
+              <i class="iconfont iconwode-yijianfankui"></i>
+            </wux-cell>
+            <wux-white-space body-style="height: 10rpx; background:#F7F9FA" />
+            <wux-cell wx:if="{{!showBind}}" thumb="" title="退出" extra="" bind:click="doLogout"  class="list-cell">
+              
+            </wux-cell>
+        </wux-cell-group>
+      </view>
+    </view>
+    
+    <main-tabbar currentTabIndex="{{2}}"></main-tabbar>
+</view>

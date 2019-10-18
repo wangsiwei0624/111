@@ -1,0 +1,20 @@
+/* pages/components/main-tabbar/main-babbar.wxss */
+@import '../../common/common.wxss';
+.witem text{
+  position: absolute;
+  bottom: 5rpx;
+  left: 334rpx;
+}
+.wimg{
+  height: 142rpx;
+  width: 142rpx;
+  position: absolute;
+  top:-71rpx; 
+  left: 314rpx;
+}
+.iconfont{
+  font-size: 44rpx;
+}
+.witem view {
+  opacity:1 !important;
+}

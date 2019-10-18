@@ -1,0 +1,66 @@
+@import '../../static/icon/iconfont.wxss';
+
+page{
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.login{
+  height: 100%;
+  width: 100%;
+  position: relative;
+  border-top: 2rpx solid #E4EBEE
+}
+.banner{
+  position: absolute;
+  height: 54rpx;
+  width: 576rpx;
+  top: 312rpx;
+  left: 87rpx;
+}
+.message{
+  position: absolute;
+  top: 546rpx;
+  width: 100%;
+  text-align: center;
+}
+.message .tips{
+  color: #333333;
+  font-weight:bold;
+  font-size: 34rpx;
+}
+.message .gain{
+  margin-top: 59rpx;
+}
+.message .gain .iconfont{
+  color: #12D03F;
+  font-size: 40rpx;
+  margin-right: 21rpx;
+}
+.message .gain text{
+  color: #333333;
+  font-size: 32rpx;
+}
+.button{
+  position: absolute;
+  bottom: 185rpx;
+  left: 176rpx;
+  width:400rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  background: #12D03F;
+  box-shadow:3rpx 4rpx 12rpx 0rpx rgba(18,208,63,0.5);
+  font-size: 30rpx;
+  color: #ffffff;
+}
+.visitor-button {
+  position: absolute;
+  bottom: 80rpx;
+  left: 176rpx;
+  height: 88rpx;
+  width:400rpx;
+  text-align: center;
+  font-size: 30rpx;
+  line-height: 88rpx;
+  color: #9b9b9b;
+}

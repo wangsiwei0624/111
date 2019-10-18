@@ -1,0 +1,73 @@
+/**
+ *  用户登录入口，所有都先进入此目录
+ */
+var userApi = require("../../api/user.js");
+import {
+  $wuxLoading
+} from '../../components/index'
+const app = getApp();
+
+Page({
+  data: {
+    showError: false,
+    errorMsg: '',
+    showAuth: false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
+  },
+  onShow: function(options) {
+    // linx 如果已经有token则直接跳转
+    if (app.globalData.token) {
+      this.goIndex()
+    }
+    app.hasAuthReadyCallback = hasAuth => {
+      this.setData({
+        showAuth: !hasAuth
+      })
+      if (hasAuth) {
+        this.goIndex()
+      }
+    }
+
+    // 版本不支持，则直接获取
+    if (!this.data.canIUse) {
+      // 在没有 open-type=getUserInfo 版本的兼容处理
+      wx.getUserInfo({
+        success: res => {
+          app.globalData.userInfo = res.userInfo
+          this.setData({
+            showAuth: false
+          })
+          this.goIndex()
+        },
+        fail: err => {
+          this.setData({
+            showAuth: true
+          })
+        }
+      })
+    }
+  },
+  getUserInfo: function(e) {
+    console.log(e)
+    if (e.detail.userInfo) {
+      app.globalData.userInfo = e.detail.userInfo
+      this.setData({
+        hasUserInfo: true,
+        showGetPhone: true,
+      })
+    }
+  },
+  goIndex() {
+    // linx 判断用户是进入游客模式，还是登录认证后的模式
+    console.log(app.globalData.domain)
+    if (app.isBind()) {
+      wx.redirectTo({
+        url: '/pages/user/index',
+      })
+    } else {
+      wx.redirectTo({
+        url: '/pages/visitor/index',
+      })
+    }
+  }
+})

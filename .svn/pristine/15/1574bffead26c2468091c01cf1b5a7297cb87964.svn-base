@@ -1,0 +1,47 @@
+<view class="page">
+  <view class="page__hd">
+      <!--banner图-->
+      <image src="../../static/images/loginIndex-banner.png" class="hd-banner-img"></image>
+
+      <!--四格栏-->
+      <view class="hd-layout">
+        <wux-row>
+            <wux-col span="6" class="hd-layout-col1" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont icon-shouye-jingangqu--xuncharenwu"></i>
+                  <text>任务巡查</text>
+                </view>
+            </wux-col>
+            <wux-col span="6" class="hd-layout-col2" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont icon-shouye-jingangqu-jianceyujing"></i>
+                  <text>监测预警</text>
+                </view>
+            </wux-col>
+        </wux-row>
+        <wux-row>
+            <wux-col span="6" class="hd-layout-col3" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont icon-shouye-jingangqu-jianceshuju"></i>
+                  <text>数据监测</text>
+                </view>
+            </wux-col>
+            <wux-col span="6" class="hd-layout-col4" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont icon-shouye-jingangqu-yinhuanshangbao"></i>
+                  <text>隐患上报</text>
+                </view>
+            </wux-col>
+        </wux-row>
+      </view>
+
+      <!--list-->
+      <view>
+        <view>
+          
+        </view>
+      </view>
+  </view>
+
+  <main-tabbar currentTabIndex="{{0}}"></main-tabbar>
+</view>

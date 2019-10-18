@@ -1,0 +1,48 @@
+Page({
+  data: {
+    areaData: [
+      {
+        label: '采集值',
+        value: '1',
+        active: true
+      },
+      {
+        label: '本次变化',
+        value: '2',
+        active: false
+      },
+      {
+        label: '24h变化',
+        value: '3',
+        active: false
+      },
+      {
+        label: '累计变化',
+        value: '4',
+        active: false
+      }
+    ]
+  },
+  onLoad: function(options) {
+    console.log(options.id)
+    this.setData({
+      id: options.id
+    })
+  },
+
+  // 选择区
+  clickArea(e) {
+    const curId = e.currentTarget.dataset.id
+    var arr = this.data.areaData
+    for (var i = 0; i < arr.length; i++) {
+      if (curId == arr[i].value) {
+        arr[i].active = true
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      areaData: arr
+    })
+  },
+})

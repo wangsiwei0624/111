@@ -1,0 +1,77 @@
+<view class="page"> 
+  <wux-tabs  controlled current="{{ currentTab }}" defaultCurrent="tab1" theme="positive" bindchange="onChange">
+    <wux-tab key="tab1" title="待办警情"></wux-tab>
+    <wux-tab key="tab2" title="专家研判"></wux-tab>
+    <wux-tab key="tab3" title="历史警情"></wux-tab>
+  </wux-tabs> 
+<!-- list -->
+   <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}"  wx:if= "{{currentTab == 'tab1' }}">
+    <view class="list-in">
+      <view class="list-in-cell-no" wx:if="{{listonoff1}}">
+            <text>暂无专家研判</text>
+      </view>
+      <view class="list-in-cell-detail" wx:for="{{listMessage}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" > 
+        <view class="list-in-cell-detail-cell" wx:if="{{item.warningStatus == '0'}}">
+          <view class="detail-theme">
+            <text>{{item.description}}</text>
+          </view>
+          <view class="detail-address">
+            <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+            <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+            <text>|  {{item.warningStatusName}}</text>
+            <text class="time">{{item.warningTime}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </wux-refresher>
+  
+  <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" wx:if= "{{currentTab == 'tab2' }}">
+    <view class="list-in" >
+      <view class="list-in-cell-no" wx:if="{{listonoff2}}">
+            <text>暂无历史警情</text>
+      </view>
+      <view class="list-in-cell-detail" wx:for="{{listJudged}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" > 
+        <view class="list-in-cell-detail-cell">
+          <view class="detail-theme">
+            <text>{{item.description}}</text>
+          </view>
+          <view class="detail-address">
+            <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+            <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+            <text>|  {{item.warningStatusName}}</text>
+            <text>|  {{item.warningStatusName}}</text>
+            <text class="time">{{item.judgedStatusName}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </wux-refresher>
+
+  <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" wx:if= "{{currentTab == 'tab3' }}">
+    <view class="list-in" >
+      <view class="list-in-cell-no" wx:if="{{listonoff3}}">
+            <text>暂无代办事项</text>
+      </view>
+      <view class="list-in-cell-detail" wx:for="{{listHistory}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}" > 
+        <view class="list-in-cell-detail-cell">
+          <view class="detail-theme">
+            <text>{{item.description}}</text>
+          </view>
+          <view class="detail-address">
+            <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+            <text style="color:{{item.color}}">{{item.warningGradeName}} </text>
+            <text>| {{item.warningStatusName}}</text>
+            <text class="time">{{item.updateDate}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </wux-refresher>
+
+
+  <!-- 警情提交 -->
+  <view class="newbuilt" bindtap="onNewBuilt">
+    <i class="iconfont iconrengongjingqingshangbao"></i>
+  </view>
+</view>

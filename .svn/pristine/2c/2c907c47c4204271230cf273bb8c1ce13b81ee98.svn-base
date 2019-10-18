@@ -1,0 +1,14 @@
+<wux-prompt visible="{{ showError }}" icon="" title="登录失败" text="{{ errorMsg }}" />
+<view wx:if="{{!showAuth}}">
+</view>
+<view wx:else class="login">
+  <image src="../../static/images/login-banner.png" class="banner"></image> 
+  <view class="message">
+    <text class="tips">申请使用以下信息</text>
+    <view class="gain">
+      <i class="iconfont iconweixinyonghu-tongyi"></i>
+      <text>您的公开账号信息（昵称、头像等）</text>
+    </view>
+  </view>
+  <button type="primary" shape="circle" size="small" open-type="getUserInfo" bindgetuserinfo="getUserInfo" class="button"> 授权微信用户信息</button>
+</view>

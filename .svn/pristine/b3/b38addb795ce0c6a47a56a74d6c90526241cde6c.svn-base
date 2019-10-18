@@ -1,0 +1,150 @@
+@import '../../static/icon/iconfont.wxss';
+page {
+  font-family:PingFangSC-Medium;
+}
+/** start form item */
+
+view.wux-cell-group {
+  background-color: #fff !important;
+}
+
+.wux-cell-group__bd:after{
+  border-top-width: 0rpx !important;
+  border-bottom-width: 0rpx !important;
+
+}
+
+view.form-field-title,.form-field-require {
+  font-size: 30rpx;
+  color: #333 ;
+  font-weight:550;
+}
+.form-field-require {
+  color:red;
+}
+.form-field-subtitle {
+  color:#999999;
+  font-size:22rpx;
+  margin-left: 5rpx;
+  font-weight:400;
+}
+
+button.wux-cell.wux-cell--hover {
+  background-color: transparent !important;
+}
+input .input-placeholder,
+wux-textarea .textarea-placeholder {
+  font-size: 28rpx;
+  color: #999;
+  font-family: PingFangSC;
+  font-weight: 400;
+}
+.form-field input {
+  height: 56rpx;
+}
+.form-field .wux-input,
+.form-field .field-group,
+.form-field .wux-textarea {
+  padding: 12rpx;
+  border: 1px solid #dddddd;
+  border-radius: 5rpx;
+  margin: 9rpx 0rpx;
+}
+
+.form-field .wux-upload {
+  margin: 20rpx 0rpx 0rpx 0rpx;
+}
+/** end */
+
+/** start upload btn*/
+
+.wux-upload--picture-card .wux-upload__select {
+  border: 2rpx solid #bfcedd !important;
+  border-radius: 5rpx !important;
+  background-color: #fff !important;
+  width: 200rpx !important;
+  height: 200rpx !important;
+  position: relative;
+}
+
+.wux-upload--picture-card .wux-upload__select .upload-btn-icon {
+  position: absolute;
+  top: 43rpx;
+  left: 56rpx;
+  color: #8daccc;
+  font-size: 87rpx;
+  
+}
+
+.wux-upload--picture-card .wux-upload__select .upload-btn-video,
+.wux-upload--picture-card .wux-upload__select .upload-btn-img {
+  position: absolute;
+  bottom: 11rpx;
+  left: 83rpx;
+  color: #bfcedd;
+  font-size: 30rpx;
+}
+
+.wux-upload--picture-card .wux-upload__file {
+  width: 200rpx !important;
+  height: 200rpx !important;
+  padding: 0rpx !important;
+  border: 1px solid transparent;
+  margin: 0 31rpx 31rpx 0 !important;
+}
+
+.wux-upload--picture-card .wux-upload__remove {
+  width: 40rpx !important;
+  height: 40rpx !important;
+  right: -20rpx !important;
+  top: -20rpx !important;
+  background-image: none !important;
+}
+
+.wux-upload--picture-card .wux-upload__remove::after {
+  font-family: "iconfont" !important;
+  font-size: 40rpx;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #e71010;
+  content: '\e65d';
+}
+
+.upload-mask {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-mask .upload-status {
+  width: 228rpx;
+  height: 228rpx;
+}
+
+/** end */
+
+.wux-button {
+  border-radius: 0px !important;
+  min-height: 98rpx !important;
+  line-height: 98rpx !important;
+}
+
+.btn-area {
+  z-index: 2;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.btn-area .wux-button:last-child {
+  margin-bottom: 0px;
+}

@@ -1,0 +1,36 @@
+import axiso from '../lib/axiso.requeset.js'
+
+module.exports = {
+  //警情页数据接口
+  warningList: (data) => {
+    return axiso.request({
+      url: 'wx/warning/warningList',
+      method: 'post' ,
+      data:{
+        "pageNo": 1,
+        "pageSize": 5,
+        "search": {
+          "warningStatus": "String"
+        }
+      }
+    })
+  },
+  warningPatrol: (data) => {
+    return axiso.request({
+      url: 'wx/patrolTask/page',
+      method: 'post',
+      data: {
+        "pageNo": 1,
+        "pageSize": 5,
+        "search": {
+          "warningStatus": "String"
+        }
+      }
+    })
+  },
+  warningPatrolTask: (id) => {
+    return axiso.request({
+      url: 'wx/warning/warningDetail?warningId='+id,
+    })
+  }
+}

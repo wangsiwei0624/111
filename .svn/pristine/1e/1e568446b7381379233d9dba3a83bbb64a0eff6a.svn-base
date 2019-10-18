@@ -1,0 +1,18 @@
+var config = require("./config.js")
+
+const PROFILES = {
+  'dev': {
+    'online': false,
+    'domain': 'http://localhost:8080/api/'
+  },
+  'test': {
+    'online': false,
+    'domain': 'https://clzy.ilinx.site/api/'
+  },
+  'prod': {
+    'online': true,
+    'domain': 'http://v2.clzytech.com:8083/api/'
+  }
+};
+const ENV = PROFILES[config.active];
+module.exports = ENV;

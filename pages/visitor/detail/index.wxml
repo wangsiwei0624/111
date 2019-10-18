@@ -1,0 +1,9 @@
+
+<view class="down">
+  <view class="down-in">
+    <p class="dtitle">{{article.title}}</p>
+    <p class="dday">{{article.createTime}}</p>
+    <image src="{{article.cover}}" class="dimg"></image>
+    <p class="dlist" >{{article.content}}</p>
+  </view>
+</view> 

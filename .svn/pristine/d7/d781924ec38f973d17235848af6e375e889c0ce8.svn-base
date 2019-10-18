@@ -1,0 +1,6 @@
+<view class="page">
+  <wux-form>
+  
+    <wux-button block type="positive">反馈</wux-button>
+  </wux-form>
+</view>

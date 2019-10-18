@@ -1,0 +1,50 @@
+@import '../../common/common.wxss';
+page{
+  background-color: #F7F9FA;
+}
+.tab-wrap{
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+.tab-wrap .title{
+  padding: 18rpx 0 18rpx 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+.tab-wrap .title .icon{
+  display: inline-block;
+  width: 7rpx;
+  height: 30rpx;
+  background-color: #2A7AD7;
+  vertical-align: middle;
+}
+.tab-wrap .title text{
+  font-size: 30rpx;
+  color:#2a7ad7;
+  margin-left: 5rpx;
+}
+.tab-wrap .content{
+  padding: 22rpx 30rpx;
+}
+.tab-wrap .content.last-content{
+  margin-bottom: 120rpx;
+}
+.tab-wrap .content .info-row .label{
+  color: #333;
+  font-size: 28rpx;
+}
+.tab-wrap .content .info-row .value{
+  color: #7D9AB6;
+  font-size: 28rpx;
+}
+.tab-wrap .content .info-row{
+  overflow: hidden;
+}
+.tab-wrap .content .info-row .left,
+.tab-wrap .content .info-row .right{
+  float: left; 
+}
+.tab-wrap .info-img image{
+  width: 220rpx;
+  height: 150rpx;
+  margin-right: 10rpx;
+}

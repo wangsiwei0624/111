@@ -1,0 +1,17 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+  margin-bottom: 110rpx;
+  border-top: 1rpx solid #E4EBEE; 
+}
+.dict-selector .select-box{
+  margin-top: 20rpx;
+}
+/* .wux-upload--picture-card .wux-upload__remove{
+  border-radius: 20rpx;
+  background: #c71010;
+}
+.wux-upload--picture-card .wux-upload__remove::after {
+  content: '\e66b'
+} */

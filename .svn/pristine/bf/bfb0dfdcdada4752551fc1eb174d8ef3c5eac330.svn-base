@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "wux-tab": "../../../components/tab/index",
+    "wux-tabs": "../../../components/tabs/index",
+    "wux-divider": "../../../components/divider/index",
+    "wux-row": "../../../components/row/index",
+    "wux-col": "../../../components/col/index",
+    "warning-info": "../../components/warning-info/index",
+    "warning-record": "../../components/warning-record/index"
+  }
+}

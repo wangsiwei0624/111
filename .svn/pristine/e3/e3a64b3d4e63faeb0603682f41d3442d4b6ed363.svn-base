@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "监测预警",
+  "usingComponents": {
+    "wux-tabs": "../../../components/tabs/index",
+    "wux-tab": "../../../components/tab/index",
+    "wux-badge": "../../../components/badge/index",
+    "wux-refresher": "../../../components/refresher/index",
+    "signle-fab-button": "../../components/signle-fab-button/index"
+  }
+}

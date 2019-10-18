@@ -1,0 +1,37 @@
+<view class="page">
+  <view class="content">
+    <scroll-view scroll-x="true" style="white-space: nowrap; display: flex">
+      <view wx:for="{{ curveMonitorContent }}" wx:key="key" bindtap="curveMonitorChange" data-val="{{ item.value }}"  class="{{ item. active? 'item active' : 'item' }}">
+        <text>{{ item.label }}</text>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="point">
+    <scroll-view scroll-x="true" style="white-space: nowrap; display: flex">
+      <view wx:for="{{ curvePointNo }}" wx:key="key" class="{{ item. active? 'item active' : 'item' }}" bindtap="selPoint" data-val="{{ item.value }}">
+        <text>{{ item.label }}</text>
+      </view>
+    </scroll-view>  
+  </view>
+  <view class="body">
+    <view class="{{ hasLeftChart? 'charts height' : 'charts' }}">
+      <view class="date">
+        <view wx:for="{{ dateList }}" wx:key="key" class="{{ item. active? 'item active' : 'item' }}" bindtap="selDate" data-val="{{ item.value }}">{{ item.label }}</view>
+      </view>
+      <view class="container">
+        <view class="no-data" wx:if="{{ vueChartHasNodata }}">
+          <image src="../../../static/images/no-data.png"></image>
+        </view>
+        <ec-canvas class="{{ vueChartHasNodata? 'none' : '' }}" id="mychart-dom-multi-bar" canvas-id="mychart-multi-bar" ec="{{ ecBar }}"></ec-canvas>
+        <view class="no-data" wx:if="{{ vueChartHasNodataLeft && hasLeftChart }}">
+          <image src="../../../static/images/no-data.png"></image>
+        </view>
+        <ec-canvas class="{{ vueChartHasNodataLeft? 'none' : '' }}" id="mychart-dom-multi-scatter" canvas-id="mychart-multi-scatter" ec="{{ ecScatter }}"></ec-canvas>
+      </view>
+    </view>
+  </view>
+  <view class="place"></view>
+  <view class="bottom" wx:if="{{ curveResultData.length > 0 }}">
+    <view wx:for="{{ curveResultData }}" wx:key="key" bindtap="selResult" data-val="{{ item.value }}" class="{{ item. active? 'item active' : 'item' }}">{{ item.label }}</view>
+  </view>
+</view>

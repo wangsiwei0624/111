@@ -1,0 +1,117 @@
+<view>  
+  <view class="tab-wrap">
+    <view class="title">
+      <view class="icon"></view>
+      <text>预警信息</text>
+    </view>
+    <view class="content">
+      <wux-row>
+        <wux-col span="5">
+          <view class="info-row">
+          <text class="label">预警等级：</text>
+          <text class="value">{{ warningDetail.preWarningGradeName }}</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">警情等级：</text>
+            <text class="value">{{ warningDetail.warningGradeName }}</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="5">
+          <view class="info-row">
+            <text class="label">警情状态：</text>
+            <text class="value">{{ warningDetail.warningStatusName }}</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">警情来源：</text>
+            <text class="value">{{ warningDetail.areaName }}</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <text class="label">预警类型：</text>
+            <text class="value">{{ warningDetail.warningTypeName }}</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="5" class="wux-text--right">
+          <view class="info-row">
+            <!-- <wux-row>
+              <wux-col span="6" class="wux-text--right">
+                <text class="label">预警等：</text>
+              </wux-col>
+              <wux-col span="6">
+                <text class="value">二级</text>
+              </wux-col>
+            </wux-row> -->
+            <text class="label">响应人：</text>
+            <text class="value">{{ warningDetail.responseName }}</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">派遣人员：</text>
+            <text class="value">{{ warningDetail.dispatcher }}</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <text class="label">预警时间：</text>
+            <text class="value">{{ warningDetail.warningTime }}</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <view class="left">
+              <text class="label">警情描述：</text>
+            </view>
+            <view class="right">
+              <text class="value">{{ warningDetail.description }}</text>
+            </view>
+          </view>
+        </wux-col>
+      </wux-row>
+    </view>
+  </view>
+  <view class="tab-wrap">
+    <view class="title">
+      <view class="icon"></view>
+      <text>项目信息</text>
+    </view>
+    <view class="content last-content">
+      <view class="info-row">
+        <view class="left">
+          <text class="label">项目概况：</text>
+        </view>
+        <view class="right">
+          <text class="value">该挡土墙边坡为早期建设修建而成，为毛石挡土墙+混凝土支护，坡顶及坡脚未见排水设施，挡墙基本稳定。</text>
+        </view>
+      </view>
+      <view class="info-row">
+        <view>
+          <text class="label">数据曲线：</text>
+        </view>
+        <view >
+          <text class="value">折线图</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>  

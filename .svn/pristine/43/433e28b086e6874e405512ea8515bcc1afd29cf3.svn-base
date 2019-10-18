@@ -1,0 +1,131 @@
+<view class="page">
+  <view class="page__hd" bindtouchmove="touchmove">
+      <!--banner图-->
+      <image src="../../static/images/loginIndex-banner.png" class="hd-banner-img" wx:if="{{imgonoff}}"></image>
+
+      <!--四格栏-->
+      <view class="hd-layout" >
+        <wux-row>
+            <wux-col span="6" class="hd-layout-col1" bindtap="toPatrolTask">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu--xuncharenwu"></i>
+                  <text>任务巡查</text>
+                </view>
+            </wux-col>
+            <wux-col span="6" class="hd-layout-col2" bindtap="toMonitoringWarning">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceyujing"></i>
+                  <text>监测预警</text>
+                </view>
+            </wux-col>
+        </wux-row>
+        <wux-row>
+            <wux-col span="6" class="hd-layout-col3" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceshuju"></i>
+                  <text>数据监测</text>
+                </view>
+            </wux-col>
+            <wux-col span="6" class="hd-layout-col4" >
+                <view class="placeholder" bindtap="goPage" data-url="/pages/warning/oper/index?operType=6&warningId=450fd5ecf3864152afefcc8f1b682556">
+                  <i class="iconfont iconshouye-jingangqu-yinhuanshangbao"></i>
+                  <text>隐患上报</text> 
+                </view>
+            </wux-col>
+        </wux-row>
+      </view>
+
+      <view class="hd-layout-else" wx:if="{{!layoutonoff}}" style='opacity:{{opacity}};'>
+        <wux-row>
+            <wux-col span="3" class="hd-layout-col1-else" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu--xuncharenwu"></i>
+                  <text>任务巡查</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col2-else" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceyujing"></i>
+                  <text>监测预警</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col3-else" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceshuju"></i>
+                  <text>数据监测</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col4-else" bindtap="">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-yinhuanshangbao"></i>
+                  <text>隐患上报</text>
+                </view>
+            </wux-col>
+        </wux-row>
+      </view>
+
+      <!--list-->
+      <view class="list">
+        <view class="list-in">
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text>警情</text>
+            </view>
+            <view class="title2" bindtap="onMoreWarning" bindtap="onMoreList">
+              <text>更多</text>
+            </view>
+          </view>
+          <view class="list-in-cell-no" wx:if="{{listonoff}}">
+            <text>暂无代办事项</text>
+          </view>
+          <view class="list-in-cell-detail" wx:for="{{listMessage}}" wx:key="{{index}}" wx:if="{{index<5}}" bindtap="goDetail" data-id="{{item.id}}"> 
+            <view class="list-in-cell-detail-cell">
+              <view class="detail-theme">
+                <text>{{item.description}}</text>
+              </view>
+              
+              <view class="detail-img">
+                <i class="iconfont iconshujushangbaoshangchuan-tupian" wx:if="{{img-onoff}}"></i>
+                <i class="iconfont iconshujushangbaoshangchuan-shipin" wx:if="{{video-onoff}}"></i>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                <text>翠木区道路环境保护</text>
+                <text class="time">{{item.warningTime}}</text>
+              </view>
+            </view>
+          </view>
+
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text>巡查</text>
+            </view>
+            <view class="title2" bindtap="onMorePatrol">
+              <text>更多</text>
+            </view>
+          </view>
+
+          <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+            <text>暂无代办事项</text>
+          </view>
+
+          <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" wx:if="{{index<5}}" >
+            <view class="list-in-cell-detail-cell">
+              <text class="detail-theme">{{item.taskName}}</text>
+              <view class="detail-timeslot">
+                <i class="iconfont iconshijian"></i>
+                <text>{{item.startTime}}~{{item.endTime}}</text>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                <text>深圳市坪山区垃圾场</text>
+                <text class="time">{{item.createDate}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+  </view>
+
+  <main-tabbar currentTabIndex="{{0}}"></main-tabbar>
+</view>

@@ -1,0 +1,33 @@
+<!--pages/components/main-tabbar/main-babbar.wxml-->
+<wux-fab-button wx:if="{{login}}" position="bottomCenter" action="" theme="energized" actionRotate="{{false}}" direction="circle" spaceBetween="{{ spaceBetween }}" sAngle="{{ sAngle }}" backdrop="{{ true }}" eAngle="{{ eAngle }}" buttons="{{ buttons }}"  bind:click="onClick">
+  <view slot="action">
+    <i class="iconfont iconcaidan-yinhuanshangbao"></i>
+  </view>
+</wux-fab-button>
+<signle-fab-button color="#ffc900" boxShadow="0px 2px 15px 0px rgba(255,164,0,1);" position="bottom: 40rpx;right: calc(50% - 50rpx);z-index:999;" icon="iconcaidan-yinhuanshangbao" wx:else  bindtap="onClick"></signle-fab-button>
+
+<view class="main-tabbar">
+  <wux-tabbar defaultCurrent="{{currentTabIndex}}" theme="positive" class="wux-t">
+    <wux-tabbar-item title="首页" bindtap="goHome">
+      <view slot="icon-on">
+        <i class=" iconfont iconcaidan-shouye"></i>
+      </view>
+      <view slot="icon-off">
+        <i class="iconfont iconcaidan-shouye"></i>
+      </view>
+    </wux-tabbar-item> 
+    
+    <wux-tabbar-item title="数据上报"  disabled="{{true}}" class="witem">
+      <!-- <image src="../../../static/images/submit.png" slot="icon-on" class="wimg"></image>
+      <image src="../../../static/images/submit.png" slot="icon-off" class="wimg"></image> -->
+    </wux-tabbar-item>
+    <wux-tabbar-item title="我的" bindtap="goMine">
+      <view slot="icon-on">
+        <i class="iconfont iconcaidan-wode"></i>
+      </view>
+      <view slot="icon-off">
+        <i class="iconfont iconcaidan-wodexuanzhong"></i>
+      </view>
+    </wux-tabbar-item>
+  </wux-tabbar>
+</view>

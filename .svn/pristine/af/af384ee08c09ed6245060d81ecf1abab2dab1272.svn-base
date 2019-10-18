@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "任务详情",
+  "usingComponents": {
+    "wux-cell-group": "../../../components/cell-group/index",
+    "wux-cell": "../../../components/cell/index",
+    "wux-form": "../../../components/form/index",
+    "wux-button": "../../../components/button/index",
+    "wux-white-space": "../../../components/white-space/index",
+    "attach-show": "../../../components/attach-show/index"
+  }
+}

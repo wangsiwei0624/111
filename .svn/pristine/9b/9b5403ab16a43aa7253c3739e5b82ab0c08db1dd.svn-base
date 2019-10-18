@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="list">
+        <view class="list-in">
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text>警情</text>
+            </view>
+            <!-- <view class="title2" bindtap="onMoreWarning" bindtap="onMoreLook">
+              <text>更多</text>
+            </view> -->
+          </view>
+          <view class="list-in-cell-no" wx:if="{{listonoff}}">
+            <text>暂无代办事项</text>
+          </view>
+          <view class="list-in-cell-detail" wx:for="{{listMessage}}" wx:key="{{index}}">
+            <view class="list-in-cell-detail-cell">
+              <text class="detail-theme">{{item.description}}</text>
+              <view class="detail-img">
+                <i class="iconfont icon-shujushangbaoshangchuan-tupian" wx:if="{{img-onoff}}"></i>
+                <i class="iconfont icon-shujushangbaoshangchuan-shipin" wx:if="{{video-onoff}}"></i>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                <text>翠木区道路环境保护</text>
+                <text class="time">{{item.warningTime}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+  </view>    
+</view>

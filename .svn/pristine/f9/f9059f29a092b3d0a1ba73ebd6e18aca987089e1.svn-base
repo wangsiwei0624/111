@@ -1,0 +1,35 @@
+import axiso from '../lib/axiso.requeset.js'
+
+
+module.exports = {
+  // 获取警情详情
+  getWarningDetail: function (id) {
+    return axiso.request({
+      url: "wx/warning/warningDetail?warningId="+id,
+      method: "post"
+    });
+  },
+  // 获取警情处理记录
+  getWarningDealRecord: function (id){
+    return axiso.request({
+      url: "wx/warning/warningOperationRecord?warningId=" + id,
+      method: "post"
+    });
+  },
+  // 完结警情
+  controlButton: function (id) {
+    const data = {}
+    return axiso.request({
+      url: "wx/warning/getOperationControl?warningId=" + id,
+      method: "post",
+      data
+    })
+  },
+  // 获取附件
+  queryFileApi: function (id, token) {
+    return axiso.request({
+      url: "sys/file/download?id="+ id + "&token=" + token,
+      method: "get"
+    })
+  }
+}

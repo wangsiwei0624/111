@@ -1,0 +1,144 @@
+//app.js
+var userApi = require("/api/user.js");
+var utils = require("/lib/utils.js");
+App({
+  globalData: {
+    token: "", // 会话token
+    user: "", //用户基本信息常量
+    userInfo: "", // 小程序用户基本信息
+    hasAuth: false, // 是否授权用户信息
+    errCount: 3,
+    domain: '',
+    showMask:false, // linx 用于处理小程序原始组件层级过高的问题
+  },
+  onShow: function(options) {
+    var domain = '';
+    if (options.query.q) {
+      var url = decodeURIComponent(options.query.q);
+      domain = utils.getParam(url, "companyId");
+      if (domain){
+        domain = domain.substr(3)
+      }
+    } else {
+      domain = options.companyId;
+    }
+    console.log("app", domain)
+    if (!this.globalData.token) {
+      console.log("3333")
+      // linx 如果没有登录则需要获取页面上的companyId进行绑定，如果已经绑定过，以服务器为准
+      this.globalData.domain = domain || "";
+      this.login();
+    }
+  },
+  onLaunch: function(options) {
+    //console.log(options.query.companyId)
+    // this.globalData.yn = options.yn
+  },
+  // 重复3次登录，如果都是失败则提示系统异常
+  login: function() {
+    // 重置参数
+    this.globalData.token = '';
+    this.globalData.hasAuth = false;
+    wx.showLoading({
+      title: '正在登录',
+      mask: true,
+    });
+    let _this = this;
+    wx.login({
+      success(res) {
+        if (res.code) {
+          console.log("code：" + res.code);
+          userApi.login(res.code, _this.globalData.domain).then(res => {
+            console.log(res);
+            if (res.data) {
+              getApp().globalData.token = res.data;
+              // 获取系统用户信息
+              _this.doGetOrgUserInfo().then(res => {
+                _this.doGetMiniUserInfo();
+              }).catch(err => {
+                _this.doGetMiniUserInfo();
+              });
+            }
+          }).catch(err => {
+            console.log(err);
+            if (getApp().globalData.errCount <= 0) {
+              wx.hideLoading();
+              wx.showToast({
+                title: err.errMsg || "服务异常,请稍后再试",
+                duration: 2000
+              })
+              return;
+            }
+            getApp().globalData.errCount = getApp().globalData.errCount - 1;
+            _this.login();
+          });
+        } else {
+          console.log('登录失败！' + res.errMsg)
+          wx.hideLoading();
+          wx.showToast({
+            title: err.errMsg || "微信异常,请稍后再试",
+            duration: 2000
+          })
+          return;
+        }
+      }
+    })
+  },
+  doGetMiniUserInfo() {
+    // 获取小程序用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+          wx.getUserInfo({
+            success: res => {
+              // 可以将 res 发送给后台解码出 unionId
+              this.globalData.userInfo = res.userInfo
+              // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+              // 所以此处加入 callback 以防止这种情况
+              this.globalData.hasAuth = true;
+              if (this.hasAuthReadyCallback) {
+                this.hasAuthReadyCallback(this.globalData.hasAuth)
+              }
+            }
+          })
+        } else {
+          this.globalData.hasAuth = false;
+          if (this.hasAuthReadyCallback) {
+            this.hasAuthReadyCallback(this.globalData.hasAuth)
+          }
+        }
+      },
+      fail: err => {
+        this.globalData.hasAuth = false;
+        if (this.hasAuthReadyCallback) {
+          this.hasAuthReadyCallback(this.globalData.hasAuth)
+        }
+      }
+    })
+  },
+  doGetOrgUserInfo() {
+    return new Promise((resolve, reject) => {
+      // 获取系统用户信息
+      userApi.getOrgUser().then(res => {
+        wx.hideLoading();
+        console.log("doGetOrgUserInfo", res)
+        if (res.code === 200) {
+          // linx 以服务端返回的域为准
+          getApp().globalData.domain = res.data.domain;
+          getApp().globalData.user = res.data;
+        }
+        resolve();
+      }).catch(err => {
+        wx.hideLoading();
+        reject();
+      });
+    })
+  },
+  isBind() {
+    return this.globalData.user.bind;
+  },
+  isAuth(){
+    return this.globalData.hasAuth;
+  }
+})

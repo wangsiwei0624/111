@@ -1,0 +1,173 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+}
+.page .head-wrap{
+  position: relative;
+  z-index: 9999;
+}
+.page .head {
+  background-color: #fff;
+  padding: 20rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* 王思维修改部分 *//* position: absolute;
+  top: 0rpx;
+  width: 100%;
+  padding: 20rpx 30rpx; */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.page .fixed {
+  /* position: fixed;
+  top: 0; */
+}
+
+.page .head .address .iconfont.addr {
+  font-size: 30rpx;
+  color: green;
+  margin-right: 10rpx;
+}
+
+.page .head .address .iconfont.iron {
+  font-size: 25rpx;
+  color: #a8bcd0;
+}
+
+/* 王思维修改部分 */
+
+.page .head .address .iconfont.suosuo {
+  /* margin-right: 30rpx;  */
+}
+
+.page .head .address text {
+  color: #333;
+  font-size: 26rpx;
+}
+
+.page .search .input {
+  width: 420rpx;
+  height: 60rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 30rpx;
+  /* text-indent: 20rpx; */
+  color: #333;
+  font-size: 26rpx;
+  padding-left: 20rpx; 
+  padding-right: 60rpx;
+  box-sizing: border-box;
+  /* text-indent失效！！！！？？？？？ */
+}
+
+.page .search .placeholder {
+  color: #ccc;
+  font-size: 24rpx;
+}
+
+.page .search {
+  position: relative;
+}
+
+.page .search .iconfont {
+  position: absolute;
+  top: 12rpx;
+  right: 25rpx;
+  color: #ddd;
+  font-size: 35rpx;
+  /* 王思维修改部分 *//* margin-right: 60rpx;  */
+}
+
+.page .area {
+  height: 80rpx;
+  border-top: 1rpx solid #f7f9fa;
+  background-color: #fff;
+  padding-left: 29rpx;
+  /* 王思维修改部分 *//* position: absolute;
+  top: 102rpx;
+  width: 100%; */
+  width: 100%;
+  position: fixed;
+  top: 98rpx;
+}
+
+.page .area .item {
+  margin-right: 27rpx;
+  display: inline-block;
+}
+.page .area .item:last-child {
+  margin-right: 54rpx;
+}
+
+
+.page .area .item text {
+  font-size: 26rpx;
+  color: #a8bcd0;
+  line-height: 80rpx;
+}
+
+.page .area .item .line {
+  width: 25rpx;
+  height: 5rpx;
+  background-color: #2a7ad7;
+  margin: -5rpx auto 0 auto;
+  visibility: hidden;
+}
+
+.page .area .item.active text {
+  color: #2a7ad7;
+}
+
+.page .area .item.active .line {
+  visibility: visible;
+}
+
+.page .no-data {
+  text-align: center;
+}
+
+.page .list {
+  /* margin-top: 20rpx; *//* 王思维修改部分 */
+  margin-top: 200rpx;
+}
+
+.page .list .item {
+  height: 98rpx;
+  background-color: #fff;
+  line-height: 98rpx;
+  color: #333;
+  font-size: 28rpx;
+  padding: 0 30rpx;
+  margin-bottom: 10rpx;
+  display: flex;
+  justify-content: space-between;
+}
+.no-data {
+  text-align: center;
+  padding-top: 40%;
+}
+.no-data image{
+  width: 374rpx;
+  height: 288rpx;
+}
+
+.page .list .iconfont {
+  color: #a8bcd0;
+  font-size: 25rpx;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+/* swiper{
+  height: 100%;
+} */
+.wux-cascader{
+  min-height: 600rpx;
+}

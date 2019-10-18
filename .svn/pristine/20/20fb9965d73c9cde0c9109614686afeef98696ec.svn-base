@@ -1,0 +1,1289 @@
+var monitorApi = require("../../../api/monitor.js")
+import * as echarts from '../../../lib/ec-canvas/echarts.js';
+var util = require('../../../utils/util.js')
+
+const app = getApp()
+
+let that = null
+let chart = null;
+
+function setOption1(chart) {
+  const option = that.data.vueChartOption;
+  console.log('charts1 option', option)
+  chart.setOption(option);
+}
+
+function setOption2(chart) {
+  const option = that.data.vueChartOptionLeftHalf;
+  // console.log('charts2 option',option)
+  chart.setOption(option);
+}
+
+Page({
+  data: {
+    flag: false,
+    ecBar: {
+      // 将 lazyLoad 设为 true 后，需要手动初始化图表
+      lazyLoad: true
+    },
+    ecScatter: {
+      // 将 lazyLoad 设为 true 后，需要手动初始化图表
+      lazyLoad: true
+    },
+    isLoaded: false,
+    curvePointNo: [], // 测点data
+    visibleSelect: false,
+    curveMonitorContent: [], // 监测内容data
+    curveResultData: [], // 成果值data
+    dateList: [{
+        label: '今天',
+        value: 1,
+        active: true
+      },
+      {
+        label: '近2天',
+        value: 2
+      },
+      {
+        label: '近7天',
+        value: 7
+      },
+      {
+        label: '近15天',
+        value: 15
+      },
+      {
+        label: '近1月',
+        value: 30
+      }
+    ],
+    type: 'sensor',
+    projectId: '',
+    curveMonitorValue: '', //当前的监测内容id
+    curPoint: [], //当前的测点内容
+    curvePointValue: '', //当前的测点id
+    curveResultValue: '', //当前成果值id
+    curveStartDate: '',
+    curveEndDate: '',
+    startTime: '',
+    endTime: '',
+    vueChartHasNodata: false,
+    vueChartHasNodataLeft: false,
+    hasLeftChart: false, // 界面上是否含有两个echart
+    vueChartOptionLeftHalf: {}, // 第二个图 option
+    vueChartOption: {}, // 第一个图 option
+    lineEchartsShow: false,
+    maxValue: [0, 0],
+    minValue: [0, 0],
+    dataObject: {},
+    projectShortName: ''
+  },
+  onReady: function() {
+    // 获取组件
+    this.ecComponent1 = this.selectComponent('#mychart-dom-multi-bar');
+    this.ecComponent2 = this.selectComponent('#mychart-dom-multi-scatter');
+  },
+  onLoad: function(options) {
+    console.log('id' + options.id)
+    that = this
+    this.setData({
+      projectId: options.id,
+      projectShortName: options.name
+    })
+    wx.setNavigationBarTitle({
+      title: options.name
+    });
+    
+  },
+  onShow: function() {
+    this.getCurveMonitorSelects(this.data.projectId)
+  },
+  onUnload: function() {
+    that = null
+  },
+  // 数据回来后初始化图表
+  init: function() {
+    this.ecComponent1.init((canvas, width, height) => {
+      // 获取组件的 canvas、width、height 后的回调函数
+      // 在这里初始化图表
+      const barChart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      setOption1(barChart);
+
+      // 将图表实例绑定到 this 上，可以在其他成员函数（如 dispose）中访问
+      this.chart = barChart;
+
+      this.setData({
+        isLoaded: true,
+        isDisposed: false
+      });
+
+      // 注意这里一定要返回 chart 实例，否则会影响事件处理等
+      return barChart;
+    });
+    this.ecComponent2.init((canvas, width, height) => {
+      const scatterChart = echarts.init(canvas, null, {
+        width: width,
+        height: height
+      });
+      setOption2(scatterChart);
+      this.chart = scatterChart;
+
+      this.setData({
+        isLoaded: true,
+        isDisposed: false
+      });
+      return scatterChart;
+    });
+  },
+  // 获取数据曲线监测内容
+  getCurveMonitorSelects(id) {
+    monitorApi.getDefaultCurveData(id).then(res => {
+      if (res.code == 200) {
+        var contentData = res.data.contentData || []
+        var pointData = res.data.pointData || []
+        var resultData = res.data.resultData || []
+        var selectData = res.data.selectData
+        this.setCurveBasicsInfo(contentData, pointData, resultData, selectData)
+      }
+    })
+  },
+  // 处理返回的数据
+  setCurveBasicsInfo(contentData, pointData, resultData, selectData) {
+    this.setData({
+      curveMonitorContent: contentData,
+      curvePointNo: pointData,
+      curveResultData: resultData
+    })
+    console.log(this.data.curveResultData)
+    console.log(111, this.data.curveMonitorContent)
+    if (selectData) {
+      this.setData({
+        curveMonitorValue: selectData.contentNo,
+        curvePointValue: selectData.pointId,
+        curveResultValue: selectData.resultValue
+      })
+      this.selectActive(this.data.curveMonitorContent, this.data.curveMonitorValue, 'MonitorContent')
+      this.selectActive(this.data.curvePointNo, this.data.curvePointValue, 'PointNo')
+      this.selectActive(this.data.curveResultData, this.data.curveResultValue, 'ResultData')
+      if (typeof selectData.startTime === 'number' && !isNaN(selectData.startTime)) {
+        this.setData({
+          curveStartDate: new Date(selectData.startTime),
+          startTime: new Date(selectData.startTime)
+        })
+        this.curveStartDate = new Date(selectData.startTime)
+      } else {
+        this.setData({
+          curveStartDate: selectData.startTime,
+          startTime: selectData.startTime
+        })
+      }
+      if (typeof selectData.endTime === 'number' && !isNaN(selectData.endTime)) {
+        this.setData({
+          curveEndDate: new Date(selectData.endTime),
+          endTime: new Date(selectData.endTime)
+        })
+      } else {
+        this.setData({
+          curveEndDate: selectData.endTime,
+          endTime: selectData.endTime
+        })
+      }
+    }
+
+    // 执行查询操作-函数
+    this.curveSearchClick()
+  },
+  // 选择激活选中函数
+  selectActive(arr, val, type) {
+    arr.forEach(n => {
+      if (n.value == val) {
+        n.active = true
+      } else {
+        n.active = false
+      }
+    })
+    this.setData({
+      [`curve` + type]: arr
+    })
+  },
+  // 选择监测内容, 改变测点和成果值
+  curveMonitorChange(e) {
+    this.setData({
+      curveMonitorValue: e.currentTarget.dataset.val
+    })
+    let arr = this.data.curveMonitorContent
+    for (var i = 0; i < arr.length; i++) {
+      if (this.data.curveMonitorValue == arr[i].value) {
+        arr[i].active = true
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      curveMonitorContent: arr
+    })
+    monitorApi.getCurvePoint(this.data.projectId, e.currentTarget.dataset.val).then(res => {
+      if (res.code == 200) {
+        res.data.pointData = res.data.pointData || []
+        res.data.resultData = res.data.resultData || []
+        if (res.data.pointData.length > 0) {
+          this.setData({
+            curvePointNo: res.data.pointData,
+            curvePointValue: res.data.pointData[0].value
+          })
+        }
+        if (res.data.resultData.length > 0) {
+          this.setData({
+            curveResultData: res.data.resultData,
+            curveResultValue: res.data.resultData[0].value
+          })
+        }
+        // 调用激活选中函数，改变测点和成果值的选中状态
+        this.selectActive(this.data.curvePointNo, this.data.curvePointValue, 'PointNo')
+        this.selectActive(this.data.curveResultData, this.data.curveResultValue, 'ResultData')
+        this.curveSearchClick()
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+    console.log(this.data.curveMonitorValue)
+  },
+  // 数据生成曲线
+  curveSearchClick() {
+    var resultData = []
+    var pointIds = []
+    if (typeof(this.data.curveResultValue) === 'string') {
+      resultData.push(this.data.curveResultValue)
+    } else {
+      resultData = this.data.curveResultValue
+    }
+    if (typeof this.data.curvePointValue === 'string') {
+      pointIds.push(this.data.curvePointValue)
+    } else {
+      pointIds = this.data.curvePointValue
+    }
+    this.setData({
+      vueChartHasNodata: false,
+      vueChartHasNodataLeft: false
+    })
+    let dataObject = {
+      projectId: this.data.projectId,
+      contentNo: this.data.curveMonitorValue,
+      pointIds: pointIds,
+      results: resultData,
+      startTime: this.data.startTime,
+      endTime: this.data.endTime
+    }
+    this.setData({
+      dataObject: dataObject
+    })
+    if (this.data.curveMonitorValue === 'SSW') {
+      // this.$refs.vueChartDomLeftHalf.showLoading()
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      this.setData({
+        hasLeftChart: true
+      })
+      monitorApi.getSSWEChartData(dataObject).then(req => {
+        that.drawLineSSWLeft(req.data)
+      }).catch(err => {
+        wx.hideLoading()
+        this.setData({
+          vueChartHasNodata: true,
+          vueChartHasNodataLeft: true
+        })
+        console.log('深部位移剖面图表数据获取异常！')
+        // reject(err)
+      })
+      // this.$refs.vueChartDom.showLoading()
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      monitorApi.getSSWSTEChartData(dataObject).then(req => {
+        that.drawLineSSW(req.data)
+      }).catch(err => {
+        wx.hideLoading()
+        this.setData({
+          vueChartHasNodata: true,
+          vueChartHasNodataLeft: true
+        })
+        console.log('深部位移st图表数据获取异常！')
+      })
+    } else if (this.data.curveMonitorValue === 'JY') {
+      this.setData({
+        hasLeftChart: false
+      })
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      // this.$refs.vueChartDom.showLoading()
+      monitorApi.getJYEChartData(dataObject).then(req => {
+        that.drawJYchart(req.data)
+      }).catch(err => {
+        wx.hideLoading()
+        this.setData({
+          vueChartHasNodata: true,
+          vueChartHasNodataLeft: true
+        })
+        console.log('降雨量st图表数据获取异常！')
+      })
+    } else {
+      this.setData({
+        hasLeftChart: false
+      })
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      // this.$refs.vueChartDom.showLoading()
+      monitorApi.getBSWModelEChartData(dataObject).then(req => {
+        that.drawLine(req.data)
+        that.setData({
+          maxValue: req.data.maxValue,
+          minValue: req.data.minValue
+        })
+        console.log('200')
+      }).catch(err => {
+        wx.hideLoading()
+        this.setData({
+          vueChartHasNodata: true,
+          vueChartHasNodataLeft: true,
+          lineEchartsShow: false
+        })
+        console.log('其他类型st图表数据获取异常！')
+      })
+    }
+  },
+  // ===================深部位移剖面图===================
+  drawLineSSWLeft(object) {
+    // 格式化数据
+    this.chartSSWDataFormat(object)
+    // 绘制图表
+    let vueChartOption = {
+      title: {
+        show: false,
+        padding: 0,
+        text: object.title,
+        x: 'center',
+        y: 'top',
+        top: 1
+      },
+      color: ['#FF8400', '#33A9AC', '#647FC5', '#982062', '#0089FF', '#F0FF00', '#9BCF9C', '#AE6DAF', '#DFC19D', '#759FBA', '#C9C669', '#F433D2', '#57C3AE'],
+      /* tooltip: {
+        trigger: 'axis',
+        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+        }
+      }, */
+      grid: {
+        left: '1%',
+        right: '10%',
+        bottom: '8%',
+        top: '10%',
+        containLabel: true
+      },
+      toolbox: {
+        show: false,
+        right: 15,
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      xAxis: {
+        position: 'top',
+        type: 'value',
+        name: '位移',
+        nameGap: '5',
+        splitLine: {
+          show: false
+        },
+        axisLabel: {
+          formatter: '{value} mm'
+        },
+        axisLine: {
+          lineStyle: {
+            type: 'solid'
+          },
+          symbol: ['none', 'arrow']
+        },
+        data: object.xDatas
+      },
+      yAxis: {
+        type: 'category',
+        axisLine: {
+          onZero: false,
+          lineStyle: {
+            type: 'solid'
+          },
+          symbol: ['none', 'arrow']
+        },
+        name: '埋深',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        axisLabel: {
+          formatter: '{value} m',
+          textStyle: {
+            fontSize: 13
+          },
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        boundaryGap: true,
+        inverse: true,
+        // 埋深Array
+        data: object.depth
+      },
+      legend: {
+        show: false,
+        orient: 'vertical',
+        right: 1,
+        y: 'top',
+        top: 50,
+        type: 'scroll',
+        animation: false,
+        data: object.legendData
+      },
+      series: object.seriesData
+    }
+    this.setData({
+      vueChartOption: vueChartOption
+    })
+    wx.hideLoading();
+    // this.$refs.vueChartDomLeftHalf.hideLoading()
+    if (object.seriesData.length > 0) {
+      this.setData({
+        vueChartHasNodata: false
+      })
+    } else {
+      this.setData({
+        vueChartHasNodata: true
+      })
+    }
+    this.init()
+  },
+  // 处理深部位移剖面
+  chartSSWDataFormat(data) {
+    data.seriesData.map(function(value, index, array) {
+      value.type = 'line'
+      value.animation = false
+      value.smooth = true
+      value.connectNulls = true
+      value.sampling = 'average'
+      value.hoverAnimation = false
+      value.showSymbol = false
+      value.showAllSymbol = false
+      value.lineStyle = {
+        normal: {}
+      }
+      value.label = {
+        normal:{
+          fontSize: 14,
+          rich:{}
+        }
+      }
+      // 设置超过阈值的颜色
+      value.data = value.data || []
+      value.pieces = value.pieces || []
+      if (value.data.length > 0) {
+        var mainData
+        value.data.some((da, j) => {
+          if (da != null) {
+            mainData = da
+            return true
+          }
+        })
+        // 遍历阈值数组，从四级开始遍历，以最终大于的阈值计数设置预警颜色
+        value.pieces.some((val, i) => {
+          if (mainData === val || mainData > val) {
+            switch (i) {
+              case 3:
+                value.itemStyle = {
+                  color: '#FF8400'
+                }
+                break
+              case 2:
+                value.itemStyle = {
+                  color: '#33A9AC'
+                }
+                break
+              case 1:
+                value.itemStyle = {
+                  color: '#0089FF'
+                }
+                break
+              case 0:
+                value.itemStyle = {
+                  color: '#E91818'
+                }
+                break
+            }
+            return true
+          }
+        })
+      }
+    })
+  },
+  // ==================深部位移ST曲线图=====================
+  drawLineSSW(object) {
+    this.lineSSWFormat(object)
+    // 绘制图表
+    let vueChartOptionLeftHalf = {
+      title: {
+        show: false,
+        padding: 0,
+        text: object.title,
+        x: 'center',
+        y: 'top',
+        top: 5
+      },
+      color: ['#FF8400', '#33A9AC', '#647FC5', '#982062', '#0089FF', '#F0FF00', '#9BCF9C', '#AE6DAF', '#DFC19D', '#759FBA', '#C9C669', '#F433D2', '#57C3AE'],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+        }
+      },
+      toolbox: {
+        show: false,
+        right: 15,
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      grid: {
+        left: '4%',
+        right: '10%',
+        bottom: '12%',
+        top: '20%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        name: '时间',
+        nameGap: '5',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        splitNumber: 8,
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            type: 'solid'
+          },
+          symbol: ['none', 'arrow']
+        },
+        axisLabel: {
+          // 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
+          formatter: function(value, index) {
+            let timeString = ''
+            let str = value.split(' ')
+            let str1 = str[0].split('-')
+            if (str.length > 0) {
+              timeString = str1[1] + '-' + str1[2] + '\n' + str[1]
+            }
+            return timeString
+          },
+          textStyle: {
+            color: '#333333', // 更改坐标轴文字颜色
+            fontSize: 12 // 更改坐标轴文字大小
+          }
+        },
+        data: object.xTimes
+      },
+      yAxis: {
+        type: 'value',
+        name: '变化量(mm)',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        position: 'start',
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        axisLine: {
+          symbol: ['none', 'arrow']
+        },
+        axisLabel: {
+          textStyle: {
+            color: '#454545', // 更改坐标轴文字颜色
+            fontSize: 13 // 更改坐标轴文字大小
+          },
+          formatter: function(value, index) {
+            let timeString = value
+            return timeString
+          },
+        }
+      },
+      dataZoom: [{
+        type: 'inside',
+        start: 0,
+        end: 100,
+        height: 10
+      }, {
+        show: false,
+        type: 'slider',
+        start: 0,
+        end: 100,
+        handleSize: 12, // 滑动条的 左右2个滑动条的大小
+        height: 8, // 组件高度
+        handleColor: '#0882E0', // h滑动图标的颜色
+        handleStyle: {
+          borderColor: '#0882E0',
+          borderWidth: '0',
+          shadowBlur: 2,
+          background: '#ddd',
+          shadowColor: '#ddd'
+        },
+        borderColor: 'transparent',
+        fillerColor: '#0882E0',
+        backgroundColor: '#C0D8EA', // 两边未选中的滑动条区域的颜色
+        bottom: '2%',
+        showDataShadow: false, // 是否显示数据阴影 默认auto
+        showDetail: true, // 即拖拽时候是否显示详细数值信息 默认true
+        handleIcon: 'M-292,322.2c-3.2,0-6.4-0.6-9.3-1.9c-2.9-1.2-5.4-2.9-7.6-5.1s-3.9-4.8-5.1-7.6c-1.3-3-1.9-6.1-1.9-9.3c0-3.2,0.6-6.4,1.9-9.3c1.2-2.9,2.9-5.4,5.1-7.6s4.8-3.9,7.6-5.1c3-1.3,6.1-1.9,9.3-1.9c3.2,0,6.4,0.6,9.3,1.9c2.9,1.2,5.4,2.9,7.6,5.1s3.9,4.8,5.1,7.6c1.3,3,1.9,6.1,1.9,9.3c0,3.2-0.6,6.4-1.9,9.3c-1.2,2.9-2.9,5.4-5.1,7.6s-4.8,3.9-7.6,5.1C-285.6,321.5-288.8,322.2-292,322.2z'
+      }],
+      legend: {
+        show: true,
+        x: 'center',
+        y: 'top',
+        type: 'plain',
+        top: 15,
+        bottom: 15,
+        data: object.legendData
+      },
+      series: object.seriesData
+    }
+    this.setData({
+      vueChartOptionLeftHalf: vueChartOptionLeftHalf
+    })
+    wx.hideLoading();
+    // this.$refs.vueChartDom.hideLoading()
+    if (object.xTimes.length > 0) {
+      this.setData({
+        vueChartHasNodataLeft: false
+      })
+    } else {
+      this.setData({
+        vueChartHasNodataLeft: true
+      })
+    }
+    this.init()
+  },
+  // 处理ST曲线图
+  lineSSWFormat(data) {
+    data.seriesData.map(function(value, index, array) {
+      value.type = 'line'
+      value.smooth = true
+      value.connectNulls = true
+      value.symbolSize = 6
+      value.sampling = 'average'
+      value.label = {
+        show: false
+      }
+      value.lineStyle = {
+        normal: {}
+      }
+      value.label = {
+        normal: {
+          fontSize: 14,
+          rich: {}
+        }
+      }
+      /* value.markPoint = {
+        data: [
+          {type: 'max', name: '最大值'},
+          {type: 'min', name: '最小值'}
+        ]
+      } */
+    })
+  },
+  // ===================表面位移类曲线图=====================
+  drawLine(object) {
+    var paramData = this.chartDataFormat(object)
+    let vueChartOption = {
+      renderer: 'svg',
+      title: {
+        show: false,
+        padding: 0,
+        text: object.title,
+        x: 'center',
+        y: 'top',
+        top: 5,
+        bottom: '10%'
+      },
+      calculable: false,
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { // 坐标轴指示器，坐标轴触发有效
+          type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+        }
+        /* formatter: function (params) {
+          var tip = '';
+          if (params != null && params.length > 0) {
+            tip += params[0].name + '<br />'
+            for (let i = 0; i < params.length; i++) {
+              tip += params[i].marker
+            }
+          }
+          return tip
+        } */
+      },
+      toolbox: {
+        show: false,
+        right: 20,
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      grid: {
+        left: '3%',
+        right: '10%',
+        bottom: '1%',
+        top: '30%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        name: '时间',
+        nameGap: '5',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        splitNumber: 8,
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        axisLine: {
+          lineStyle: {
+            type: 'solid'
+          },
+          symbol: ['none', 'arrow']
+        },
+        axisLabel: {
+          // 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
+          formatter: function(value, index) {
+            let timeString = ''
+            let str = value.split(' ')
+            let str1 = str[0].split('-')
+            if (str.length > 0) {
+              timeString = str1[1] + '-' + str1[2] + '\n' + str[1]
+            }
+            return timeString
+          },
+          textStyle: {
+            color: '#333333', // 更改坐标轴文字颜色
+            fontSize: 12 // 更改坐标轴文字大小
+          }
+        },
+        data: object.xTimes
+      },
+      yAxis: {
+        type: 'value',
+        name: '数据(mm)',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        position: 'start',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        axisLine: {
+          symbol: ['none', 'arrow']
+        },
+        axisLabel: {
+          formatter: '{value}',
+          textStyle: {
+            color: '#454545', // 更改坐标轴文字颜色
+            fontSize: 13 // 更改坐标轴文字大小
+          }
+        }
+      },
+      dataZoom: [{
+        type: 'inside',
+        start: 0,
+        end: 100,
+        height: 10
+      }, {
+        show: false,
+        type: 'slider',
+        start: 0,
+        end: 100,
+        handleSize: 12, // 滑动条的 左右2个滑动条的大小
+        height: 8, // 组件高度
+        handleColor: '#0882E0', // h滑动图标的颜色
+        handleStyle: {
+          borderColor: '#0882E0',
+          borderWidth: '0',
+          shadowBlur: 2,
+          background: '#ddd',
+          shadowColor: '#ddd'
+        },
+        borderColor: 'transparent',
+        fillerColor: '#0882E0',
+        backgroundColor: '#C0D8EA', // 两边未选中的滑动条区域的颜色
+        bottom: '2%',
+        showDataShadow: false, // 是否显示数据阴影 默认auto
+        showDetail: true, // 即拖拽时候是否显示详细数值信息 默认true
+        handleIcon: 'M-292,322.2c-3.2,0-6.4-0.6-9.3-1.9c-2.9-1.2-5.4-2.9-7.6-5.1s-3.9-4.8-5.1-7.6c-1.3-3-1.9-6.1-1.9-9.3c0-3.2,0.6-6.4,1.9-9.3c1.2-2.9,2.9-5.4,5.1-7.6s4.8-3.9,7.6-5.1c3-1.3,6.1-1.9,9.3-1.9c3.2,0,6.4,0.6,9.3,1.9c2.9,1.2,5.4,2.9,7.6,5.1s3.9,4.8,5.1,7.6c1.3,3,1.9,6.1,1.9,9.3c0,3.2-0.6,6.4-1.9,9.3c-1.2,2.9-2.9,5.4-5.1,7.6s-4.8,3.9-7.6,5.1C-285.6,321.5-288.8,322.2-292,322.2z'
+      }],
+      // visualMap: paramData.visualMapArray,
+      legend: {
+        show: true,
+        x: 'center',
+        top: '12%',
+        bottom: '20%',
+        // type: 'scroll',
+        itemWidth: 10,
+        itemHeight: 10,
+        data: object.legendData
+      },
+      series: paramData.seriesArray
+    }
+    this.setData({
+      vueChartOption: vueChartOption
+    })
+    console.log('表面位移option', this.data.vueChartOption)
+    wx.hideLoading();
+    // this.$refs.vueChartDom.hideLoading()
+    console.log('处理后的drawLine series', paramData)
+    if (paramData.seriesArray.length > 0) {
+      this.setData({
+        vueChartHasNodata: false,
+        lineEchartsShow: true
+      })
+    } else {
+      this.setData({
+        vueChartHasNodata: true,
+        lineEchartsShow: false
+      })
+    }
+    console.log('lineshow', this.data.lineEchartsShow)
+    this.init()
+    // this.initPop()
+  },
+  // 处理位移类1
+  chartDataFormat(object) {
+    var that = this
+    var symbols = ['diamond', 'circle', 'rect', 'triangle', 'roundRect', 'arrow', 'pin']
+    var color = ['#FF8400', '#33A9AC', '#647FC5', '#982062', '#0089FF', '#F0FF00', '#9BCF9C', '#AE6DAF', '#DFC19D', '#759FBA', '#C9C669', '#F433D2', '#57C3AE']
+
+    var visualMapArray = []
+    var seriesArray = []
+
+    object.pieces = object.pieces || []
+    object.seriesData = object.seriesData || []
+    object.seriesData.map(function(value, index) {
+      value.label = {
+        normal: {
+          show: true,
+          fontSize: 14,
+          rich: {}
+        }
+      }
+      value.COLLECT_DATA = value.COLLECT_DATA || []
+      value.ONCE_OFFSET = value.ONCE_OFFSET || []
+      value.TOTAL_OFFSET = value.TOTAL_OFFSET || []
+      value.HOUR24_OFFSET = value.HOUR24_OFFSET || []
+
+      if (value.COLLECT_DATA.length > 0) {
+        var name = value.pointNo + '-采集值'
+
+        var dataList = object.pieces[index].COLLECT_DATA || []
+        that.getCommonFormat(seriesArray, symbols[index], color, that, visualMapArray,
+          name, index, value.COLLECT_DATA, dataList)
+      }
+      if (value.ONCE_OFFSET.length > 0) {
+        var name = value.pointNo + '-本次变化'
+        var dataList = object.pieces[index].ONCE_OFFSET || []
+        that.getCommonFormat(seriesArray, symbols[index], color, that, visualMapArray,
+          name, index, value.ONCE_OFFSET, dataList)
+      }
+      if (value.TOTAL_OFFSET.length > 0) {
+        var name = value.pointNo + '-累计变化'
+        var dataList = object.pieces[index].TOTAL_OFFSET || []
+        that.getCommonFormat(seriesArray, symbols[index], color, that, visualMapArray,
+          name, index, value.TOTAL_OFFSET, dataList)
+      }
+      if (value.HOUR24_OFFSET.length > 0) {
+        var name = value.pointNo + '-24h变化'
+        var dataList = object.pieces[index].HOUR24_OFFSET || []
+        that.getCommonFormat(seriesArray, symbols[index], color, that, visualMapArray,
+          name, index, value.HOUR24_OFFSET, dataList)
+      }
+    })
+    return {
+      seriesArray: seriesArray,
+      visualMapArray: visualMapArray
+    }
+  },
+  // 处理位移类2
+  getCommonFormat(seriesArray, symbol, color, that, visualMapArray, name, index, seriesList, dataList) {
+    var colorIndex = seriesArray.length
+    var series = {}
+    series.type = 'line'
+    series.lineStyle = {
+      width: 2
+    }
+    series.label = {
+      normal: {
+        fontSize: 14,
+        rich: {}
+      }
+    }
+    /*series.markPoint = {
+      data: [
+        {type: 'max', name: '最大值'},
+        {type: 'min', name: '最小值'}
+      ]
+    } */
+    series.symbol = symbol
+    // series.label = {show: true};
+    series.name = name
+    var seriesData = []
+    seriesList.map(function(data, i) {
+      var seriesData_ = [data.systemTime, data.data]
+      seriesData.push(seriesData_)
+    })
+    series.data = seriesData
+    if (series.data.length > 500) {
+      series.symbolSize = 6
+      series.animation = false
+      series.sampling = 'average'
+    } else {
+      series.smooth = true
+      series.symbolSize = 5
+    }
+    series.animation = false
+    series.itemStyle = {
+      color: color[colorIndex]
+    }
+    seriesArray.push(series)
+
+    if (dataList.length > 0) {
+      that.getPieces(dataList, visualMapArray, seriesArray, index, color[colorIndex])
+    }
+  },
+  // ===================雨量曲线图==========================
+  drawJYchart(object) {
+    this.chartJYFormat(object)
+    // 绘制图表
+    let vueChartOption = {
+      title: {
+        show: false,
+        text: object.title,
+        x: 'center',
+        y: 'top',
+        top: 10
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        }
+      },
+      grid: {
+        left: '4%',
+        right: '10%',
+        bottom: '1%',
+        top: '40%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        splitNumber: 8,
+        
+        splitLine: {
+          show: false
+        },
+        axisLabel: {
+          // 使用函数模板，函数参数分别为刻度数值（类目），刻度的索引
+          formatter: function(value, index) {
+            let timeString = ''
+            // debugger
+            let str = value.split(' ')
+            let str1 = str[0].split('-')
+            if (str.length > 0) {
+              timeString = str1[1] + '-' + str1[2] + '\n' + str[1]
+            }
+            return timeString
+          }
+        },
+        name: '时间',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        nameGap: '5',
+        data: object.xTimes
+      },
+      yAxis: {
+        type: 'value',
+        name: '降雨量(mm)',
+        nameTextStyle: {
+          fontSize: 13
+        },
+        position: 'start',
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: 'solid'
+          }
+        },
+        axisLabel: {
+          formatter: '{value}',
+          textStyle: {
+            color: '#454545', // 更改坐标轴文字颜色
+            fontSize: 13 // 更改坐标轴文字大小
+          }
+        }
+      },
+      dataZoom: [{
+        show: false,
+        type: 'inside',
+        start: 0,
+        end: 100,
+        height: 10
+      }, {
+        show: false,
+        type: 'slider',
+        start: 0,
+        end: 100,
+        handleSize: 12, // 滑动条的 左右2个滑动条的大小
+        height: 8, // 组件高度
+        handleColor: '#0882E0', // h滑动图标的颜色
+        handleStyle: {
+          borderColor: '#0882E0',
+          borderWidth: '0',
+          shadowBlur: 2,
+          background: '#ddd',
+          shadowColor: '#ddd'
+        },
+        borderColor: 'transparent',
+        fillerColor: '#0882E0',
+        backgroundColor: '#C0D8EA', // 两边未选中的滑动条区域的颜色
+        bottom: '2%',
+        showDataShadow: false, // 是否显示数据阴影 默认auto
+        showDetail: true, // 即拖拽时候是否显示详细数值信息 默认true
+        handleIcon: 'M-292,322.2c-3.2,0-6.4-0.6-9.3-1.9c-2.9-1.2-5.4-2.9-7.6-5.1s-3.9-4.8-5.1-7.6c-1.3-3-1.9-6.1-1.9-9.3c0-3.2,0.6-6.4,1.9-9.3c1.2-2.9,2.9-5.4,5.1-7.6s4.8-3.9,7.6-5.1c3-1.3,6.1-1.9,9.3-1.9c3.2,0,6.4,0.6,9.3,1.9c2.9,1.2,5.4,2.9,7.6,5.1s3.9,4.8,5.1,7.6c1.3,3,1.9,6.1,1.9,9.3c0,3.2-0.6,6.4-1.9,9.3c-1.2,2.9-2.9,5.4-5.1,7.6s-4.8,3.9-7.6,5.1C-285.6,321.5-288.8,322.2-292,322.2z'
+      }],
+      legend: {
+        show: true,
+        x: 'center',
+        top: 40,
+        type: 'scroll',
+        data: object.legendData
+      },
+      series: object.seriesData
+    }
+    this.setData({
+      vueChartOption: vueChartOption
+    })
+    wx.hideLoading();
+    // this.$refs.vueChartDom.hideLoading()
+    if (object.seriesData && object.seriesData[0] && object.seriesData[0].data && object.seriesData[0].data.length > 0) {
+      this.setData({
+        vueChartHasNodata: false
+      })
+    } else {
+      this.setData({
+        vueChartHasNodata: true
+      })
+    }
+    this.init()
+    // this.initPop()
+  },
+  // 处理雨量图
+  chartJYFormat(object) {
+    object.seriesData.map(function(value, index, array) {
+      if (value.type === 'line') {
+        value.smooth = true
+        value.symbolSize = 6
+        // value.yAxisIndex = 1
+        value.connectNulls = false
+        /* value.markPoint = {
+          data: [
+            {type: 'max', name: '最大值'},
+            {type: 'min', name: '最小值'}
+          ]
+        } */
+        value.label = {
+          normal: {
+            fontSize: 14,
+            rich: {}
+          }
+        }
+      }
+    })
+  },
+  /**
+   * 公共获取阈值数据
+   * @param object
+   * @param visualMapArray
+   * @param seriesArray
+   * @param index
+   * @param typeColor
+   */
+  getPieces(object, visualMapArray, seriesArray, index, typeColor) {
+    // 阈值数据构造-start
+    var visualMap = {}
+    visualMap.seriesIndex = seriesArray.length - 1
+    visualMap.show = false
+    var piecesArray = []
+    object.map(function(pData, pi, array) {
+      // 构造pieces
+      var pieces_ = {}
+      switch (pi) {
+        case 0:
+          if (pData !== 0) {
+            pieces_.color = '#59B4FF' // 阈值-四级的颜色
+            pieces_.gt = pData
+            pieces_.lte = array[pi + 1]
+          }
+          break
+        case 1:
+          if (pData !== 0) {
+            pieces_.color = '#F3DA04' // 阈值-三级变化的颜色
+            pieces_.gt = pData
+            pieces_.lte = array[pi + 1]
+          }
+          break
+        case 2:
+          if (pData !== 0) {
+            pieces_.color = '#E88F59' // 阈值-四级级变化的颜色
+            pieces_.gt = pData
+            pieces_.lte = array[pi + 1]
+          }
+          break
+        case 3:
+          if (pData !== 0) {
+            pieces_.color = '#E10000' // 阈值-四级级变化的颜色
+            pieces_.gt = pData
+          }
+          break
+      }
+      piecesArray.push(pieces_)
+    })
+    visualMap.pieces = piecesArray
+    visualMap.outOfRange = {
+      color: typeColor
+    }
+    if (visualMap.pieces.length > 0) {
+      visualMapArray.push(visualMap)
+    }
+  },
+  // 选择测点
+  selPoint(e) {
+    const id = e.currentTarget.dataset.val
+    let arr = this.data.curvePointNo
+    let curArr = []
+    for (var i = 0; i < arr.length; i++) {
+      if (id == arr[i].value) {
+        arr[i].active = true
+        curArr.push(arr[i].label)
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      curvePointNo: arr,
+      curPoint: curArr,
+      curvePointValue: id
+    })
+    this.curveSearchClick()
+  },
+  // 选择成果值
+  selResult(e) {
+    this.setData({
+      curveResultValue: e.currentTarget.dataset.val
+    })
+    let arr = this.data.curveResultData
+    for (var i = 0; i < arr.length; i++) {
+      if (this.data.curveResultValue == arr[i].value) {
+        arr[i].active = true
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      curveResultData: arr
+    })
+    console.log(this.data.curveResultValue)
+    this.curveSearchClick()
+  },
+  // 选择时间段
+  selDate(e) {
+    const curDateId = e.currentTarget.dataset.val
+    let arr = this.data.dateList
+    for (var i = 0; i < arr.length; i++) {
+      if (curDateId == arr[i].value) {
+        arr[i].active = true
+      } else {
+        arr[i].active = false
+      }
+    }
+    // 处理所需的时间段
+    let startTime = ''
+    let endTime = ''
+    if (curDateId == 1) {
+      startTime = this.data.curveStartDate
+      endTime = this.data.curveEndDate
+    } else {
+      startTime = util.formatTime1(new Date(new Date(this.data.curveEndDate).getTime() - curDateId * 24 * 60 * 60 * 1000))
+      endTime = this.data.curveEndDate
+    }
+    this.setData({
+      dateList: arr,
+      startTime,
+      endTime
+    })
+    this.curveSearchClick()
+  },
+  openPop(e) {
+    // this.setData({
+    //   flag: true
+    // })
+    const type = e.currentTarget.dataset.type
+    app.globalData.dataObject = this.data.dataObject
+    wx.navigateTo({
+      url: '/pages/monitor/webview/webview?type=' + type + '&shortName=' + this.data.projectShortName,
+    })
+    // wx.showLoading({
+    //   title: '加载中。。',
+    //   mask: true
+    // })
+  },
+  closePop() {
+    this.setData({
+      flag: false
+    })
+  }
+})

@@ -1,0 +1,60 @@
+<!--pages/components/user-selector/index.wxml-->
+<view class="user-selector">
+  <wux-white-space body-style="height: 10rpx" />
+  <view class="select-contaner input-contaner">
+    <view class="input-box-contaner {{expand?'expand':''}}" bindtap="expandSelect">
+      <view class="input-box {{label?'':'placeholder'}}">{{label || placeholder}}</view>
+      <i class="expand-icon right-icon iconfont iconlishijingqing-liebiaojiantou"></i>
+    </view>
+    <i class="select-icon iconfont iconfasongduanxin-tongxunlu" bindtap="openUserPage"></i>
+  </view>
+</view>
+<!-- 通讯录页面 -->
+<view class="user-page" hidden="{{!showUserPage}}">
+  <view class="user-page-header">
+    <wux-row class="org-select">
+      <wux-col span="6">
+        <view class="input-contaner org-unit">
+          <view class="input-box-contaner" bindtap="">
+            <i class="left-icon iconfont iconpaiqianrenyuan-danwei"></i>
+            <view class="input-box placeholder">选择单位</view>
+            <i class="right-icon iconfont iconlishijingqing-liebiaojiantou"></i>
+          </view>
+        </view>
+      </wux-col>
+      <wux-col span="6">
+        <view class="input-contaner org-dept">
+          <view class="input-box-contaner" bindtap="">
+            <i class="left-icon iconfont iconpaiqianrenyuan-bumen"></i>
+            <view class="input-box placeholder">选择部门</view>
+            <i class="right-icon iconfont iconlishijingqing-liebiaojiantou"></i>
+          </view>
+        </view>
+      </wux-col>
+      <wux-col span="12">
+        <view class="input-contaner user-search-input">
+          <view class="input-box-contaner" bindtap="">
+            <input class="input-box" placeholder="请输入姓名或电话号码"></input>
+            <i class="right-icon iconfont iconpaiqianrenyuan-sousuo"></i>
+          </view>
+        </view>
+      </wux-col>
+    </wux-row>
+  </view>
+  <view class="user-page-body">
+    <wux-index height="100%" bind:change="onChange" wux-class="user-index">
+      <wux-index-item wx:for="{{ alphabet }}" wx:for-index="aidx" wx:key="{{aidx}}" name="{{ item.initial }}">
+        <view class="user-item" wx:for="{{ item.cells }}" wx:for-index="idx" wx:for-item="cell" data-initial="{{item.initial}}" data-iindex="{{aidx}}" data-index="{{idx}}" wx:key="{{idx}}" bindtap="onClickUser">
+          <view class="checkbox-contaner {{radio?'radio':''}}  {{ cell.selected?'selected':''}}">
+            <view class="checkbox-status"></view>
+          </view>
+          <view class="user-name">{{ cell.name}}</view>
+          <view class="user-phone">{{cell.mobile }}</view>
+        </view>
+      </wux-index-item>
+    </wux-index>
+  </view>
+  <view class="user-page-footer">
+    <wux-button type="positive" wux-class="user-submit-btn" bindtap="onOk">确认选择</wux-button>
+  </view>
+</view>

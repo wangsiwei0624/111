@@ -1,0 +1,75 @@
+{
+	"description": "地质灾害与工程结构自动化监测预警平台",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"uglifyFileName": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		}
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.8.0",
+	"appid": "wxc0fb24dc8accbfad",
+	"projectname": "miniGeo",
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 0,
+					"name": "扫描登录web端",
+					"pathName": "pages/web/auth",
+					"query": "code=3875a640-92a7-4d9d-98e5-0f2eb67ec022",
+					"scene": 1011
+				},
+				{
+					"id": 1,
+					"name": "pages/login/login",
+					"pathName": "pages/login/login",
+					"query": "companyId=99ff94389b0048b493a408249168c909",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "警情处置",
+					"pathName": "pages/warning/oper/index",
+					"query": "operType=1",
+					"scene": null
+				}
+			]
+		}
+	}
+}

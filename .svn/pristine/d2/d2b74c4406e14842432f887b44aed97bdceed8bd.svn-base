@@ -1,0 +1,26 @@
+<!--pages/report/public/detail.wxml-->
+<view class="public-detail-page">
+  <view class="image-list">
+    <swiper indicator-dots="{{indicatorDots}}" indicator-color="#C6DBF1" indicator-active-color="#2A7AD7"
+    duration="{{duration}}">
+    <block wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src="{{item}}" class="slide-image"/>
+      </swiper-item>
+    </block>
+  </swiper>
+  </view>
+  <view class="item-group">
+    <view class="item-group-title">描述信息</view>
+    <view class="item-group-content">
+      {{description || '暂无数据'}}
+    </view>
+  </view>
+  <view class="item-group">
+    <view class="item-group-title">位置信息</view>
+    <view class="item-group-content">
+      <view class="location">{{location || '暂无数据'}}</view>
+      <i class="iconfont iconrenwuxiangqing-chakanweizhi location-icon" bindtap="onMap"></i>
+    </view>
+  </view>
+</view>

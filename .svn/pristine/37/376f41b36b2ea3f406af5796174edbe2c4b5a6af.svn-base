@@ -1,0 +1,7 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+  margin-bottom: 70rpx;
+  border-top: 1rpx solid #efefef;
+}

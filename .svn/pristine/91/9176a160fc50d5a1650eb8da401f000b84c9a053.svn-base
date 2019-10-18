@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "wux-wing-blank": "../../../components/wing-blank/index",
+    "wux-white-space": "../../../components/white-space/index",
+    "wux-row": "../../../components/row/index",
+    "wux-col": "../../../components/col/index",
+    "wux-button": "../../../components/button/index",
+    "wux-picker-view": "../../../components/picker-view/index"
+  }
+}

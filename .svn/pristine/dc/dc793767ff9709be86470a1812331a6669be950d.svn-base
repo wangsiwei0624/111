@@ -1,0 +1,12 @@
+<view class="show-attach">
+  <view wx:for="{{ totalArr }}" wx:key="{{ key }}" class="info-img">
+    <image wx:if="{{ item.type == 'img' }}" src="{{ domain + 'sys/file/download?id=' + item.id + '&token=' + token }}" bindtap="zoomImage" data-current="{{ item }}"></image>
+    <video wx:if="{{ item.type=='video' }}" src="{{ domain + 'sys/file/download?id=' + item.id + '&token=' + token }}" wx:for-index="index" id="{{ 'vid' + index }}" bindtap="zoomVideo" data-index="{{ index }}"></video>
+    <image wx:if="{{ item.type=='excel' }}" src="../../../static/images/file-type/excel.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+    <image wx:if="{{ item.type=='pdf' }}" src="../../../static/images/file-type/pdf.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+    <image wx:if="{{ item.type=='txt' }}" src="../../../static/images/file-type/txt.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+    <image wx:if="{{ item.type=='word' }}" src="../../../static/images/file-type/word.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+    <image wx:if="{{ item.type=='zip' }}" src="../../../static/images/file-type/zip.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+    <image wx:if="{{ item.type=='other' }}" src="../../../static/images/file-type/other.png" bindtap="openOtherFile" data-current="{{ item }}"></image>
+  </view>
+</view>

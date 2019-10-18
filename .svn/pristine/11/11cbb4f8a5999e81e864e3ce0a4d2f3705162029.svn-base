@@ -1,0 +1,60 @@
+/* pages/report/index.wxss */
+@import '../../static/icon/iconfont.wxss';
+page{
+  width: 100%;
+  height: 100%;
+}
+.report-list-page {
+  position: absolute;
+  width: 100%;
+  top: 0px;
+  bottom: 0px;
+} 
+
+.list-contaner {
+  position: absolute;
+  top: 88rpx;
+  width: 100%;
+  height: calc(100% - 88rpx);
+  bottom:0px;
+  background-color: #F7F9FA;
+}
+.list-contaner .content-list {
+  height: 100%;
+}
+
+.list-in {
+  padding-top: 7.5rpx;
+}
+
+.list-no-data {
+  text-align: center;
+  padding-top: 10%;
+}
+.content-list .list-item {
+  margin: 7.5rpx 30rpx;
+  background-color: #FFFFFF;
+  border-radius:15rpx;
+  padding: 20rpx;
+}
+.list-item .list-item-title {
+  height:73rpx;
+  font-size:30rpx;
+  font-family:PingFang SC;
+  font-weight:bold;
+  color:rgba(51,51,51,1);
+  line-height:39rpx;
+  overflow: hidden;
+}
+.list-item .list-item-footer {
+  font-size:24rpx;
+  font-family:PingFang SC;
+  font-weight:500;
+}
+.list-item .list-item-footer .postion {
+  display: inline-block;
+}
+.list-item .list-item-footer .time {
+  float: right;
+}
+

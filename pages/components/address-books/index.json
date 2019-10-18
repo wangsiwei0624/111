@@ -1,0 +1,13 @@
+{
+  "component": true,
+  "usingComponents": {
+    "wux-wing-blank": "../../../components/wing-blank/index",
+    "wux-index": "../../../components/index/index",
+    "wux-index-item": "../../../components/index-item/index",
+    "wux-row": "../../../components/row/index",
+    "wux-col": "../../../components/col/index",
+    "wux-button": "../../../components/button/index",
+    "wux-multi-picker-view": "../../../components/multi-picker-view/index",
+    "wux-input": "../../../components/input/index"
+  }
+}

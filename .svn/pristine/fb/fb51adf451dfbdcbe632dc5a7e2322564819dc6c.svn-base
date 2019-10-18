@@ -1,0 +1,25 @@
+<!--pages/components/main-tabbar/main-babbar.wxml-->
+<view class="main-tabbar">
+  <wux-tabbar defaultCurrent="{{currentTabIndex}}" theme="positive" class="wux-t">
+    <wux-tabbar-item title="首页" bindtap="goHome">
+      <view slot="icon-on">
+        <i class=" iconfont icon-caidan-shouye"></i>
+      </view>
+      <view slot="icon-off">
+        <i class="iconfont icon-caidan-shouye"></i>
+      </view>
+    </wux-tabbar-item>
+    <wux-tabbar-item title="数据上报" bindtap="goReport" disabled="{{true}}" class="witem">
+      <image src="../../../static/images/submit.png" slot="icon-on" class="wimg"></image>
+      <image src="../../../static/images/submit.png" slot="icon-off" class="wimg"></image>
+    </wux-tabbar-item>
+    <wux-tabbar-item title="我的" bindtap="goMine">
+      <view slot="icon-on">
+        <i class="iconfont icon-caidan-wodexuanzhong"></i>
+      </view>
+      <view slot="icon-off">
+        <i class="iconfont icon-caidan-wodexuanzhong"></i>
+      </view>
+    </wux-tabbar-item>
+  </wux-tabbar>
+</view>

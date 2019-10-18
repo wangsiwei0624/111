@@ -1,0 +1,11 @@
+Page({
+  data: {
+    id: ''
+  },
+  onLoad: function(options) {
+    console.log(options.id)
+    this.setData({
+      id: options.id
+    })
+  }
+})

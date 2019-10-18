@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "address-books": "../../components/address-books/index"
+  }
+}

@@ -1,0 +1,6 @@
+<wux-prompt visible="{{ showError }}" icon="" title="登录失败" text="{{ errorMsg }}" />
+<view wx:if="{{!showAuth}}">
+</view>
+<view wx:else>
+  <button type="primary" shape="circle" size="small" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 授权登录 </button>
+</view>

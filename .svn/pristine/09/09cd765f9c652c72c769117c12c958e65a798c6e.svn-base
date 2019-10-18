@@ -1,0 +1,259 @@
+/* pages/components/user-selector/index.wxss */
+@import '../../../static/icon/iconfont.wxss';
+
+.input-contaner {
+  background: rgba(255, 255, 255, 1);
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 80rpx;
+  position: relative;
+}
+
+.input-contaner .input-box-contaner {
+  height: 50rpx;
+  border-radius: 40rpx;
+  padding: 15rpx 100rpx 15rpx 50rpx;
+  overflow: hidden;
+  border: 1px solid rgba(221, 221, 221, 1);
+}
+
+.user-selector .select-contaner .input-box-contaner {
+  width: calc(100% - 168rpx);
+  padding: 15rpx 30rpx 15rpx 50rpx;
+}
+
+.user-selector .select-contaner .input-box-contaner.expand {
+  height: auto;
+  border-radius: 15rpx;
+}
+
+.input-box-contaner .input-box {
+  text-align: left;
+  font-size: 28rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 51rpx;
+}
+
+.input-box-contaner .input-box.placeholder {
+  color: #999;
+}
+
+.left-icon {
+  position: absolute;
+  left: 15rpx;
+  top: 0px;
+  color: #bfcedd;
+  font-size: 25rpx;
+}
+
+.right-icon {
+  color: #bfcedd;
+  position: absolute;
+  right: 20rpx;
+  top: 0px;
+  display: inline-block;
+  width: 40rpx;
+  font-size: 25rpx;
+}
+
+.right-icon-btn {
+  position: absolute;
+  right: 0rpx;
+  top: -4px;
+  font-size: 25rpx;
+}
+
+.right-icon-btn button {
+  min-height: 60rpx !important;
+  line-height: 60rpx !important;
+}
+
+.right-icon-btn .iconfont {
+  font-size: 25rpx;
+}
+
+.user-selector .select-contaner .expand-icon {
+  right: 110rpx;
+}
+
+.user-selector .select-contaner .expand .expand-icon {
+  transform: rotate(90deg);
+}
+
+.user-selector .select-icon {
+  color: #2a7ad7;
+  position: absolute;
+  right: 0rpx;
+  font-size: 51rpx;
+  top: 0px;
+}
+
+/** 通讯录  start***/
+
+.user-page {
+  z-index: 10000;
+  background-color: #fff;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+}
+
+.user-page-header, .user-page-body, .user-page-footer {
+  padding: 0rpx 30rpx;
+}
+
+.user-page-header {
+  height: 180rpx;
+  border-bottom: 1px solid #efefef;
+}
+
+.user-page-body {
+  overflow: auto;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 180rpx;
+  bottom: 98rpx;
+}
+
+.user-page-footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: 98rpx;
+  border-top: 1px solid #efefef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-page .user-search-input {
+  margin-top: 14rpx;
+}
+
+.user-page .user-search-input .input-box-contaner {
+  height: 40rpx;
+}
+
+.user-page .user-search-input .input-box-contaner .input-box {
+  line-height: 41rpx;
+}
+
+.user-submit-btn {
+  border-radius: 34rpx !important;
+  min-height: 68rpx !important;
+  line-height: 68rpx !important;
+  padding-left: 68rpx !important;
+  padding-right: 68rpx !important;
+}
+
+.user-item {
+  margin: 18.5rpx 0rpx;
+  line-height: 40rpx;
+  display: flex;
+  align-items: center;
+}
+
+.user-name, .user-phone {
+  display: inline-block;
+}
+
+.user-name {
+  width: 100rpx;
+  font-size: 28rpx;
+  height: 40rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 40rpx;
+}
+
+.user-phone {
+  height: 40rpx;
+  font-size: 28rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(153, 153, 153, 1);
+  line-height: 40rpx;
+}
+
+.checkbox-contaner {
+  display: inline-block;
+  width: 30rpx;
+  height: 30rpx;
+  padding: 6rpx;
+  margin-right: 30rpx;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 3rpx;
+  border: 1px solid rgba(204, 204, 204, 1);
+}
+
+.checkbox-contaner.radio {
+  border-radius: 22rpx !important;
+}
+
+.checkbox-status {
+  width: 30rpx;
+  height: 30rpx;
+  border-radius: 3rpx;
+}
+
+.checkbox-contaner.radio .checkbox-status {
+  border-radius: 15rpx !important;
+}
+
+.checkbox-contaner.selected {
+  border: 1px solid rgba(42, 122, 215, 1);
+}
+
+.checkbox-contaner.selected .checkbox-status {
+  background: rgba(42, 122, 215, 1);
+}
+
+/** 通信录 end **/
+
+.company-select-page {
+  z-index: 10010;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 95rpx;
+  bottom: 0px;
+}
+
+.company-select-page-mask {
+  z-index: 10012;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 280px;
+  bottom: 0px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0.7;
+}
+
+.company-select-page-body {
+  z-index: 10013;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  background: #fff;
+  border-bottom-left-radius: 15rpx;
+  border-bottom-right-radius: 15rpx;
+}
+
+.company-select-page-body-footer {
+  border-top: 1px solid #EAEAEA;
+  text-align: right;
+}
+view.item-index--wux-index-item.item-index--wux-index-item {
+  display: none !important;
+}

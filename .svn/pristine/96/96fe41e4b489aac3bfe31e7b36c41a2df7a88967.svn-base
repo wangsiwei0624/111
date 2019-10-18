@@ -1,0 +1,59 @@
+@import '../../common/common.wxss';
+page{
+  background-color: #F7F9FA;
+}
+.page .head{
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 30rpx;
+}
+.page .head .content{
+  width: 330rpx;
+  height: 70rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 35rpx;
+  color: #333;
+  font-size: 28rpx;
+  text-align: center;
+  line-height: 70rpx;
+}
+.page .head .content .iconfont{
+  color: #A8BCD0;
+  font-size: 25rpx;
+  text-align: right;
+}
+
+.page .area{
+  height: 80rpx;
+  border-top: 1rpx solid #F7F9FA;
+  background-color: #fff;
+  padding-left: 70rpx;
+}
+.page .area .item{
+  margin-right: 70rpx;
+  display: inline-block;
+}
+.page .area .item text{
+  font-size: 26rpx;
+  color: #A8BCD0;
+  line-height: 80rpx;
+}
+.page .area .item .line{
+  width: 25rpx;
+  height: 5rpx;
+  background-color: #2A7AD7;
+  margin: 0 auto;
+  visibility: hidden;
+}
+.page .area .item.active text{
+  color: #2A7AD7;
+}
+.page .area .item.active .line{
+  visibility: visible;
+}
+.page .charts{
+  background-color: #fff;
+  border-radius: 30rpx;
+  margin-top: 32rpx;
+}

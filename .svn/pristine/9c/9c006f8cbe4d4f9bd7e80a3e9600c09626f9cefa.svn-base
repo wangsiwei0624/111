@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="head">
+    <view class="address" bindtap="openPop">
+      <i class="iconfont iconrenwuxiangqing-chakanweizhi addr"></i>
+      <text>{{ addressValue }}</text>
+      <i class="iconfont iconchulijilu-cecaidanshouqi iron"></i>
+    </view>
+    <view class="search">
+      <input class="input" placeholder="请输入项目名称" placeholder-class="placeholder" bindconfirm="confirmSearch"></input>
+      <i class="iconfont iconpaiqianrenyuan-sousuo"></i>
+    </view>
+  </view>
+  <view class="area">
+    <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex" >
+      <view wx:for="{{ areaData }}" wx:key="key" class="{{ item. active? 'item active' : 'item' }}" bindtap="clickArea" data-id="{{ item.value }}">
+        <text>{{ item.label }}</text>
+        <view class="line" wx:if="{{ item.label }}"></view>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="list">
+    <view wx:for="{{ itemList }}" wx:key="key" class="item" bindtap="gotoDetail" data-id = "{{ item.id }}">
+      <text>{{ item.name }}</text>
+      <i class="iconfont iconlishijingqing-liebiaojiantou"></i>
+    </view>
+  </view>
+  <!-- <wux-popup position="top" visible="{{ visiblePop }}" bind:close="onClose">
+    <wux-cascader-picker-view value="{{ curCity }}" options="{{ optionsData }}" cols="5" bind:valueChange="onValueChange" />
+  </wux-popup> -->
+  <wux-cascader visible="{{ visibleSelect }}" controlled value="{{ curCity }}" title="所在地区" options="{{ optionsData }}" bind:close="onClose" bind:change="onChangeSelect" bind:load="onLoadOptions" />
+</view>

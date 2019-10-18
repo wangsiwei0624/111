@@ -1,0 +1,37 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/user/index",
+    "pages/mine/index",
+    "pages/web/auth",
+    "pages/mine/bind/index",
+    "pages/mine/bind/phone/index",
+    "pages/mine/about/index",
+    "pages/warning/info/info",
+    "pages/warning/oper/index",
+    "pages/warning/history/history",
+    "pages/monitor/list/list",
+    "pages/monitor/data/data",
+    "pages/patrol/index",
+    "pages/monitor/index",
+    "pages/reportwarning/index",
+    "pages/reportpatrol/index",
+    "pages/patroldetail/index",
+    "pages/patroldetail/reportdetail/index",
+    "pages/report/index",
+    "pages/report/public/detail",
+    "pages/report/danger/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "地质灾害监测预警平台",
+    "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序获取天气状况"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

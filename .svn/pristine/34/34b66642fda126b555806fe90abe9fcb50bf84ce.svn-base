@@ -1,0 +1,97 @@
+<view class="page">
+  <wux-form class="wuxform">
+    <view class="flex">
+      <wux-white-space body-style="height: 20rpx" />
+      <well-cell-group class="wuxcellgroup-remarks" wx:if="{{patrolMessage.taskStatus == '2'}}">
+        <view class="message" wx:if="{{patrolMessage.taskStatus == '2'}}">
+          <view class="oblong"></view>
+          <text>反馈信息</text>
+        </view>
+        <!-- <wux-cell class="wuxcell"> -->
+          <view class="wux-cell">
+            <view>
+              <view class="text-name">
+                <text>{{patrolMessage.patrolUserName}}</text>
+                <text decode="{{true}}">&nbsp;&nbsp;</text>
+                <text>{{patrolMessage.completionTime}}</text>
+              </view>
+              <text class="text-remarks">{{patrolMessage.remarks}}</text>
+              <view class="imgandvideo">
+                <view wx:for="{{ownImg}}" wx:key="{{index}}" class="own"> 
+                  <image src="{{item}}" bindtap="onPreviewImg"></image>
+                </view>
+                <view wx:for="{{ownVideo}}" wx:key="{{index}}" class="own">
+                  <video id="myVideo" src="{{item}}" bindtap="onPreviewVideo"></video>
+                </view>
+              </view>
+            </view>
+          </view> 
+        <!-- </wux-cell> -->
+      </well-cell-group>
+
+      <wux-white-space body-style="height: 20rpx" />
+      <wux-cell-group class="wuxcellgroup">
+        <view class="message" wx:if="{{patrolMessage.taskStatus == '2'}}">
+          <view class="oblong"></view>
+          <text>任务信息</text>
+        </view>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">任务名称：</text>
+          <text class="textright">{{patrolMessage.taskName}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">监测项目：</text>
+          <text class="textright">{{patrolMessage.projectName}}</text>
+          <!-- 后面用shortName -->
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">开始时间：</text>
+          <text class="textright">{{patrolMessage.startTimeStr}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">结束时间：</text>
+          <text class="textright">{{patrolMessage.endTimeStr}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">巡查人员：</text>
+          <text class="textright">{{patrolMessage.patrolUserName}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">巡查类型：</text>
+          <text class="textright">{{patrolMessage.planTypeName}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleft">项目概况：</text>
+          <text class="textright">{{patrolMessage.overview}}</text>
+          </view>
+        </wux-cell>
+        <wux-cell class="wuxcell">
+          <view>
+          <text class="textleftlocation">项目位置：</text>
+          <text class="textrightlocation">{{patrolMessage.location}}</text>
+          <i class="iconfont iconrenwuxiangqing-chakanweizhi" bindtap="onMap"></i>
+          </view>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-white-space body-style="height: 100rpx" />
+    </view>
+    
+    
+    <wux-button block type="positive"  bindtap="onFeedback" wx:if="{{patrolMessage.taskStatus === '0'}}" data-id="{{ id }}" data-projectId="{{ projectId }}" class="wuxbutton">反馈</wux-button>
+    
+  </wux-form>
+  
+</view>

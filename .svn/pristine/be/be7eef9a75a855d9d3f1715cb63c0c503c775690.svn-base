@@ -1,0 +1,256 @@
+<view class="page">
+  <wux-tabs defaultCurrent="tab1" theme="positive">
+    <wux-tab key="tab1" title="警情处理">123</wux-tab>
+    <wux-tab key="tab2" title="处理记录">456</wux-tab>
+    <wux-tab key="tab3" title="历史警情"></wux-tab>
+  </wux-tabs>
+  <view class="history">
+    <view wx:for="{{ historyData }}" wx:key="{{ key }}" class="his-item">
+      <text class="title">{{ item.title }}</text>
+      <view class="right">
+        <text class="time">{{ item.time }}</text>
+        <i class="iconfont icon-lishijingqing-liebiaojiantou"></i>
+      </view>
+    </view>
+  </view>
+  <view class="right-btn">
+    <view class="{{ showBtn == true?'active': 'no-active' }}">
+      <view wx:if="{{ showBtn }}" class="btn-wrap">
+        <view class="btn {{ showBtnArr[0] == true?'blue': '' }}" bindtap="scrollTo" data-text="expert" data-index="0">专</view>
+        <view class="btn {{ showBtnArr[1] == true?'blue': '' }}" bindtap="scrollTo" data-text="feedback" data-index="1">反</view>
+        <view class="btn {{ showBtnArr[2] == true?'blue': '' }}" bindtap="scrollTo" data-text="onduty" data-index="2">值</view>
+        <view class="btn {{ showBtnArr[3] == true?'blue': '' }}" bindtap="scrollTo" data-text="change" data-index="3">变</view>
+      </view>
+      <view class="iron" bindtap="onclickBtn">
+        <i class="iconfont icon-lishijingqing-liebiaojiantou"></i>
+      </view>
+    </view>
+  </view>
+  <view class="tab-wrap expert">
+    <view class="title">
+      <view class="icon"></view>
+      <text>专家意见(结论)</text>
+    </view>
+    <view class="content">
+      <view class="info-row">
+        <text class="label">专家组成员：</text>
+        <text class="value">张三(组长); 李毕; 王五</text>
+      </view>
+      <wux-divider show-text="{{ false }}" />
+      <view class="info-row">
+        <text class="label">专家组交流意见：</text>
+        <text class="value">李毕  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">该隐患正处于拖车中心配套边坡的排水沟下方，受施工影响，以及排水设施不合理，加之此次降雨较大，排水不及，水流直接冲刷周边坡面，造成排水沟坡面掏空，出现较大水土流失并造成塌方，威胁海丝路一号仓储办公楼及边上临时工作场所。建议立即撤人，并责成责任单位尽快完善排水系统修复损坏边坡。</text>
+      </view>
+      <wux-divider show-text="{{ false }}" />
+      <view class="info-row">
+        <text class="label">专家组结论：</text>
+        <text class="value">李毕  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">跟紧现场巡查人员，利用无人机现场航拍，发现存在较大隐患，现在去区里汇报。等待巡查结果后，再对警情进行处置。</text>
+      </view>
+    </view>
+  </view>
+  <view class="tab-wrap feedback">
+    <view class="title">
+      <view class="icon"></view>
+      <text>反馈记录</text>
+    </view>
+    <view class="content">
+      <view class="info-row">
+        <text class="value">李毕  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">跟紧现场巡查人员，利用无人机现场航拍，发现存在较大隐患，现在去区里汇报。等待巡查结果后，再对警情进行处置。</text>
+      </view>
+      <view class="info-img">
+        <image wx:for="{{ imgData }}" wx:key="{{ key }}" src="{{ item.url }}"></image>
+      </view>
+      <wux-divider show-text="{{ false }}" />
+      <view class="info-row">
+        <text class="value">张明山  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">跟紧现场巡查人员，利用无人机现场航拍，发现存在较大隐患，现在去区里汇报。等待巡查结果后，再对警情进行处置。</text>
+      </view>
+      <view class="info-img">
+        <image wx:for="{{ imgData }}" wx:key="{{ key }}" src="{{ item.url }}"></image>
+      </view>
+      <wux-divider show-text="{{ false }}" />
+    </view>
+  </view>
+  <view class="tab-wrap onduty">
+    <view class="title">
+      <view class="icon"></view>
+      <text>值班人员意见</text>
+    </view>
+    <view class="content">
+      <view class="info-row">
+        <text class="value">李毕  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">跟紧现场巡查人员，利用无人机现场航拍，发现存在较大隐患，现在去区里汇报。等待巡查结果后，再对警情进行处置。</text>
+      </view>
+    </view>
+  </view>
+  <view class="tab-wrap change">
+    <view class="title">
+      <view class="icon"></view>
+      <text>变更记录</text>
+    </view>
+    <view class="content">
+      <view class="info-row">
+        <text class="value">李毕  2019-08-05  12:40:23</text>
+      </view>
+      <view class="info-row">
+        <text class="value">跟紧现场巡查人员，利用无人机现场航拍，发现存在较大隐患，现在去区里汇报。等待巡查结果后，再对警情进行处置。</text>
+      </view>
+    </view>
+  </view>
+  <view class="tab-wrap">
+    <view class="title">
+      <view class="icon"></view>
+      <text>预警信息</text>
+    </view>
+    <view class="content">
+      <wux-row>
+        <wux-col span="5">
+          <view class="info-row">
+           <text class="label">预警等级：</text>
+           <text class="value">二级</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">警情等级：</text>
+            <text class="value">二级</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="5">
+          <view class="info-row">
+            <text class="label">警情状态：</text>
+            <text class="value">新警情</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">警情来源：</text>
+            <text class="value">建筑结构沉降二级</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <text class="label">预警类型：</text>
+            <text class="value">设备预警</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="5" class="wux-text--right">
+          <view class="info-row">
+            <!-- <wux-row>
+              <wux-col span="6" class="wux-text--right">
+                <text class="label">预警等：</text>
+              </wux-col>
+              <wux-col span="6">
+                <text class="value">二级</text>
+              </wux-col>
+            </wux-row> -->
+            <text class="label">响应人：</text>
+            <text class="value">张三三</text>
+          </view>
+        </wux-col>
+        <wux-col span="7">
+          <view class="info-row">
+            <text class="label">派遣人员：</text>
+            <text class="value">张三三</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <text class="label">预警时间：</text>
+            <text class="value">2019-08-15 14:25:14</text>
+          </view>
+        </wux-col>
+      </wux-row>
+      <wux-divider show-text="{{ false }}" />
+      <wux-row>
+        <wux-col span="12">
+          <view class="info-row">
+            <view class="left">
+              <text class="label">警情描述：</text>
+            </view>
+            <view class="right">
+              <text class="value">表面沉降【13建筑结构沉降-新安公园站】传感器产生【一级】预警信息，预警指标：变化速率（/d），采集数据:0.8200000000000001mm，设计阈值：0.5mm，超过设计阈值：0.32mm。</text>
+            </view>
+          </view>
+        </wux-col>
+      </wux-row>
+    </view>
+  </view>
+  <view class="tab-wrap">
+    <view class="title">
+      <view class="icon"></view>
+      <text>项目信息</text>
+    </view>
+    <view class="content">
+      <view class="info-row">
+        <view class="left">
+          <text class="label">项目概况：</text>
+        </view>
+        <view class="right">
+          <text class="value">该挡土墙边坡为早期建设修建而成，为毛石挡土墙+混凝土支护，坡顶及坡脚未见排水设施，挡墙基本稳定。</text>
+        </view>
+      </view>
+      <view class="info-row">
+        <view>
+          <text class="label">数据曲线：</text>
+        </view>
+        <view >
+          <text class="value">折线图</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="bottom">
+    <view class="item">
+      <i class="iconfont icon-jingqingxiangqing-wanjie"></i>
+      <text>完结</text>
+    </view>
+    <view class="item">
+      <i class="iconfont icon-jingqingxiangqing-fankui"></i>
+      <text>反馈</text>
+    </view>
+    <view class="item">
+      <i class="iconfont icon-jingqingxiangqing-paiqianrenyuan"></i>
+      <text>派遣人员</text>
+    </view>
+    <view class="item">
+      <i class="iconfont icon-jingqingxiangqing-shengjiangji"></i>
+      <text>升降级</text>
+    </view>
+    <view class="item last">
+      <i class="iconfont icon-jingqingxiangqing-yijiaozhuanjia"></i>
+      <text>移交专家</text>
+    </view>
+    <view class="btn-item">
+      <view class="btn green">发送短信</view>
+    </view>
+    <view class="btn-item">
+      <view class="btn blue">发表意见</view>
+    </view>
+  </view>
+</view> 

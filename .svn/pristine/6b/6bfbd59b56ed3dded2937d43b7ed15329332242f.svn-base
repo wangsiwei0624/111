@@ -1,0 +1,70 @@
+import axiso from '../lib/axiso.requeset.js'
+
+module.exports = {
+  //警情页数据接口
+  warningList: ({
+    pageNo
+  }) => {
+    return axiso.request({
+      url: 'wx/warningInfo/unfinishedPage?pageNo=' + pageNo + "&pageSize=10",
+      method: 'post',
+      data: {}
+    })
+  },
+  warningPatrol: ({
+    pageNo,
+    taskStatus
+  }) => {
+    return axiso.request({
+      url: 'wx/patrolTask/page?pageNo=' + pageNo + "&pageSize=10",
+      method: 'post',
+      data: {
+        taskStatus: taskStatus
+      }
+    })
+  },
+
+  warningPatrolTask: (id) => {
+    return axiso.request({
+      url: 'wx/warning/warningDetail?warningId=' + id,
+    })
+  },
+
+  //监测警情-专家研判
+  warningJudged: ({
+    pageNo
+  }) => {
+    return axiso.request({
+      url: 'wx/warningJudged/judgedPage?pageNo=' + pageNo + "&pageSize=10",
+      method: 'post',
+      data: {}
+    })
+  },
+
+  //监测警情-历史
+  warningHistory: ({
+    pageNo
+  }) => {
+    return axiso.request({
+      url: 'wx/warningInfo/historyPage?pageNo=' + pageNo + "&pageSize=10",
+      method: 'post',
+      data: {}
+    })
+  },
+
+  // //监测工程接口
+  monitoringWorks: (data) => {
+    return axiso.request({
+      url: 'engineeringProject/findListForSelect',
+      // method: 'post'
+    })
+  },
+
+  //巡查任务详情接口
+  patrolDetail: (id) => {
+    return axiso.request({
+      url: 'wx/patrolTask/detail?id=' + id,
+      method: "get"
+    })
+  }
+}

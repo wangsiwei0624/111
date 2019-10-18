@@ -1,0 +1,144 @@
+var monitorApi = require("../../../api/monitor.js")
+const app = getApp()
+Page({
+  data: {
+    areaData: [{ "label": "全部", "value": "0", "active": true },{ "label": "南山区", "value": "440305" }, { "label": "罗湖区", "value": "440303" }, { "label": "福田区", "value": "440304" }, { "label": "龙岗区", "value": "440307" }, { "label": "市辖区", "value": "440301" }, { "label": "宝安区", "value": "440306" }, { "label": "盐田区", "value": "440308" }],
+    itemList: [
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 1
+      },
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 2
+      },
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 3
+      }
+    ],
+    visiblePop: false,
+    curCity: [],
+    optionsData: [],
+    backData: [],
+    visibleSelect: false,
+    addressValue:'广东省深圳市'
+  },
+  onLoad: function() {
+    this.queryAreaList('')
+  },
+  // 每列数据选择后的回调
+  onValueChange(e) {
+    console.log(e.detail.value)
+  },  
+  // 打开弹窗
+  openPop() {
+    this.setData({
+      visibleSelect: true,
+    })
+  },
+  // 关闭弹窗
+  onClose() {
+    this.setData({
+      visibleSelect: false,
+    })
+  },
+  // 完成搜索
+  confirmSearch(e) {
+    console.log(e.detail.value)
+  },
+  // 选择区
+  clickArea(e) {
+    const curId = e.currentTarget.dataset.id
+    var arr = this.data.areaData
+    for (var i = 0; i < arr.length; i++){
+      if (curId == arr[i].value) {
+        arr[i].active = true 
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      areaData: arr
+    })
+  },
+  gotoDetail(e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/monitor/data/data?id=' + id,
+    })
+  },
+  // 根据code请求行政区域
+  queryAreaList(code) {
+    monitorApi.getAreaList(code).then(res => {
+      if (res.code === 200) {
+        if (code == '') {
+          res.data.forEach(n => {
+            n.isLeaf = false
+          })
+        }
+        this.setData({
+          optionsData: res.data
+        })
+        console.log(this.data.optionsData)
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  onCloseSelect() {
+
+  },
+  //选择完成后的回调操作
+  onChangeSelect(e) {
+    console.log('onChange2', e.detail)
+    if(e.detail.options.length === 2) {
+      this.setData({
+        addressValue: e.detail.options[0].label + e.detail.options[1].label
+      })
+      const code = e.detail.value[1]
+      monitorApi.getAreaList(code).then(res => {
+        if (res.code === 200) {
+          res.data.forEach(n => {
+            n.active = false
+          })
+          res.data.unshift({
+            label: '全部',
+            value: '0',
+            active: true
+          })
+          console.log(res.data)
+          this.setData({
+            areaData: res.data
+          })
+          console.log(this.data.optionsData)
+        }
+      })
+    }
+  },
+  // 选择非子节点之后请求数据
+  onLoadOptions(e) {
+    console.log('onLoadOptions', e.detail)
+    const { value } = e.detail
+    const code = e.detail.value[0]
+    var options2 = this.data.optionsData
+    console.log(code, options2)
+    wx.showLoading({ mask: true })
+    // 请求市
+    monitorApi.getAreaList(code).then(res => {
+      if (res.code === 200) {
+        options2.forEach(n => {
+          if (n.value == code) {
+            n.children = res.data
+          }
+        })
+        wx.hideLoading()
+        this.setData({
+          curCity: value,
+          optionsData: options2
+        })
+        console.log(options2)
+      }
+    })
+  }
+})

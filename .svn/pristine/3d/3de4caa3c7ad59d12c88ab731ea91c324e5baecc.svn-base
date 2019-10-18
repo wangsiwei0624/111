@@ -1,0 +1,77 @@
+// pages/components/user-selector/index.js
+var userApi = require("../../../api/user.js")
+var pinyinUtil = require("../../../lib/pinyin.js")
+var app = getApp()
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    placeholder: {
+      type: String,
+      value: '请选择'
+    },
+  },
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    expand: false,
+    showUserPage: false,
+    label: '',
+    alphabet: [],
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      userApi.loadUserPage({ companyId: app.globalData.user.domain }).then(res => {
+        console.log(res)
+        const users = res.data.list
+        const alphabet = []
+        var _this = this
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((initial) => {
+          const cells = users.filter((user) => {
+            let py = pinyinUtil.getPinyin(user.name)
+            return py.charAt(0).toUpperCase() === initial
+          })
+          if (cells.length > 0) {
+            alphabet.push({
+              initial,
+              cells
+            })
+          }
+        })
+
+        this.setData({
+          alphabet,
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    expandSelect: function() {
+      this.setData({
+        expand: !this.data.expand
+      })
+    },
+    openUserPage: function() {
+      this.setData({
+        showUserPage: true
+      })
+    },
+    onClickUser:function(e){
+      console.log(e)
+      let key = 'alphabet[' + e.currentTarget.dataset.iindex + '].cells[' + e.currentTarget.dataset.index +'].selected';
+      console.log(key)
+      this.setData({
+        [key]:true
+      });
+    }
+  }
+})

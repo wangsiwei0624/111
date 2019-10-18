@@ -1,0 +1,9 @@
+ {
+  "navigationBarTitleText": "登录授权",
+  "navigationBarBackgroundColor": "#ffffff",
+  "navigationBarTextStyle": "black",
+  "usingComponents": {
+    "wux-loading": "../../components/loading/index",
+    "wux-prompt": "../../components/prompt/index"
+  }
+}

@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="list">
+    <view>
+      <text>任务名称</text>
+      <text class="listdata">{{}}</text>
+    </view>
+    <view>
+      <text>监测项目</text>
+    </view>
+    <view>
+      <text>开始时间</text>
+    </view>
+    <view>
+      <text>结束时间</text>
+    </view>
+    <view>
+      <text>巡查人员</text>
+    </view>
+    <view>
+      <text>项目概括</text>
+    </view>
+    <view>
+      <text>项目位置</text>
+    </view>
+    <view>
+      <text>项目描述</text>
+    </view>
+  </view>
+
+
+  <wux-button block type="positive" class="button">反馈</wux-button>
+</view>

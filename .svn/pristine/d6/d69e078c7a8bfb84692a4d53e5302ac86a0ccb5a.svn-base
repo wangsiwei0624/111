@@ -1,0 +1,55 @@
+// pages/components/user-selector/index.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    placeholder: {
+      type: String,
+      value: '请选择'
+    },
+  },
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    expand: false,
+    showUserPage: false,
+    label: '',
+    alphabet: [],
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      const alphabet = []
+      const NAMES = ['Aaron', 'Alden', 'Austin', 'Baldwin', 'Braden', 'Carl', 'Chandler', 'Clyde', 'David', 'Edgar', 'Elton', 'Floyd', 'Freeman', 'Gavin', 'Hector', 'Henry', 'Ian', 'Jason', 'Joshua', 'Kane', 'Lambert', 'Matthew', 'Morgan', 'Neville', 'Oliver', 'Oscar', 'Perry', 'Quinn', 'Ramsey', 'Scott', 'Seth', 'Spencer', 'Timothy', 'Todd', 'Trevor', 'Udolf', 'Victor', 'Vincent', 'Walton', 'Willis', 'Xavier', 'Yvonne', 'Zack', 'Zane']
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((initial) => {
+        const cells = NAMES.filter((name) => name.charAt(0) === initial)
+        alphabet.push({
+          initial,
+          cells
+        })
+      })
+
+      this.setData({
+        alphabet,
+      })
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    expandSelect: function() {
+      this.setData({
+        expand: !this.data.expand
+      })
+    },
+    openUserPage: function() {
+      this.setData({
+        showUserPage: true
+      })
+    }
+  }
+})

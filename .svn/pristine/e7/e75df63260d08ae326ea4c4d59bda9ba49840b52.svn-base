@@ -1,0 +1,116 @@
+<view class="page">
+  <!-- <wux-tabs  controlled current="{{ currentTab }}"  theme="positive" bindchange="onTabsChange">
+    <wux-tab key="tab1" title="进行中" ></wux-tab>
+    <wux-tab key="tab2" title="未开始" ></wux-tab>
+    <wux-tab key="tab3" title="已完成" ></wux-tab>
+  </wux-tabs> -->
+  <wux-tabs class="wuxtabs" wux-class="bordered" controlled current="{{ key }}" bindchange="onTabsChange" theme="positive"> 
+            <block wx:for="{{ tabs }}" wx:key="key">
+                <wux-tab key="{{ item.key }}" title="{{ item.title }}"></wux-tab>
+            </block>
+  </wux-tabs> 
+
+  <!-- list -->
+  <swiper class="list-contaner" current="{{ index }}" bindchange="onSwiperChange">
+    <block wx:key="0">
+      <swiper-item>
+        <view class="content-list" >
+          <scroll-view scroll-y class="content-list" bindscroll="onIngListScroll" >
+            <wux-refresher id="ingList" bind:refresh="onIngRefresh" bind:loadmore="onIngLoadmore" scrollTop="{{iscrollTop}}" >
+              <view class="list-in">
+                <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+                  <text>暂无代办事项</text>
+                </view>
+
+                <view class="list-in-cell-detail" wx:for="{{ingList}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                  <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '0'}}">
+                  <!--  -->
+                    <text class="detail-theme">{{item.taskName}}</text>
+                    <view class="detail-timeslot">
+                      <i class="iconfont iconshijian"></i>
+                      <text>{{item.startTime}}~{{item.endTime}}</text>
+                  </view>
+                  <view class="detail-address">
+                      <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text>{{item.location}}</text>
+                      <text class="time">{{item.createDate}}</text>
+                  </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+
+    <block  wx:key="1">
+      <swiper-item >
+        <view class="content-list">
+          <scroll-view scroll-y class="content-list" bindscroll="onNotlistScroll" >
+            <wux-refresher id="notList" bind:refresh="onNotRefresh" bind:loadmore="onNotLoadmore" scrollTop="{{nscrollTop}}" >
+              <view class="list-in">
+                <view class="list-in-cell-no" wx:if="{{patrolonoff2}}">
+                  <text>暂无代办事项</text>
+                </view>
+
+                <view class="list-in-cell-detail" wx:for="{{notList}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                  <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '1'}}" >
+                    <text class="detail-theme">{{item.taskName}}</text>
+                    <view class="detail-timeslot">
+                      <i class="iconfont iconshijian"></i>
+                      <text>{{item.startTime}}~{{item.endTime}}</text>
+                  </view>
+                  <view class="detail-address">
+                      <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text>{{item.location}}</text>
+                      <text class="time">{{item.createDate}}</text>
+                  </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+    
+
+    <block wx:key="2">
+      <swiper-item>
+        <view class="content-list">
+          <scroll-view scroll-y class="content-list" bindscroll="onFinishlistScroll" >
+            <wux-refresher id="finishList" bind:refresh="onFinishRefresh" bind:loadmore="onFinishLoadmore" scrollTop="{{fscrollTop}}" >
+            
+              <view class="list-in">
+                <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+                  <text>暂无代办事项</text>
+                </view>
+
+                <view class="list-in-cell-detail" wx:for="{{finishList}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                  <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '2'}}">
+                    <text class="detail-theme">{{item.taskName}}</text>
+                    <view class="detail-timeslot">
+                      <i class="iconfont iconshijian"></i>
+                      <text>{{item.startTime}}~{{item.endTime}}</text>
+                  </view>
+                  <view class="detail-address">
+                      <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                      <text>{{item.location}}</text>
+                      <text class="time">{{item.createDate}}</text>
+                  </view>
+                  </view>
+                </view>
+              </view>
+            </wux-refresher>
+          </scroll-view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 新建任务 --> 
+  <view class="newbuilt" bindtap="onNewBuilt">
+    <i class="iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+  </view>
+</view>

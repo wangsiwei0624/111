@@ -1,0 +1,108 @@
+<view class="page">
+  <!-- <wux-tabs  controlled current="{{ currentTab }}"  theme="positive" bindchange="onTabsChange">
+    <wux-tab key="tab1" title="进行中" ></wux-tab>
+    <wux-tab key="tab2" title="未开始" ></wux-tab>
+    <wux-tab key="tab3" title="已完成" ></wux-tab>
+  </wux-tabs> -->
+  <wux-tabs wux-class="bordered" controlled current="{{ key }}" bindchange="onTabsChange" theme="positive">
+            <block wx:for="{{ tabs }}" wx:key="key">
+                <wux-tab key="{{ item.key }}" title="{{ item.title }}"></wux-tab>
+            </block>
+  </wux-tabs> 
+
+  <!-- list -->
+  <swiper class="list-contaner" current="{{ index }}" bindchange="onSwiperChange">
+    <block wx:key="0">
+      <swiper-item>
+        <view class="content-list" >
+          <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" >
+            <view class="list-in">
+              <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+                <text>暂无代办事项</text>
+              </view>
+
+              <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '0'}}">
+                  <text class="detail-theme">{{item.taskName}}</text>
+                  <view class="detail-timeslot">
+                    <i class="iconfont iconshijian"></i>
+                    <text>{{item.startTime}}~{{item.endTime}}</text>
+                </view>
+                <view class="detail-address">
+                    <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                    <text>深圳市坪山区垃圾场</text>
+                    <text class="time">{{item.createDate}}</text>
+                </view>
+                </view>
+              </view>
+            </view>
+          </wux-refresher>
+        </view>
+      </swiper-item>
+    </block>
+
+    <block  wx:key="1">
+      <swiper-item >
+        <view class="content-list">
+          <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" >
+            <view class="list-in">
+              <view class="list-in-cell-no" wx:if="{{patrolonoff2}}">
+                <text>暂无代办事项</text>
+              </view>
+
+              <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '1'}}" >
+                  <text class="detail-theme">{{item.taskName}}</text>
+                  <view class="detail-timeslot">
+                    <i class="iconfont iconshijian"></i>
+                    <text>{{item.startTime}}~{{item.endTime}}</text>
+                </view>
+                <view class="detail-address">
+                    <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                    <text>深圳市坪山区垃圾场</text>
+                    <text class="time">{{item.createDate}}</text>
+                </view>
+                </view>
+              </view>
+            </view>
+          </wux-refresher>
+        </view>
+      </swiper-item>
+    </block>
+    
+
+    <block wx:key="2">
+      <swiper-item>
+        <view class="content-list">
+          <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}" >
+            <view class="list-in">
+              <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+                <text>暂无代办事项</text>
+              </view>
+
+              <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" bindtap="onDetail" data-id="{{item.id}}">
+                <view class="list-in-cell-detail-cell" wx:if="{{item.taskStatus == '2'}}">
+                  <text class="detail-theme">{{item.taskName}}</text>
+                  <view class="detail-timeslot">
+                    <i class="iconfont iconshijian"></i>
+                    <text>{{item.startTime}}~{{item.endTime}}</text>
+                </view>
+                <view class="detail-address">
+                    <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                    <text>深圳市坪山区垃圾场</text>
+                    <text class="time">{{item.createDate}}</text>
+                </view>
+                </view>
+              </view>
+            </view>
+          </wux-refresher>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 新建任务 --> 
+  <view class="newbuilt" bindtap="onNewBuilt">
+    <i class="iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+  </view>
+</view>

@@ -1,0 +1,5 @@
+<view hidden="{{!showContent}}">
+  <view class="btn-area">
+    <button bindtap="authWeb">允许登录Web端</button>
+  </view>
+</view>

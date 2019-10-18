@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "wux-popup": "../../../components/popup/index",
+    "ec-canvas": "../../../lib/ec-canvas/ec-canvas",
+    "wux-cell": "../../../components/cell/index",
+    "wux-date-picker": "../../../components/date-picker/index"
+  }
+}

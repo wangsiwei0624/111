@@ -1,0 +1,124 @@
+// pages/components/user-selector/index.js
+var userApi = require("../../../api/user.js")
+var pinyinUtil = require("../../../lib/pinyin.js")
+var app = getApp()
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    placeholder: {
+      type: String,
+      value: '请选择'
+    },
+    max: {
+      type: Number,
+      value: 0,
+    }
+  },
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    expand: false,
+    showUserPage: false,
+    label: '',
+    alphabet: [],
+    radio: false
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      this.setData({
+        radio: this.data.max == 1
+      })
+
+      userApi.loadUserPage({
+        companyId: app.globalData.user.domain
+      }).then(res => {
+        console.log(res)
+        const users = res.data.list
+        const alphabet = []
+        var _this = this;
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((initial) => {
+          const cells = users.filter((user) => {
+            let py = pinyinUtil.getPinyin(user.name)
+            return py.charAt(0).toUpperCase() === initial
+          })
+          if (cells.length > 0) {
+            alphabet.push({
+              initial,
+              cells
+            })
+          }
+        })
+
+        this.setData({
+          alphabet,
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    expandSelect: function() {
+      this.setData({
+        expand: !this.data.expand
+      })
+    },
+    openUserPage: function() {
+      this.setData({
+        showUserPage: true
+      })
+    },
+    onClickUser: function(e) {
+      let aindex = e.currentTarget.dataset.iindex;
+      let cindex = e.currentTarget.dataset.index;
+      let key = 'alphabet[' + aindex + '].cells[' + cindex + '].selected';
+      if (this.data.radio) {
+        let alphabet = this.data.alphabet;
+        alphabet.forEach((group, aix) => {
+          group.cells.forEach((user, cix) => {
+            if (aix === aindex && cindex === cix) {
+              user.selected = true;
+            } else {
+              user.selected = false;
+            }
+          })
+        })
+        this.setData({
+          alphabet: alphabet
+        });
+      } else {
+        this.setData({
+          [key]: !this.data.alphabet[aindex].cells[cindex].selected
+        });
+      }
+    },
+    onOk: function(e) {
+      let selectUser = [];
+      this.data.alphabet.forEach(group => {
+        group.cells.forEach(user => {
+          if (user.selected) {
+            selectUser.push(user)
+          }
+        })
+      })
+      let names = selectUser.map(user => {
+        return user.name
+      })
+      this.triggerEvent('change', {
+        users: selectUser
+      })
+      this.setData({
+        showUserPage: false,
+        label: names.join(";")
+      })
+    }
+  }
+})

@@ -1,0 +1,246 @@
+<view class="page" bindtap="clickOuter">
+  <wux-tabs  controlled current="{{ currentTab }}"  theme="positive" bindchange="onChange">
+    <wux-tab key="tab1" title="警情处理"></wux-tab>
+    <wux-tab key="tab2" title="处理记录"></wux-tab>
+    <wux-tab key="tab3" title="历史警情"></wux-tab>
+  </wux-tabs>
+  <!-- 预警详情 -->
+  <view wx:if="{{ currentTab === 'tab1' }}">
+    <!-- <warning-info warningId="{{ warningId }}"></warning-info> -->
+    <view class="tab-wrap">
+      <view class="title">
+        <view class="icon"></view>
+        <text>预警信息</text>
+      </view>
+      <view class="content">
+        <wux-row>
+          <wux-col span="5">
+            <view class="info-row">
+            <text class="label">预警等级：</text>
+            <text class="value">{{ warningDetail.preWarningGradeName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">警情等级：</text>
+              <text class="value">{{ warningDetail.warningGradeName }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="5">
+            <view class="info-row">
+              <text class="label">警情状态：</text>
+              <text class="value">{{ warningDetail.warningStatusName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">警情来源：</text>
+              <text class="value">{{ warningDetail.areaName }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <text class="label">预警类型：</text>
+              <text class="value">{{ warningDetail.warningTypeName }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="5" class="wux-text--right">
+            <view class="info-row">
+              <text class="label">响应人：</text>
+              <text class="value">{{ warningDetail.responseName }}</text>
+            </view>
+          </wux-col>
+          <wux-col span="7">
+            <view class="info-row">
+              <text class="label">派遣人员：</text>
+              <text class="value">{{ warningDetail.dispatcher }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <text class="label">预警时间：</text>
+              <text class="value">{{ warningDetail.warningTime }}</text>
+            </view>
+          </wux-col>
+        </wux-row>
+        <wux-divider show-text="{{ false }}" />
+        <wux-row>
+          <wux-col span="12">
+            <view class="info-row">
+              <view class="left">
+                <text class="label">警情描述：</text>
+              </view>
+              <view class="right">
+                <text class="value">{{ warningDetail.description }}</text>
+              </view>
+            </view>
+          </wux-col>
+        </wux-row>
+      </view>
+    </view>
+    <view class="tab-wrap">
+      <view class="title">
+        <view class="icon"></view>
+        <text>项目信息</text>
+      </view>
+      <view class="content last-content">
+        <view class="info-row">
+          <view class="left">
+            <text class="label">项目概况：</text>
+          </view>
+          <view class="right">
+            <text class="value">该挡土墙边坡为早期建设修建而成，为毛石挡土墙+混凝土支护，坡顶及坡脚未见排水设施，挡墙基本稳定。</text>
+          </view>
+        </view>
+        <view class="info-row">
+          <view>
+            <text class="label">数据曲线：</text>
+          </view>
+          <view >
+            <text class="value">折线图</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="bottom">
+      <view class="item" bindtap="goPage" data-url="/pages/warning/oper/index?operType=7">
+        <i class="iconfont iconjingqingxiangqing-wanjie1 finish"></i>
+        <text>完结</text>
+      </view>
+      <view class="item" bindtap="goPage" data-url="/pages/warning/oper/index?operType=1">
+        <i class="iconfont iconjingqingxiangqing-fankui"></i>
+        <text>反馈</text>
+      </view>
+      <view class="item" bindtap="goPage" data-url="/pages/warning/oper/index?operType=0">
+        <i class="iconfont iconjingqingxiangqing-paiqianrenyuan"></i>
+        <text>派遣人员</text>
+      </view>
+      <view class="item" bindtap="goPage" data-url="/pages/warning/oper/index?operType=3">
+        <i class="iconfont iconjingqingxiangqing-shengjiangji"></i>
+        <text>升降级</text>
+      </view>
+      <view class="item last" bindtap="goPage" data-url="/pages/warning/oper/index?operType=6">
+        <i class="iconfont iconjingqingxiangqing-yijiaozhuanjia"></i>
+        <text>移交专家</text>
+      </view>
+      <view class="btn-item">
+        <view class="btn green" bindtap="goPage" data-url="/pages/warning/oper/index?operType=4">发送短信</view>
+      </view>
+      <view class="btn-item">
+        <view class="btn blue" bindtap="goPage" data-url="/pages/warning/oper/index?operType=5">发表意见</view>
+      </view>
+    </view>
+  </view> 
+  <!-- 处理记录 -->
+  <view wx:if="{{ currentTab === 'tab2' }}">
+    <warning-record warningId="{{ warningId }}" showBtn="{{ showBtn }}"></warning-record>
+    <view class="tab-wrap expert">
+      <view class="title">
+        <view class="icon"></view>
+        <text>专家意见(结论)</text>
+      </view>
+      <view class="content">
+        <view wx:for="{{ warningRecord.judgedRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="label">专家组成员：</text>
+            <text class="value">{{ item.expertNames }}</text>
+          </view>
+          <wux-divider show-text="{{ false }}" />
+          <view wx:for="{{ item.opinionList }}" wx:key="{{ key }}">
+            <view class="info-row">
+              <text class="label">专家组交流意见：</text>
+              <text class="value">{{ item.expertName }}  {{ item.expertTime }}</text>
+            </view>
+            <view class="info-row">
+              <text class="value">{{ item.content }}</text>
+            </view>
+          </view>
+          <wux-divider show-text="{{ false }}" />
+          <view wx:for="{{ item.resultList }}" wx:key="{{ key }}">
+            <view class="info-row">
+              <text class="label">专家组结论：</text>
+              <text class="value">{{ item.expertName }}  {{ item.expertTime }}</text>
+            </view>
+            <view class="info-row">
+              <text class="value">{{ item.content }}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tab-wrap feedback">
+      <view class="title">
+        <view class="icon"></view>
+        <text>反馈记录</text>
+      </view>
+      <view class="content">
+        <view wx:for="{{ warningRecord.feedbackRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.feedName }}  {{ item.feedTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+          <view class="info-img">
+            <image wx:for="{{ item.imgAttachId }}" wx:key="{{ key }}" wx:for-item="data" src="{{ data }}"></image>
+          </view>
+          <wux-divider show-text="{{ false }}" />
+        </view>
+      </view>
+    </view>
+    <view class="tab-wrap onduty">
+      <view class="title">
+        <view class="icon"></view>
+        <text>值班人员意见</text>
+      </view>
+      <view class="content">
+        <view wx:for="{{ warningRecord.opinionRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.name }}  {{ item.opinionTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="tab-wrap change">
+      <view class="title">
+        <view class="icon"></view>
+        <text>变更记录</text>
+      </view>
+      <view class="content">
+        <view wx:for="{{ warningRecord.changedRecord }}" wx:key="{{ key }}">
+          <view class="info-row">
+            <text class="value">{{ item.name }}  {{ item.changedTime }}</text>
+          </view>
+          <view class="info-row">
+            <text class="value">{{ item.content }}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>  
+   <!-- 历史警情 -->
+  <view wx:if="{{ currentTab === 'tab3' }}" class="history">
+    <view wx:for="{{ historyData }}" wx:key="{{ key }}" class="his-item" bindtap="gotoHistory">
+      <text class="title">{{ item.title }}</text>
+      <view class="right">
+        <text class="time">{{ item.time }}</text>
+        <i class="iconfont iconlishijingqing-liebiaojiantou"></i>
+      </view>
+    </view>
+  </view>
+</view> 

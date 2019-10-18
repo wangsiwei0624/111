@@ -1,0 +1,157 @@
+var warnListApi = require("../../api/warning.js")
+var patrolListApi = require("../../api/patrol.js")
+ 
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    layoutonoff:true,
+    imgonoff: true,
+
+    scrollTop: '',
+    layoutScrollTop: 0,
+
+    opacity:0,
+    listMessage: '',
+    patrolMessage: '',
+    listonoff: true,
+    patrolonoff: true,
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    
+
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    var that = this
+    warnListApi.warningList({
+      pageNo:1,
+      pageSize:5
+    }).then(res => {
+      console.log(res)
+      that.setData({
+        listMessage: res.data.list,
+      })
+      if (res.data.list.length != 0) {
+        that.setData({
+          listonoff: false,
+        })
+      }
+    })
+    patrolListApi.patrolList({ pageNo: 1, pageSize: 5, taskStatus: 0}).then(res => {
+      console.log(res)
+      that.setData({
+        patrolMessage: res.data.list,
+      })
+      if (res.data.list.length != 0) {
+        that.setData({
+          patrolonoff: false,
+        })
+      }
+    })
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+  onPageScroll:function(e){
+    console.log(e)
+  },
+  scroll:function(e) {
+    var x = e.detail.scrollTop
+    console.log(x)
+    //淡入淡出
+    this.setData({
+      opacity: (((x - 85) / 240)).toFixed(1)
+    })
+    //改变样式
+    if (x >= 240) {
+      this.setData({
+        layoutonoff: false,
+      })
+    } else {
+      this.setData({
+        layoutonoff: true,
+      })
+    }
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  //页面跳转
+  onMoreList:function () {
+    wx.navigateTo({
+      url: '/pages/warning/list/index',
+    })
+  },
+  onMorePatrol:function () {
+    wx.navigateTo({
+      url: '/pages/patrol/index',
+    })
+  },
+  goDetail:function (e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/warning/info/info?id=' + id,
+    })
+  },
+  goPatrolDetail: function(e) {
+    console.log(e)
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/patrol/detail/index?id=' + id,
+    })
+  },
+  goPage: function (e) {
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url,
+    })
+  }
+})
+
+

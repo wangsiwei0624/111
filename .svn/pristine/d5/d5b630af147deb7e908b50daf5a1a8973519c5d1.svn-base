@@ -1,0 +1,84 @@
+var warningApi = require("../../../api/warning.js")
+const app = getApp();
+
+Page({
+  data: {
+    imgData: [
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      },
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      },
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      }
+    ],
+    historyData: [
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      },
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      },
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      }
+    ],
+    showBtn: false,
+    showBtnArr: ['0','0','0','0'],
+    warningDetail: {}
+  },
+  onLoad: function(options) {
+    var warningId = options.id
+    this.queryWarningDetail(warningId)
+  },
+  // 点开右侧按钮
+  onclickBtn() {
+    this.setData({
+      showBtn: !this.data.showBtn,
+      showBtnArr: ['0', '0', '0', '0']
+    })
+  },
+  // 点击右侧按钮
+  scrollTo(e) {
+    const selector = e.currentTarget.dataset.text
+    const index = e.currentTarget.dataset.index
+    var arr = this.data.showBtnArr
+    for (var i = 0; i < this.data.showBtnArr.length; i ++ ){
+      if (i == index) {
+        arr[i] = '1'
+      } else {
+        arr[i] = '0'
+      }
+    }
+    this.setData({
+      showBtnArr: arr
+    })
+    wx.pageScrollTo({
+      selector: '.' + selector,
+      duration: 300
+    })
+  },
+  // 获取警情详情
+  queryWarningDetail(id) {
+    let data = { warningId: id }
+    warningApi.getWarningDetail('a8276005e2714f21a191bc2ae481ff9d').then(res => {
+      if (res.code === 200) {
+        this.setData({
+          warningDetail: res.data
+        })
+        console.log(this.data.warningDetail)
+      } else {
+        wx.showToast({
+          title: res.msg,
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+})

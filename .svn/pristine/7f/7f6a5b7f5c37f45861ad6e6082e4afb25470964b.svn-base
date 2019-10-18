@@ -1,0 +1,146 @@
+var warningApi = require("../../../api/warning.js")
+var env = require("../../../config/host.js")
+const app = getApp();
+
+Page({
+  data: {
+    warningId:'',
+    currentTab: 'tab1',
+    imgData: [],
+    historyData: [
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      },
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      },
+      {
+        title: '深层水平位移301',
+        time: '2019-08-05 19:12:12'
+      }
+    ],
+    showBtn: false,
+    showBtnArr: ['0','0','0','0'],
+    warningDetail: {},
+    warningRecord: {},
+    token: '',
+    domain: '',
+    fileArr: [],
+    uploadServer: ''
+  },
+  onLoad: function(options) {
+    this.setData({
+      warningId: options.id
+    })
+    this.queryWarningDetail(options.id)
+    this.queryWarningRecord(options.id)
+    this.setData({
+      domain: env.domain,
+      token: app.globalData.token
+    })
+    console.log(this.data.currentTab)
+  },
+  // 点开右侧按钮
+  onclickBtn() {
+    this.setData({
+      showBtn: !this.data.showBtn,
+      showBtnArr: ['0', '0', '0', '0']
+    })
+  },
+  // 点击右侧按钮
+  scrollTo(e) {
+    const selector = e.currentTarget.dataset.text
+    const index = e.currentTarget.dataset.index
+    var arr = this.data.showBtnArr
+    for (var i = 0; i < this.data.showBtnArr.length; i ++ ){
+      if (i == index) {
+        arr[i] = '1'
+      } else {
+        arr[i] = '0'
+      }
+    }
+    this.setData({
+      showBtnArr: arr
+    })
+    wx.pageScrollTo({
+      selector: '.' + selector,
+      duration: 300
+    })
+  },
+  // 获取警情详情
+  queryWarningDetail(id) {
+    warningApi.getWarningDetail(id).then(res => {
+      if (res.code === 200) {
+        this.setData({
+          warningDetail: res.data
+        })
+        console.log(this.data.warningDetail)
+      } else {
+        wx.showToast({
+          title: res.msg,
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  // 获取警情处理记录
+  queryWarningRecord(id) {
+    warningApi.getWarningDealRecord(id).then(res => {
+      if (res.code === 200) {
+        const feedback = res.data.feedbackRecord
+        // 处理图片和视频
+        for(var i = 0; i < feedback.length; i++) {
+          feedback[i].imgAttachId = feedback[i].imgAttachId.split(',')
+          feedback[i].videoAttachId = feedback[i].videoAttachId.split(',')
+          for (var m = 0; m < feedback[i].imgAttachId.length; m++) {
+            res.data.feedbackRecord[i].imgAttachId[m] = env.domain + 'sys/file/download?id=' + feedback[i].imgAttachId[m] + '&token=' + app.globalData.token
+          }
+          for (var m = 0; m < feedback[i].videoAttachId.length; m++) {
+            res.data.feedbackRecord[i].videoAttachId[m] = env.domain + 'sys/file/download?id=' + feedback[i].imgAttachId[m] + '&token=' + app.globalData.token
+          }
+        }
+        this.setData({
+          warningRecord: res.data
+        })
+        console.log(res.data)
+        
+      } else {
+        wx.showToast({
+          title: res.msg,
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  // 根据附件id查找附件
+  queryFile(id) {
+    warningApi.queryFileApi(id, this.data.token).then(res => {
+      if (res.code === 200) {
+        this.setData({
+          warningRecord: res.data
+        })
+        console.log(this.data.warningRecord)
+      } else {
+        // wx.showToast({
+        //   title: res.msg,
+        // })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  goPage(e){
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url+"&warningId="+this.data.warningId,
+    })
+  },
+  onChange(e) {
+    this.setData({
+      currentTab: e.detail.key,
+    })
+  },
+})

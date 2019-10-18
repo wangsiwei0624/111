@@ -1,0 +1,90 @@
+// pages/components/dict-selector/index.js
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    title: {
+      type: String,
+      value: ''
+    },
+    placeholder: {
+      type: String,
+      value: '请选择'
+    },
+    options: {
+      type: Array,
+      value: []
+    },
+    defaultValue: {
+      type: String,
+      value: ''
+    }
+  },
+
+  /**
+   * 组件的初始数据
+   */
+  data: {
+    showDialog: false,
+    label: '',
+    value: '',
+    selectValue: '',
+    selectLabel: '',
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      this.data.options.forEach(item => {
+        if (item.value === this.data.defaultValue) {
+          this.setData({
+            label: item.label,
+            value: item.value,
+            selectValue: item.value,
+            selectLabel: item.label
+          })
+        }
+      })
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    showSelectDialog: function() {
+      // 如果为空值，则需要打开选择框的时候，默认选中第一个
+      if (!this.data.defaultValue) {
+        this.setData({
+          selectValue: this.data.options[0].value,
+          selectLabel: this.data.options[0].label
+        })
+      }
+      this.setData({
+        showDialog: true
+      })
+    },
+    onValueChange(e) {
+      this.setData({
+        selectValue: e.detail.selectedValue,
+        selectLabel: e.detail.displayValue
+      })
+    },
+    onOk: function(e) {
+      this.setData({
+        value: this.data.selectValue,
+        label: this.data.selectLabel || this.data.placehoder
+      })
+      this.triggerEvent('change', {
+        value: this.data.selectValue
+      })
+      this.setData({
+        showDialog: false
+      })
+    },
+    onCancel: function(e) {
+      this.setData({
+        showDialog: false
+      })
+    }
+  }
+})

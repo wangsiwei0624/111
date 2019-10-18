@@ -1,0 +1,17 @@
+.wux-textarea-ex {
+  padding: 9rpx 14rpx;
+  border: 1px solid #eeeeee;
+  border-radius: 5rpx;
+  margin: 9rpx 0rpx;
+  overflow: auto;
+}
+.textarea-value {
+  width: 100%;
+  word-break: break-all;
+}
+.textarea-value-placeholder {
+  font-size: 28rpx;
+  color: #999;
+  font-family: PingFangSC;
+  font-weight: 400;
+}

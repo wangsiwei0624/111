@@ -1,0 +1,258 @@
+// pages/components/user-selector/index.js
+var userApi = require("../../../api/user.js")
+var pinyinUtil = require("../../../lib/pinyin.js")
+var app = getApp()
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    placeholder: {
+      type: String,
+      value: '请选择'
+    },
+    max: {
+      type: Number,
+      value: 0,
+    }
+  },
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    expand: false,
+    showUserPage: false,
+    showUnitSelect:false,
+    showDetpSelect: false,
+    searchKey:'',// 人员搜索值
+    label: '',
+    alphabet: [],
+    radio: false,
+    unitLoading:false,
+    deptLoading:false,
+    
+    units:[],
+    currentUnitLabel:'',
+    currentUnit: [],
+    showLabel:'',
+    selectOrg:{}
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      // 当前人员所在单位和部门
+      const units = [];
+      let company = app.globalData.user.company;
+      this.setData({
+        radio: this.data.max == 1,
+        units:units,
+        selectOrg: company.id
+      })
+      // 默认加载当前所在单位的下一级，不加载就无法触发加载
+      this.loadChildNode(company.id,'unit');
+
+      // 默认当前所在单位的所有人员
+      this.loadUser();
+    }
+  },
+  /**
+   * 组件的方法列表
+   */
+  methods: {
+    expandSelect: function() {
+      this.setData({
+        expand: !this.data.expand
+      })
+    },
+    onOrgCancel:function(){
+      this.setData({
+        showUnitSelect: false
+      })
+    },
+    openUnitSelect:function(){
+      this.setData({
+        showUnitSelect: !this.data.showUnitSelect,
+      })
+    },
+    openUserPage: function() {
+      this.setData({
+        showUserPage: true
+      })
+    },
+    onClickUser: function(e) {
+      let aindex = e.currentTarget.dataset.iindex;
+      let cindex = e.currentTarget.dataset.index;
+      let key = 'alphabet[' + aindex + '].cells[' + cindex + '].selected';
+      if (this.data.radio) {
+        let alphabet = this.data.alphabet;
+        alphabet.forEach((group, aix) => {
+          group.cells.forEach((user, cix) => {
+            if (aix === aindex && cindex === cix) {
+              user.selected = true;
+            } else {
+              user.selected = false;
+            }
+          })
+        })
+        this.setData({
+          alphabet: alphabet
+        });
+      } else {
+        this.setData({
+          [key]: !this.data.alphabet[aindex].cells[cindex].selected
+        });
+      }
+    },
+    onOk: function(e) {
+      let selectUser = [];
+      this.data.alphabet.forEach(group => {
+        group.cells.forEach(user => {
+          if (user.selected) {
+            selectUser.push(user)
+          }
+        })
+      })
+      let names = selectUser.map(user => {
+        return user.name
+      })
+      this.triggerEvent('change', {
+        users: selectUser
+      })
+      this.setData({
+        showUserPage: false,
+        label: names.join(";")
+      })
+    },
+    onSearchValueChange:function(e) {
+      this.setData({
+        searchKey:e.detail.value
+      })
+    },
+    onSearchUser:function(){
+      this.loadUser();
+    },
+    loadUser:function(){
+      wx.showLoading({
+        title:'加载中',
+        mask:true
+      })
+      let companyId = this.data.selectOrg;
+      if (!companyId) {
+        companyId = app.globalData.user.company.id;
+      }
+
+      userApi.loadUserPage({
+        companyId: companyId,
+        name: this.data.searchKey,
+        //mobile: this.data.searchKey
+      }).then(res => {
+        console.log(res)
+        wx.hideLoading();
+        const users = res.data.list
+        const alphabet = []
+        var _this = this;
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach((initial) => {
+          const cells = users.filter((user) => {
+            let py = pinyinUtil.getPinyin(user.name)
+            return py.charAt(0).toUpperCase() === initial
+          })
+          alphabet.push({
+            initial,
+            cells
+          })
+        })
+
+        this.setData({
+          alphabet,
+        })
+      }).catch(err => {
+        console.log(err)
+        wx.hideLoading();
+      })
+    },
+    onUnitChange:function(e){
+      const {
+        index,
+        value,
+        displayValue
+      } = e.detail
+      let tvalue = value;
+      let tdisplayValue = displayValue;
+      tvalue.splice(index + 1, tvalue.length - index - 1)
+      tdisplayValue.splice(index + 1, tdisplayValue.length - index - 1)
+      console.log(tvalue)
+      this.setData({
+        currentUnit: tvalue,
+        currentUnitLabel: tdisplayValue.filter(item => { return item !== '请选择'}).join("->")
+      })
+      //this.loadChildNode(tvalue.pop(), 'unit', index);
+    },
+    loadChildNode:function(pid,type,ix){
+      let loadingFlag = type+"Loading"
+      this.setData({
+        [loadingFlag]:true
+      })
+      var key = type + 's';
+      let nodes = this.data[key];
+      if (nodes.length > ix) {
+        nodes.splice(ix+1, nodes.length - ix -1);
+      }
+      console.log(pid,ix)
+      if (ix >= 0 && !pid) {
+        // 下级单位选择了请选择
+        this.setData({
+          [key]: nodes,
+          [loadingFlag]: false
+        })
+        return
+      }
+      // 如果没有选择，则默认当前登录人员的所属单位
+      if(!pid) {
+        pid = app.globalData.user.company.id;
+      }
+      userApi.loadUnit(pid,'department',true).then(res => {
+        var buildOption = function(units) {
+          let items = [];
+          units.forEach(item => {
+            let childs = [];
+            if (item.children) {
+              childs = buildOption(item.children);
+            }
+            items.push({ label: item.title, value: item.id, children:childs });
+          })
+          return items;
+        }
+        var items = buildOption(res.data);
+        if (items.length > 0){
+          items.splice(0, 0, {
+            label: '请选择',
+            value: ''
+          })
+          nodes.push(items);
+        }
+        this.setData({
+          [key]: nodes,
+          [loadingFlag]: false
+        })
+      }).catch(err => {
+        this.setData({
+          [key]: nodes,
+          [loadingFlag]: false
+        })
+      });
+    },
+    // 单位或部门选中时
+    onOrgOk:function(){
+      console.log(this.data.currentUnit)
+      // 获取最近的第一个单位和部门
+      this.setData({
+        selectOrg: this.data.currentUnit.pop(),
+        showLabel: this.data.currentUnitLabel,
+        showUnitSelect: false
+      })
+      // 重新加载人员
+      this.loadUser();
+    }
+  }
+})

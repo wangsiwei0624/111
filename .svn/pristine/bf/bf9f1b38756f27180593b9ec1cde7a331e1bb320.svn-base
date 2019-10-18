@@ -1,0 +1,142 @@
+<scroll-view scroll-y  bindscroll="scroll" class="page hd-layout">
+  <view class="page__hd" >
+    
+      <!--banner图-->
+      <image src="../../static/images/loginIndex-banner.png" class="hd-banner-img" wx:if="{{imgonoff}}"></image>
+
+      <!--四格栏-->
+      
+        <view class="hd-layout" >
+          <view class="layout">
+            <wux-row>
+              <wux-col span="6" class="hd-layout-col1" bindtap="goPage" data-url="/pages/patrol/index">
+                  <view class="placeholder">
+                    <i class="iconfont iconshouye-jingangqu--xuncharenwu"></i>
+                    <text>巡查任务</text>
+                  </view>
+              </wux-col>
+              <wux-col span="6" class="hd-layout-col2"  bindtap="goPage" data-url="/pages/warning/list/index">
+                  <view class="placeholder">
+                    <i class="iconfont iconshouye-jingangqu-jianceyujing"></i>
+                    <text>监测预警</text>
+                  </view>
+              </wux-col>
+          </wux-row>
+          <wux-row>
+              <wux-col span="6" class="hd-layout-col3"  bindtap="goPage" data-url="/pages/monitor/list/list">
+                  <view class="placeholder">
+                    <i class="iconfont iconshouye-jingangqu-jianceshuju"></i>
+                    <text>数据监测</text>
+                  </view>
+              </wux-col>
+              <wux-col span="6" class="hd-layout-col4" >
+                  <view class="placeholder"  bindtap="goPage" data-url="/pages/report/index">
+                    <i class="iconfont iconshouye-jingangqu-yinhuanshangbao"></i>
+                    <text>隐患上报</text> 
+                  </view>
+              </wux-col>
+          </wux-row>
+          </view>
+        </view>
+
+      <view class="hd-layout-else" style='opacity:{{opacity}};' wx:if="{{!layoutonoff}}">
+        <wux-row>
+            <wux-col span="3" class="hd-layout-col1-else" bindtap="goPage" data-url="/pages/patrol/index">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu--xuncharenwu"></i>
+                  <text>巡查任务</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col2-else" bindtap="goPage" data-url="/pages/warning/list/index"> 
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceyujing"></i>
+                  <text>监测预警</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col3-else" bindtap="goPage" data-url="/pages/monitor/list/list">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-jianceshuju"></i>
+                  <text>数据监测</text>
+                </view>
+            </wux-col>
+            <wux-col span="3" class="hd-layout-col4-else" bindtap="goPage" data-url="/pages/report/index">
+                <view class="placeholder">
+                  <i class="iconfont iconshouye-jingangqu-yinhuanshangbao"></i>
+                  <text>隐患上报</text>
+                </view>
+            </wux-col>
+        </wux-row>
+      </view>
+    
+      <!--list-->
+      <view class="list">
+        <view class="list-in">
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text class="text">警情</text>
+            </view>
+            <view class="title2" bindtap="onMoreWarning" bindtap="onMoreList">
+              <text class="text">更多</text>
+            </view>
+          </view>
+          <view class="list-in-cell-no"  wx:if="{{listonoff}}">
+            <text>暂无待办警情</text>
+          </view>
+          <view class="list-in-cell-detail" wx:for="{{listMessage}}" wx:key="{{index}}" bindtap="goDetail" data-id="{{item.id}}"> 
+            <view class="list-in-cell-detail-cell">
+              <view class="detail-theme">
+                <text>{{item.monitoringProject.shortName}}</text>
+              </view>
+              
+              <view class="detail-img">
+                <i class="iconfont iconshujushangbaoshangchuan-tupian" wx:if="{{img-onoff}}"></i>
+                <i class="iconfont iconshujushangbaoshangchuan-shipin" wx:if="{{video-onoff}}"></i>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                <text style="color:{{item.color}}">{{item.warningGradeName}}</text>
+                <text class="space">|</text>
+                <text>{{item.warningStatusName}}</text>
+                <text class="time">{{item.warningTime}}</text>
+                <text class="space" wx:if="{{item.responseName}}">|</text>
+                <text wx:if="{{item.responseName}}">{{item.responseName}} </text>
+              </view>
+            </view>
+          </view>
+
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text class="text">巡查</text>
+            </view>
+            <view class="title2" bindtap="onMorePatrol">
+              <text class="text">更多</text>
+            </view>
+          </view>
+
+          <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+            <text>暂无待办事项</text>
+          </view>
+
+          <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" bindtap="goPatrolDetail" data-id="{{item.id}}">
+            <view class="list-in-cell-detail-cell">
+              <view class="detail-theme">
+                <text>{{item.shortName}}</text>
+              </view>
+              <view class="detail-timeslot">
+                <i class="iconfont iconshijian"></i>
+                <text>{{item.startTime}}~{{item.endTime}}</text>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+                <text>{{item.location}}</text>
+                <text class="time">{{item.createDate}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <wux-white-space body-style="height: 50rpx" />
+  </view>
+  
+  <main-tabbar currentTabIndex="{{0}}"></main-tabbar>
+</scroll-view>

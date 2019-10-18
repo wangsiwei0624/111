@@ -1,0 +1,136 @@
+var monitorApi = require("../../../api/monitor.js")
+const app = getApp()
+Page({
+  data: {
+    areaData: [
+      {
+        name: '全部',
+        active: false,
+        id: 0
+      }, 
+      {
+        name: '福田区',
+        active: true,
+        id: 1
+      }, 
+      {
+        name: '福田区',
+        active: false,
+        id: 2
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 3
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 4
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 5
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 6
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 7
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 8
+      },
+      {
+        name: '福田区',
+        active: false,
+        id: 9
+      }
+    ],
+    itemList: [
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 1
+      },
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 2
+      },
+      {
+        name: '洪湖水质净化厂基坑监测',
+        id: 3
+      }
+    ],
+    visiblePop: false,
+    curCity: [{
+      label: '广东省',
+      value: 440000,
+      children:[{
+        label: '深圳市',
+        value: 450000
+      }] 
+    }],
+    optionsData: []
+  },
+  onLoad: function() {
+    this.queryAreaList(null)
+  },
+  // 每列数据选择后的回调
+  onValueChange(e) {
+    console.log(e.detail.value)
+  },  
+  // 打开弹窗
+  openPop() {
+    this.setData({
+      visiblePop: true,
+    })
+  },
+  // 关闭弹窗
+  onClose() {
+    this.setData({
+      visiblePop: false,
+    })
+  },
+  // 完成搜索
+  confirmSearch(e) {
+    console.log(e.detail.value)
+  },
+  clickArea(e) {
+    const curId = e.currentTarget.dataset.id
+    var arr = this.data.areaData
+    for (var i = 0; i < arr.length; i++){
+      if (curId == arr[i].id) {
+        arr[i].active = true 
+      } else {
+        arr[i].active = false
+      }
+    }
+    this.setData({
+      areaData: arr
+    })
+  },
+  gotoDetail(e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/monitor/data/data?id=' + id,
+    })
+  },
+  queryAreaList(code) {
+    monitorApi.getAreaList(code).then(res => {
+      if (res.code === '200') {
+        this.setData({
+          optionsData: res.data
+        })
+      }
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+})

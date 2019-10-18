@@ -1,0 +1,9 @@
+{
+  "component":true,
+  "usingComponents": {
+    "wux-tabbar": "../../../components/tabbar/index",
+    "wux-tabbar-item": "../../../components/tabbar-item/index",
+    "wux-fab-button": "../../../components/fab-button/index",
+    "signle-fab-button":"../signle-fab-button/index"
+  }
+}

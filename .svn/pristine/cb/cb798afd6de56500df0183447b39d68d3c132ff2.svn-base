@@ -1,0 +1,15 @@
+page{
+  height: 100%;
+}
+.page{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.list{
+  flex: 1;
+}
+
+.button{
+  width: 100%;
+}

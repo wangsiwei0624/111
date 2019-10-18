@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "地质灾害监测预警平台",
+  "navigationBarBackgroundColor": "#2A7AD7",
+  "navigationBarTextStyle":"white",
+  "usingComponents": {
+    "wux-icon": "../../components/icon/index",
+    "wux-badge": "../../components/badge/index",
+    "wux-white-space": "../../components/white-space/index",
+    "wux-cell-group": "../../components/cell-group/index",
+    "wux-cell": "../../components/cell/index",
+    "main-tabbar": "../components/main-tabbar/index",
+    "wux-button": "../../components/button/index"
+  }
+}

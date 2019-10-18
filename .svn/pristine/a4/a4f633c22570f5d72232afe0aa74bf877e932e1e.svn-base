@@ -1,0 +1,86 @@
+/* pages/components/dict-selector/index.wxss */
+@import '../../../static/icon/iconfont.wxss';
+
+.dict-selector .select-box {
+  height: 80rpx;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 5rpx;
+  border: 1px solid rgba(221, 221, 221, 1);
+  text-align: center;
+  font-size: 28rpx;
+  font-family: PingFangSC;
+  font-weight: 400;
+  color: rgba(51, 51, 51, 1);
+  line-height: 80rpx;
+  position: relative;
+  margin-top: 20rpx;
+}
+
+.dict-selector .select-icon {
+  color: #bfcedd;
+  position: absolute;
+  right: 26rpx;
+  font-size: 11rpx;
+}
+
+/** 弹出框样式 start***/
+
+.common-dialog {
+  z-index: 10000;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.common-dialog-mask {
+  z-index: 10001;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0.7;
+}
+
+.common-dialog-content {
+  z-index: 10002;
+  width: 80%;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 15rpx;
+}
+
+.common-dialog-content-header {
+  height:130rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.common-dialog-content-header-title {
+  font-size:34rpx;
+  font-family:PingFangSC;
+  font-weight:600;
+  color:rgba(51,51,51,1);
+  
+}
+.common-dialog-content-header-title:after {
+  border-bottom: 18rpx solid #9BC0EC;
+  display: inline-block;
+  content: ' ';
+}
+.common-dialog-content-body {
+  min-height: 100rpx
+}
+.common-dialog-content-footer {
+  border-top: 2rpx solid #DDDDDD;
+}
+
+.common-dialog-content-footer wux-col {
+  text-align: center;
+}
+/** 弹出框样式 end **/

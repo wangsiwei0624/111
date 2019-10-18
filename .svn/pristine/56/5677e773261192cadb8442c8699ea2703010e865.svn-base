@@ -1,0 +1,38 @@
+page{
+  border-top: 1rpx solid #E4EBEE;
+}
+.down{
+  height: 100%;
+  width: 100%;
+  
+}
+.down-in{
+  height: 100%;
+  width: 690rpx;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.dtitle{
+  text-align: center;
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-top: 22rpx; 
+}
+.dday{
+  text-align: center;
+  font-size: 22rpx;
+  margin-top: 13rpx; 
+  color: #999999;
+}
+.dimg{
+  width: 690rpx;
+  margin-top: 20rpx;
+}
+.dlist{
+  margin-top: 13rpx;
+  line-height: 47rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  text-indent:2em;
+}

@@ -1,0 +1,359 @@
+var warnListApi = require("../../api/userList.js")
+
+import { $startWuxRefresher, $stopWuxRefresher, $stopWuxLoader } from '../../components/index'
+// const getList = (count = 10, step = 0) => [...new Array(count)].map((n, i) => ({ title: `Pull down ${i + step}`, content: 'Wux Weapp' }))
+
+Page({
+ 
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    color: '',
+    items: [],
+    count: 0,
+    scrollTop: 0,
+    currentTab: '',
+    // currentTab: 'tab1',
+    patrolMessage: '',
+    current: 'tab1',
+
+    iscrollTop: 0,
+    ingList: [],
+    ingPage: 1,
+
+    nscrollTop: 0,
+    notList: [],
+    notPage: 1,
+
+    fscrollTop: 0,
+    finishList: [],
+    finishPage: 1,
+
+    
+    
+    tabs: [
+      {
+        key: 'tab1',
+        title: '进行中',
+        content: 'Content of tab 1',
+      },
+      {
+        key: 'tab2',
+        title: '未开始',
+        content: 'Content of tab 2',
+      },
+      {
+        key: 'tab3',
+        title: '已完成',
+        content: 'Content of tab 3',
+      },
+    ],
+    patrolonoff1: false,
+    patrolonoff2: false,
+    patrolonoff3: false,
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    $startWuxRefresher("#ingList");
+    $startWuxRefresher("#notList");
+    $startWuxRefresher("#finishList");
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+  onIngListScroll(e) {
+    this.setData({
+      iscrollTop: e.detail.scrollTop
+    })
+  },
+  onNotlistScroll(e) {
+    console.log(e)
+    this.setData({
+      nscrollTop: e.detail.scrollTop
+    })
+  },
+  onFinishlistScroll(e) {
+    this.setData({
+      fscrollTop: e.detail.scrollTop
+    })
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  //列表swiper效果
+  onChange(e) {
+    this.setData({
+      currentTab: e.detail.key,
+    })
+  },
+
+  onDetail:function (e){
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/patrol/detail/index?id=' + id,
+    })
+  },
+
+  onNewBuilt:function (){
+    wx.navigateTo({
+      url: '/pages/patrol/report/index',
+    })
+  },
+
+  onChange(e) {
+    console.log('onChange', e)
+    this.setData({
+      current: e.detail.key,
+    })
+  },
+  onTabsChange(e) {
+    console.log('onTabsChange', e)
+    const { key } = e.detail
+    const index = this.data.tabs.map((n) => n.key).indexOf(key)
+
+    this.setData({
+      key,
+      index,
+    })
+  },
+  onSwiperChange(e) {
+    console.log('onSwiperChange', e)
+    const { current: index, source } = e.detail
+    const { key } = this.data.tabs[index]
+
+    if (!!source) {
+      this.setData({
+        key,
+        index,
+      })
+    }
+  },
+  //列表swiper效果结尾
+  
+  // 进行中
+  onIngRefresh: function () {
+    this.setData({
+      ingPage: 1,
+      ingList: [],
+    })
+    this.loadIngList();
+  },
+  onIngLoadmore: function () {
+    this.setData({
+      ingPage: this.data.ingPage + 1
+    })
+    this.loadIngList();
+  },
+  loadIngList: function () {
+    warnListApi.warningPatrol({
+      pageNo: this.data.ingPage
+    }).then(res => {
+      var arr1 = []
+      for (var i = 0; i < res.data.list.length; i++) {
+        if (res.data.list[i].taskStatus == 0) {
+          arr1.push(res.data.list[i])
+        }
+      }
+      if (res.data.list.length == 0 || arr1 == 0) {
+        this.setData({
+          patrolonoff1: true,
+        })
+      }
+      for (var i in res.data) {
+        if (res.data[i] == null) {
+          res.data[i] = ''
+        }
+      }
+      if (res.code === 200) {
+        let list = this.data.ingList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#ingList");
+          $stopWuxLoader("#ingList", this, true);
+        } else {
+          $stopWuxRefresher("#ingList");
+          $stopWuxLoader("#ingList");
+          let tplist = [];
+          this.setData({
+            ingList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#ingList");
+        $stopWuxLoader("#ingList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#ingList");
+      $stopWuxLoader("#ingList", this, true);
+    })
+  },
+
+  //未开始
+  onNotRefresh: function () {
+    this.setData({
+      notPage: 1,
+      notList: [],
+    })
+    this.loadNotList();
+  },
+  onNotLoadmore: function () {
+    this.setData({
+      notPage: this.data.notPage + 1
+    })
+    this.loadNotList();
+  },
+  loadNotList: function () {
+    warnListApi.warningPatrol({
+      pageNo: this.data.notPage
+    }).then(res => {
+      var arr2 = []
+      for (var i = 0; i < res.data.list.length; i++) {
+        if (res.data.list[i].taskStatus == 1) {
+          arr2.push(res.data.list[i])
+        }
+      }
+      if (res.data.list.length == 0 || arr2 == 0) {
+        this.setData({
+          patrolonoff2: true,
+        })
+      }
+      if (res.code === 200) {
+        let list = this.data.notList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#notList");
+          $stopWuxLoader("#notList", this, true);
+        } else {
+          $stopWuxRefresher("#notList");
+          $stopWuxLoader("#notList");
+          let tplist = [];
+          this.setData({
+            notList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#notList");
+        $stopWuxLoader("#notList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#notList");
+      $stopWuxLoader("#notList", this, true);
+    })
+  },
+
+  //已完成
+  onFinishRefresh: function () {
+    this.setData({
+      finishPage: 1,
+      finishList: [],
+    })
+    this.loadFinishList();
+  },
+  onFinishLoadmore: function () {
+    this.setData({
+      finishPage: this.data.finishPage + 1
+    })
+    this.loadFinishList();
+  },
+  loadFinishList: function () {
+    warnListApi.warningPatrol({
+      pageNo: this.data.finishPage
+    }).then(res => {
+      var arr3 = []
+      for (var i = 0; i < res.data.list.length; i++) {
+        if (res.data.list[i].taskStatus == 2) {
+          arr3.push(res.data.list[i])
+        }
+      }
+      if (res.data.list.length == 0 || arr3 == 0) {
+        this.setData({
+          patrolonoff3: true,
+        })
+      }
+      if (res.code === 200) {
+        let list = this.data.finishList;
+        if (list.lenght <= 0) {
+          $stopWuxRefresher("#finishList");
+          $stopWuxLoader("#finishList", this, true);
+        } else {
+          $stopWuxRefresher("#finishList");
+          $stopWuxLoader("#finishList");
+          let tplist = [];
+          this.setData({
+            finishList: tplist.concat(list, res.data.list)
+          })
+        }
+      } else {
+        $stopWuxRefresher("#finishList");
+        $stopWuxLoader("#finishList", this, true);
+        wx.showToast({
+          icon: "none",
+          title: res.msg || '服务繁忙',
+        })
+      }
+    }).catch(err => {
+      $stopWuxRefresher("#finishList");
+      $stopWuxLoader("#finishList", this, true);
+    })
+  }
+})

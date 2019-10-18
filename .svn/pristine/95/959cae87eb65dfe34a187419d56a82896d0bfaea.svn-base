@@ -1,0 +1,44 @@
+<wux-toptips id="wux-toptips" />
+<view class="upload-mask" wx:if="{{showUploadMask}}">
+  <image class="upload-status" src="../../../static/images/upload-{{showUploadStatus}}.gif"></image>
+</view>
+<view class="page">
+  <wux-white-space body-style="height: 20rpx" />
+  <wux-form id="wux-form">
+    <wux-cell-group>
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require">*</text>意见内容</view>
+        <wux-field name="remarks" initialValue="">
+          <wux-textarea rows="5" placeholder="请输入您的意见和建议" />
+        </wux-field>
+      </wux-cell>
+    </wux-cell-group>
+
+    <wux-white-space body-style="height: 20rpx" />
+    <wux-cell-group>
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require"></text>上传图片
+          <text class="form-field-subtitle">最多只可上传3张</text>
+        </view>
+        <wux-upload progress max="3" count="3" listType="picture-card" fileList="{{ fileList }}" url="{{uploadServer}}" bind:change="onChange" bind:success="onSuccess" bind:fail="onFail" bind:complete="onComplete" bind:progress="onProgress" bind:preview="onPreview">
+          <view>
+            <i class="upload-btn-icon iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+            <i class="upload-btn-img iconfont iconshujushangbaoshangchuan-tupian"></i>
+            <!-- <view>
+              
+              <text decode="{{true}}">&nbsp;</text>
+              <i class="upload-btn-video iconfont icon-shujushangbaoshangchuan-shipin"></i>
+            </view> -->
+          </view>
+        </wux-upload>
+      </wux-cell>
+    </wux-cell-group>
+    <view class="btn-area">
+      <button class="wux-button" wx:if="{{authAndSumbit}}" open-type="getUserInfo" bindgetuserinfo="doLogin" disabled="{{loading}}">提交</button>
+      <button class="wux-button" wx:else bindtap="onSubmit" disabled="{{loading}}">提交</button>
+    </view>
+    
+  </wux-form>
+</view>

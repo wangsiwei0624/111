@@ -1,0 +1,38 @@
+const app = getApp()
+var env = require("../../../config/host.js")
+Page({
+  data: {
+    option: {},
+    projectId: '',
+    token: '',
+    url: '',
+    shortName: ''
+  },
+  onShow: function(options) {
+    
+  },
+  onLoad: function(options) {
+    
+    let object = app.globalData.dataObject
+    object = encodeURI(JSON.stringify(object))
+
+    this.setData({
+      option: object,
+      token: app.globalData.token,
+      SSWType: options.type,
+      shortName: options.shortName
+    })
+    var reqUrl = env.domain.split('api')[0]
+    var url = reqUrl + 'webview/webview.html?param=' + this.data.option + '&token=' + this.data.token + '&SSWType=' + this.data.SSWType + '&domain=' + env.domain + '&short=' + this.data.shortName
+    console.log(url)
+
+    this.setData({
+      url: url
+    })
+    if (this.data.SSWType == undefined) {
+      wx.navigateTo({
+        url: '/pages/monitor/data/data',
+      })
+    }
+  }
+})

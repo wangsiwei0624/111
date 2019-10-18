@@ -1,0 +1,17 @@
+const app = getApp();
+
+Page({
+  data: {
+    imgData: [
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      },
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      },
+      {
+        url: 'https://ca-files-1256126199.piccd.myqcloud.com/images/goods/1B9E70868855A2D7/1556001147827.jpg?imageView2/2/w/300/h/300/q/100!'
+      }
+    ]
+  }
+})

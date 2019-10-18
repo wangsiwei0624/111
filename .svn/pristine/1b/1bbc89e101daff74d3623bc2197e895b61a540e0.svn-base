@@ -1,0 +1,32 @@
+/* pages/components/main-tabbar/main-babbar.wxss */
+@import '../../common/common.wxss';
+.main-tabbar{
+  border-top: 2rpx solid #dedede;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.witem text{
+  position: absolute;
+  bottom: 5rpx;
+  left: 330rpx;
+}
+.wimg{
+  height: 142rpx;
+  width: 142rpx;
+  position: absolute; 
+  top:-71rpx; 
+  left: 314rpx;
+}
+.iconfont{
+  font-size: 44rpx;
+}
+.witem view {
+  opacity:1 !important;
+}
+
+.test > .wux-fab-button__label{
+  background:transparent !important;
+  color: #fff !important;
+  opacity:1 !important;
+}

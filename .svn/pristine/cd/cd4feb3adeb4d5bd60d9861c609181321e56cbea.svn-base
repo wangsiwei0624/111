@@ -1,0 +1,16 @@
+/* pages/components/fab-button/index.wxss */
+@import '../../../static/icon/iconfont.wxss';
+.fab-button-contaner {
+  height: 100rpx;
+  width: 100rpx;
+  position: fixed;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+}
+.fab-button-contaner i {
+  font-size: 48rpx;
+  color: #FFF;
+}

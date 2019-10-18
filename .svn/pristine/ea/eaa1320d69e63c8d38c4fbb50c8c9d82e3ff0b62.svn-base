@@ -1,0 +1,18 @@
+{
+  "navigationBarTitleText": "数据上报",
+  "usingComponents": {
+    "wux-wing-blank": "../../components/wing-blank/index",
+    "wux-white-space": "../../components/white-space/index",
+    "wux-input-number": "../../components/input-number/index",
+    "wux-cell-group": "../../components/cell-group/index",
+    "wux-cell": "../../components/cell/index",
+    "wux-upload": "../../components/upload/index",
+    "wux-field": "../../components/field/index",
+    "wux-form": "../../components/form/index",
+    "wux-icon": "../../components/icon/index",
+    "wux-input": "../../components/input/index",
+    "wux-textarea": "../../components/textarea/index",
+    "wux-button": "../../components/button/index",
+    "wux-toptips": "../../components/toptips/index"
+  }
+}

@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="banner">
+    <view class="hd">
+      <image src="../../../static/images/bind1.png" class="bindbanner"></image>
+    </view>
+    <wux-form id="wux-form" >
+      <wux-cell-group class="wux-username">
+        <wux-cell hover-class="none">
+          <wux-field name="username" class="username">
+            <wux-input placeholder="请输入管理员分配的账号"/>
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <wux-cell-group class="wux-password">
+        <wux-cell hover-class="none">
+          <wux-field name="password" class="password">
+            <wux-input placeholder="请输入密码" type="password"/>
+            <image src="../../../static/images/oneye.svg" class="eye" wx:if="{{eye}}" bindtap="on-off"></image>
+            <image src="../../../static/images/offeye.svg" class="eye" wx:else="{{eye}}" bindtap="on-off"></image>
+          </wux-field>
+        </wux-cell>
+      </wux-cell-group>
+      <view class="btn-area">
+        <button bindtap="onSubmit" class="button">登录</button>
+      </view>
+    </wux-form>
+  </view>
+  <view class="footer" bindtap="toPhone">
+    <p>使用短信密码登陆</p>
+    <text decode="{{true}}">&nbsp;</text>
+    <i class="iconfont icon-denglu-duanxindenglujiantou"></i>
+  </view>
+</view>

@@ -1,0 +1,38 @@
+<view class="page">
+  <wux-tabs  controlled current="{{ currentTab }}"  theme="positive" bindchange="onChange">
+    <wux-tab key="tab1" title="进行中"></wux-tab>
+    <wux-tab key="tab2" title="未开始"></wux-tab>
+    <wux-tab key="tab3" title="已完成"></wux-tab>
+  </wux-tabs>
+
+
+  <!-- list -->
+  <wux-refresher id="wux-refresher" bind:pulling="onPulling" bind:refresh="onRefresh" bind:loadmore="onLoadmore" scrollTop="{{scrollTop}}"  wx:if= "{{currentTab == 'tab1' }}">
+    <view class="list-in">
+      <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+        <text>暂无代办事项</text>
+      </view>
+
+      <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}" wx:if="{{index<5}}" bindtap="onDetail" data-id="{{item.id}}">
+        <view class="list-in-cell-detail-cell">
+          <text class="detail-theme">{{item.taskName}}</text>
+          <view class="detail-timeslot">
+            <i class="iconfont iconshijian"></i>
+            <text>{{item.startTime}}~{{item.endTime}}</text>
+        </view>
+        <view class="detail-address">
+            <i class="iconfont iconshouye-jingqingliebiao-xiangmudizhi"></i>
+            <text>深圳市坪山区垃圾场</text>
+            <text class="time">{{item.createDate}}</text>
+        </view>
+        </view>
+      </view>
+    </view>
+  </wux-refresher>
+
+
+  <!-- 新建任务 -->
+  <view class="newbuilt" bindtap="onNewBuilt">
+    <i class="iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+  </view>
+</view>

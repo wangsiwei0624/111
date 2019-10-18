@@ -1,0 +1,13 @@
+.show-attach .info-img{
+  display: inline-block;
+}
+.show-attach .info-img image{
+  width: 215rpx;
+  height: 150rpx;
+  margin-right: 10rpx;
+}
+.show-attach .info-img video{
+  width: 300rpx;
+  height: 150rpx;
+  margin-right: 10rpx;
+}

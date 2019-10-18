@@ -1,0 +1,9 @@
+@import '../../common/common.wxss';
+
+page {
+  background-color: #f7f9fa;
+  margin-bottom: 110rpx;
+}
+.dict-selector .select-box{
+  margin-top: 10rpx;
+}

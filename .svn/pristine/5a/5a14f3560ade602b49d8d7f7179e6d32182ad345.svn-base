@@ -1,0 +1,21 @@
+<view class="page">
+  <view class="head">
+    <view class="content">
+      <text>SSW369SSW369</text>
+      <i class="iconfont iconlishijingqing-liebiaojiantou"></i>
+    </view>
+    <view class="content">
+      <text>过去一天</text>
+      <i class="iconfont iconlishijingqing-liebiaojiantou"></i>
+    </view>
+  </view>
+  <view class="area">
+    <view wx:for="{{ areaData }}" wx:key="key" class="{{ item. active? 'item active' : 'item' }}" bindtap="clickArea" data-id="{{ item.value }}">
+      <text>{{ item.label }}</text>
+      <view class="line" wx:if="{{ item.label }}"></view>
+    </view>
+  </view>
+  <view class="charts">
+    曲线图
+  </view>
+</view>

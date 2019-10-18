@@ -1,0 +1,43 @@
+<!--pages/mine/miine.wxml-->
+<view class="page">
+    <view class="hd">
+      <!--头部-->
+      <view class="mine">
+        <image src="../../static/images/m-banner.png" class="m-banner"></image>
+        <view class="mine-in">
+          <image class="avatar" src='{{avatarUrl}}' class="headimg"></image>
+          <view class="headname">{{nickName}}</view>
+        </view>
+      </view>
+      <!--认证 我们 反馈-->
+      <!-- <view class="log" bindtap="toLog">
+        <i class="banner iconfont icon-wode-zhanghaorenzheng"></i>
+        <p class="p1" >账号认证</p>
+      </view>
+      <view class="aboutme" bindtap="toAboutme">
+        <i class="banner iconfont icon-wode-guanyuwomen"></i>
+        <p class="p2" >关于我们</p>
+      </view>
+      <view class="opinion" bindtap="toIdea">
+        <i class="banner iconfont icon-wode-yijianfankui"></i>
+        <p class="p3" >意见反馈</p>
+      </view> -->
+      <view class="list">
+        <wux-cell-group title="">
+            <wux-cell thumb="" title="账号认证" wx:if="{{showBind}}" extra="" is-link url="/pages/mine/bind/index" class="list-cell">
+              <i class="iconfont icon-wode-zhanghaorenzheng"></i>
+            </wux-cell>
+            <wux-white-space body-style="height: 10rpx; background:#F7F9FA" />
+            <wux-cell thumb="" title="关于我们" extra="" url="/pages/mine/about/index" is-link class="list-cell">
+              <i class="iconfont icon-wode-guanyuwomen"></i>
+            </wux-cell>
+            <wux-white-space body-style="height: 10rpx; background:#F7F9FA"/>
+            <wux-cell thumb="" title="意见反馈" extra="" url="/pages/mine/idea/index" is-link  class="list-cell">
+              <i class="iconfont icon-wode-yijianfankui"></i>
+            </wux-cell>
+        </wux-cell-group>
+      </view>
+    </view>
+    
+    <main-tabbar currentTabIndex="{{2}}"></main-tabbar>
+</view>

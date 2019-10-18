@@ -1,0 +1,149 @@
+var warnListApi = require("../../api/userList.js")
+
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    layoutonoff:true,
+    imgonoff: true,
+    scrollTop: '',
+    opacity:0,
+    listMessage: '',
+    patrolMessage: '',
+    listonoff: false,
+    patrolonoff: false,
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    var that = this
+    warnListApi.warningList().then(res => {
+      console.log(res)
+      that.setData({
+        listMessage: res.data.list,
+      })
+      if (res.data.count == 0) {
+        that.setData({
+          listonoff: true,
+        })
+      }
+    })
+    warnListApi.warningPatrol().then(res => {
+      console.log(res)
+      that.setData({
+        patrolMessage: res.data.list,
+      })
+      if (res.data.count == 0) {
+        that.setData({
+          patrolonoff: true,
+        })
+      }
+    })
+
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  },
+
+  touchmove:function () {
+    var query = wx.createSelectorQuery();
+    // 取当前view距离顶部的高度
+    query.select('.hd-layout').boundingClientRect((res) => {
+      // console.log(res)
+      this.setData({
+        scrollTop: res.top +170
+      })
+    }).exec()
+    var x = this.data.scrollTop
+    //淡入淡出
+    this.setData({
+      opacity:(1 - ((x - 85)/125)).toFixed(1)
+    })
+    //改变样式
+    if (x <= 125){
+      this.setData({
+        layoutonoff: false,    
+      })
+    }else{
+      this.setData({
+        layoutonoff: true,
+      })
+    }
+
+  },
+
+  onMoreList:function () {
+    wx.navigateTo({
+      url: '/pages/monitor/index',
+    })
+  },
+  onMorePatrol:function () {
+    wx.navigateTo({
+      url: '/pages/patrol/index',
+    })
+  },
+  goDetail:function (e) {
+    const id = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '/pages/warning/info/info?id=' + id,
+    })
+  },
+  goPage: function (e) {
+    wx.navigateTo({
+      url: e.currentTarget.dataset.url,
+    })
+  }
+})
+
+

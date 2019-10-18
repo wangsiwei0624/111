@@ -1,0 +1,11 @@
+<!--pages/components/textarea-ex/index.wxml-->
+<view>
+  <view class="wux-textarea-ex-contaner" bindtap="onFouce" style="height:{{ 48*rows }}rpx;">
+    <wux-textarea class="custom-textarea" wx:if="{{showOrigin}}" focus="{{ true }}" bind:blur="onBlur" defaultValue="{{inputValue}}" bind:change="onChange" rows="{{rows}}" placeholder="{{placeholder}}" showConfirmBar="{{false}}"/>
+    <view  class="wux-textarea-ex" wx:else>
+      <view class="textarea-value {{inputValue?'':'textarea-value-placeholder'}}" style="height: calc(100% - 14rpx);">
+        <text>{{inputValue || placeholder}}</text>
+      </view>
+    </view>
+  </view>
+</view>

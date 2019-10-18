@@ -1,0 +1,7 @@
+<!--pages/components/textarea-ex/index.wxml-->
+<view class="input-ex-contaner">
+  <wux-input wx:if="{{showOrigin}}" bind:blur="onBlur" focus="{{ true }}" defaultValue="{{inputValue}}" bind:change="onChange" placeholder="{{placeholder}}" />
+  <view bindtap="onFouce" class="wux-input-ex" wx:else>
+    <view class="input-value {{inputValue?'':'input-value-placeholder'}}" style="height:{{ 56 }}rpx;">{{inputValue || placeholder}}</view>
+  </view>
+</view>

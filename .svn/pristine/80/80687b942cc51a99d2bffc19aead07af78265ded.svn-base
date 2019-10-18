@@ -1,0 +1,71 @@
+<!--pages/submit/submit.wxml-->
+<wux-toptips id="wux-toptips" />
+<view class="upload-mask" wx:if="{{showUploadMask}}">
+  <image class="upload-status" src="../../../static/images/upload-{{showUploadStatus}}.gif"></image>
+</view>
+<view class="page"> 
+  <wux-white-space body-style="height: 20px" />
+  <wux-form id="wux-form">
+    <wux-cell-group>
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require">*</text>描述信息</view>
+        <wux-field name="remarks" initialValue="">
+          <wux-textarea rows="5" placeholder="请描述现场灾情隐患" />
+        </wux-field>
+      </wux-cell>
+    </wux-cell-group>
+    <wux-white-space body-style="height: 20px" />
+    <wux-cell-group>
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require">*</text>位置信息</view>
+        <wux-field name="location" initialValue="">
+          <wux-textarea rows="3" placeholder="请输入现场位置信息" />
+        </wux-field>
+      </wux-cell>
+    </wux-cell-group>
+    <wux-white-space body-style="height: 20px" />
+    <wux-cell-group> 
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require">*</text>图片
+          <text class="form-field-subtitle">最多只可上传5张</text>
+        </view>
+        <wux-upload progress max="5" count="5" listType="picture-card" fileList="{{ fileList }}" url="{{uploadServer}}" bind:change="onImgChange" bind:success="onImgSuccess" bind:fail="onImgFail" bind:complete="onImgComplete" bind:progress="onImgProgress" bind:preview="onImgPreview">
+          <view>
+            <i class="upload-btn-icon iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+            <view>
+              <i class="upload-btn-img iconfont iconshujushangbaoshangchuan-tupian"></i>
+              <!-- <text decode="{{true}}">&nbsp;</text>
+              <i class="upload-btn-video iconfont iconshujushangbaoshangchuan-shipin"></i> -->
+            </view>
+          </view>
+        </wux-upload>
+      </wux-cell>
+    </wux-cell-group>
+
+    <wux-white-space body-style="height: 20px" />
+    <wux-cell-group>
+      <wux-cell class="form-field">
+        <view class="form-field-title">
+          <text class="form-field-require"></text>视频
+          <text class="form-field-subtitle">最多只可上传2个</text>
+        </view>
+        <wux-upload progress max="2" count="2" listType="picture-card" defaultFileType="video" fileList="{{ fileList }}" url="{{uploadServer}}" bind:change="onChange" bind:success="onSuccess" bind:fail="onFail" bind:complete="onComplete" bind:progress="onProgress" bind:preview="onPreview">
+          <view>
+            <i class="upload-btn-icon iconfont iconshujushangbaoshangchuan-shangchuan"></i>
+            <view>
+              <!-- <i class="upload-btn-img iconfont iconshujushangbaoshangchuan-tupian"></i>
+              <text decode="{{true}}">&nbsp;</text> -->
+              <i class="upload-btn-video iconfont iconshujushangbaoshangchuan-shipin"></i>
+            </view>
+          </view>
+        </wux-upload>
+      </wux-cell>
+    </wux-cell-group>
+    <view class="btn-area">
+      <wux-button block type="positive" bind:click="onSubmit">提交</wux-button>
+    </view>
+  </wux-form>
+</view>

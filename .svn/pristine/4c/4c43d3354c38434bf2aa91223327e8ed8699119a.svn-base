@@ -1,0 +1,8 @@
+/* pages/warning/oper/index.wxss */
+@import '../../common/common.wxss';
+
+page {
+  border-top: 1rpx solid #E4EBEE; 
+  background-color: #f7f9fa;
+  margin-bottom: 110rpx;
+}

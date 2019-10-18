@@ -1,0 +1,106 @@
+/* pages/report/public/detail.wxss */
+@import '../../../static/icon/iconfont.wxss';
+
+page {
+  background-color: #f7f9fa;
+  border-top: 1rpx solid #E4EBEE;
+}
+
+.image-list {
+  margin: 30rpx 0px;
+}
+
+.image-list swiper {
+  height: 400rpx;
+}
+
+.image-list image {
+  width: calc(100% - 60rpx);
+  margin: 0px 30rpx;
+  height: 400rpx;
+  border-radius: 15rpx;
+}
+
+.item-group {
+  margin-top: 20rpx;
+  background: rgba(255, 255, 255, 1);
+  padding: 21rpx 30rpx;
+}
+
+.item-group-title {
+  z-index: 2;
+  position: relative;
+  display: inline-block;
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: rgba(51, 51, 51, 1);
+  line-height: 48rpx;
+}
+
+.item-group-title::before {
+  z-index: 0;
+  content: ' ';
+  border-bottom: 10rpx solid #9bc0ec;
+  position: absolute;
+  top: 0px;
+  left: -1px;
+  right: -1px;
+  bottom: 0px;
+}
+
+.item-group-content {
+  position: relative;
+  margin-top: 20rpx;
+  border: 1rpx dashed rgba(221, 221, 221, 1);
+  border-radius: 15rpx;
+  padding: 32rpx;
+}
+
+.item-group-content-cell {
+  padding: 30rpx 0px;
+  border-bottom: 1px solid rgba(221, 221, 221, 1);
+}
+
+.item-group-content-cell:first {
+  margin-top: 10rpx;
+}
+
+.item-group-content-cell:last {
+  border-bottom: none;
+}
+
+.item-group-content-cell .cell-title, .item-group-content-cell .cell-content {
+  display: inline-block;
+}
+
+.item-group-content-cell .cell-title {
+  width: 180rpx;
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: rgba(51, 51, 51, 1);
+  line-height: 48rpx;
+  vertical-align: top;
+}
+
+.item-group-content-cell .cell-content {
+  width: calc(100% - 180rpx);
+  font-size: 30rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: rgba(51, 51, 51, 1);
+  line-height: 48rpx;
+  vertical-align: top;
+}
+
+.location {
+  margin-right: 40rpx;
+}
+
+.location-icon {
+  color: #1ebd0b;
+  position: absolute;
+  right: 32rpx;
+  top: 38rpx;
+}

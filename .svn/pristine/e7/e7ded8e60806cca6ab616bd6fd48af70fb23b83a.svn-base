@@ -1,0 +1,29 @@
+import axiso from '../lib/axiso.requeset.js'
+
+/**
+ * 新建警情
+ */
+module.exports = {
+  report: function ({
+    description,
+    attachId,
+    warningGrade,
+    projectId,
+  }) {
+    const data = {
+      description: description,
+      attachId: attachId,
+      warningGrade: warningGrade,
+      projectId: projectId,
+      // createBy: createBy,
+      // attachId: attachId,
+      // videoId: videoId,
+      // warningGradeName: warningGradeName,
+    };
+    return axiso.request({
+      url: "wx/warningInfo/save",
+      method: "post",
+      data,
+    });
+  }
+}

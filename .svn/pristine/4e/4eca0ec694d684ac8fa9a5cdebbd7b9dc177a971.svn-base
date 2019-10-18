@@ -1,0 +1,29 @@
+import axiso from '../lib/axiso.requeset.js'
+
+/**
+ * 新建警情
+ */
+module.exports = {
+  report: function ({
+    remarks,
+    // attachId,
+    id,
+    videoAttachId,
+    imgAttachId
+    // projectId,
+  }) {
+    const data = {
+      remarks: remarks,
+      imgAttachId: imgAttachId,
+      videoAttachId: videoAttachId,
+      id:id,
+      // projectId: projectId,
+
+    };
+    return axiso.request({
+      url: "wx/patrolTask/save",
+      method: "post",
+      data,
+    });
+  }
+}

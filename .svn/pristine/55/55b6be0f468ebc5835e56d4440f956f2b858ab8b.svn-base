@@ -1,0 +1,46 @@
+var warningApi = require("../../../api/warning.js")
+var env = require("../../../config/host.js")
+const app = getApp()
+
+Component({
+  properties: {
+    warningId: {
+      type: String,
+      value: '0'
+    }
+  },
+  data: {
+    warningDetail: {},
+    token: '',
+    domain: '',
+  },
+  pageLifetimes: {
+    show: function (options) {
+      this.setData({
+        domain: env.domain,
+        token: app.globalData.token
+      })
+      this.queryWarningDetail(this.data.warningId)
+    },
+  },
+  methods: {
+    // 获取警情详情
+    queryWarningDetail(id) {
+      console.log('组件请求info')
+      warningApi.getWarningDetail(id).then(res => {
+        if (res.code === 200) {
+          this.setData({
+            warningDetail: res.data
+          })
+        } else {
+          wx.showToast({
+            title: res.msg,
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+  }
+  
+})

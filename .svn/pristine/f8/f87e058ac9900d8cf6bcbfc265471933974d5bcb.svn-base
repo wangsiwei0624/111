@@ -1,0 +1,81 @@
+@import '../../../static/icon/iconfont.wxss';
+
+page{
+  height: 100%;
+}
+.page{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.banner{
+  flex: 1;
+}
+.bindbanner{
+  width: 507rpx;
+  height: 108rpx;
+  margin: 210rpx 112rpx;
+}
+#wux-form .wux-cell-group__bd::after{
+  border-top-width: 0rpx !important;
+  border-bottom-width: 0rpx !important;
+}
+#wux-form .username input{
+  height: 80rpx;
+  width: 85%;
+  margin: 0 auto;
+  border-bottom: 1rpx solid #dddddd; 
+}
+#wux-form .username input::placeholder{
+  color: #CCCCCC !important;
+  font-size: 3.7vw !important;
+}
+#wux-form .password{
+  height: 80rpx;
+  width: 85%;
+  margin: 0 auto;
+  position: relative;
+}
+#wux-form .password input{
+  height: 80rpx;
+  width: 85%;
+  margin: 0 auto;
+  border-bottom: 1rpx solid #dddddd; 
+}
+#wux-form .password .eye{
+  height: 22rpx;
+  width: 33rpx;
+  position: absolute;
+  bottom: 26rpx;
+  left: 600rpx;
+}
+
+
+.btn-area{
+  margin-top: 109rpx;
+}
+.button{
+  width: 525rpx;
+  height: 88rpx;
+  background: #2A7AD7;
+  border-radius: 49rpx;
+  color: #ffffff;
+  font-size: 32rpx;
+}
+.footer{
+  height: 90rpx;
+  position: relative;
+}
+.footer p{
+  line-height: 90rpx;
+  color:#9FB2C9;
+  margin-left: 30%;
+  /* margin-right: 33.3vw; */
+}
+.footer .iconfont{
+  color: #9FB2C9;
+  position: absolute;
+  left: 65%;
+  top: 36rpx;
+}

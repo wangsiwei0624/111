@@ -1,0 +1,92 @@
+var warningApi = require("../../../api/warning.js")
+var env = require("../../../config/host.js")
+const app = getApp()
+Component({
+  properties: {
+    warningId: {
+      type: String,
+      value: '0'
+    },
+    showBtn: {
+      type: Boolean,
+      value: false
+    }
+  },
+  data: {
+    showBtnArr: ['0', '0', '0', '0'],
+    warningRecord: {},
+    token: '',
+    domain: '',
+    fileArr: []
+  },
+  attached: function (options) {
+    this.setData({
+      domain: env.domain,
+      token: app.globalData.token
+    })
+    // this.queryWarningRecord(this.properties.warningId)
+  },
+  methods: {
+    // 点开右侧按钮
+    onclickBtn() {
+      this.setData({
+        showBtn: !this.data.showBtn,
+        showBtnArr: ['0', '0', '0', '0']
+      })
+    },
+    // 点击右侧按钮
+    scrollTo(e) {
+      const selector = e.currentTarget.dataset.text
+      const index = e.currentTarget.dataset.index
+      var arr = this.data.showBtnArr
+      for (var i = 0; i < this.data.showBtnArr.length; i++) {
+        if (i == index) {
+          arr[i] = '1'
+        } else {
+          arr[i] = '0'
+        }
+      }
+      this.setData({
+        showBtnArr: arr
+      })
+      wx.pageScrollTo({
+        selector: '.' + selector
+      })
+    },
+    // 点击最外层view收起按钮
+    clickOuter() {
+      this.setData({
+        showBtn: false
+      })
+    },
+    // 获取警情处理记录
+    queryWarningRecord(id) {
+      console.log('请求记录数据')
+      warningApi.getWarningDealRecord(id).then(res => {
+        if (res.code === 200) {
+          const feedback = res.data.feedbackRecord
+          // 处理图片和视频的显示
+          for (var i = 0; i < feedback.length; i++) {
+            feedback[i].imgAttachId = feedback[i].imgAttachId.split(',')
+            feedback[i].videoAttachId = feedback[i].videoAttachId.split(',')
+            for (var m = 0; m < feedback[i].imgAttachId.length; m++) {
+              res.data.feedbackRecord[i].imgAttachId[m] = env.domain + 'sys/file/download?id=' + feedback[i].imgAttachId[m] + '&token=' + app.globalData.token
+            }
+            for (var m = 0; m < feedback[i].videoAttachId.length; m++) {
+              res.data.feedbackRecord[i].videoAttachId[m] = env.domain + 'sys/file/download?id=' + feedback[i].imgAttachId[m] + '&token=' + app.globalData.token
+            }
+          }
+          this.setData({
+            warningRecord: res.data
+          })
+        } else {
+          wx.showToast({
+            title: res.msg,
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+  }
+})

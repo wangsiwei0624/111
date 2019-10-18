@@ -1,0 +1,90 @@
+// pages/components/main-tabbar/main-babbar.js
+const app = getApp();
+
+Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+    currentTabIndex: Number
+  },
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    login: false,
+    buttons: [{
+      icon:'',
+      url:'/pages/patrol/report/index'
+    },
+    {
+      icon: '',
+      url: '/pages/warning/report/index'
+    },
+    {
+      icon: '',
+      url: '/pages/report/danger/report'
+    }
+    ],
+    sAngle: -135,
+    eAngle: -225,
+    spaceBetween: 30
+  },
+  pageLifetimes: {
+    // 组件所在页面的生命周期函数
+    show: function() {
+      this.setData({
+        login: app.isBind()
+      })
+      if (this.data.currentTabIndex == 1) {
+        this.setData({
+          currentTabIndex:0
+        })
+      }
+    },
+    hide: function() {},
+    resize: function() {},
+  },
+  methods: {
+    goMine: function() {
+      if (this.data.currentTabIndex == 2) {
+        return;
+      }
+      wx.redirectTo({
+        url: '/pages/mine/index',
+      })
+    },
+    goReport: function() {
+      wx.navigateTo({
+        url: '/pages/report/index',
+      })
+    },
+    goHome: function() {
+      if (this.data.currentTabIndex == 0) {
+        return;
+      }
+      if (getApp().isBind()) {
+        wx.redirectTo({
+          url: '/pages/user/index',
+        })
+      } else {
+        wx.redirectTo({
+          url: '/pages/visitor/index',
+        })
+      }
+    },
+    onClick:function(e) {
+      console.log(e)
+      if(this.data.login){
+        wx.navigateTo({
+          url: e.detail.value.url,
+        })
+      } else {
+        // 未登录的直接跳转到公众上报
+        wx.navigateTo({
+          url: '/pages/report/public/report',
+        })
+      }
+    }
+  }
+})

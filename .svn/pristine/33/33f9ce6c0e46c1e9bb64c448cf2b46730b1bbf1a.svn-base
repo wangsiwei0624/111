@@ -1,0 +1,501 @@
+// pages/warning/oper/index.js
+import {
+  $wuxForm,
+  $wuxToptips
+} from '../../../components/index'
+var app = getApp()
+var env = require("../../../config/host.js")
+var operApi = require("../../../api/warnOper.js")
+
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    operType: -1,
+    warningId: -1,
+    uploadServer: env.domain + 'sys/file/upload?token=' + app.globalData.token,
+    showUploadMask: false,
+    showUploadStatus: 'uploading',
+
+    formField: []
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    console.log(options)
+    this.setData({
+      operType: parseInt(options.operType),
+      warningId: options.warningId,
+      uploadServer: env.domain + 'sys/file/upload?token=' + app.globalData.token
+    })
+    // wx.showLoading({
+    //   title: '加载中',
+    //   mask: true
+    // })
+    this.initForm();
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function() {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function(options) {
+
+  },
+  initForm: function() {
+    switch (this.data.operType) {
+      case 0:
+        wx.setNavigationBarTitle({
+          title: "派遣人员"
+        });
+        this.setData({
+          formField: [{
+            name: 'users',
+            title: '',
+            value: '',
+            placeholder: '请输入您的意见',
+            type: 'user',
+          }, {
+            name: 'content',
+            title: '',
+            placeholder: '请输入备注',
+            type: 'textarea',
+          }]
+        })
+        break;
+      case 1:
+        wx.setNavigationBarTitle({
+          title: "反馈"
+        });
+        this.setData({
+          formField: [{
+              name: 'content',
+              required: true,
+              title: '反馈内容',
+              placeholder: '请描述现场巡查详情',
+              type: 'textarea',
+            },
+            {
+              name: 'imgAttachId',
+              required: true,
+              title: '附件',
+              subtitle: '最多上传5张图片',
+              type: 'image',
+              fileList: []
+            }
+          ]
+        })
+        break;
+      case 2:
+        wx.setNavigationBarTitle({
+          title: "升级意见"
+        });
+        this.setData({
+          formField: [{
+            name: 'gradeType',
+            required: true,
+            dictTitle: '升降级',
+            value: '2',
+            placeholder: '',
+            type: 'select',
+            options: [{
+              label: '升级',
+              value: '2'
+            }]
+          }, {
+            name: 'content',
+            required: true,
+            title: '发表意见',
+            placeholder: '请输入您的意见',
+            type: 'textarea',
+          }]
+        })
+        break;
+      case 3:
+        wx.setNavigationBarTitle({
+          title: "降级意见"
+        });
+        this.setData({
+          formField: [{
+            name: 'gradeType',
+            required: true,
+            dictTitle: '升降级',
+            value: '3',
+            placeholder: '',
+            type: 'select',
+            options: [{
+              label: '降级',
+              value: '3'
+            }]
+          }, {
+            name: 'content',
+            required: true,
+            title: '发表意见',
+            placeholder: '请输入您的意见',
+            type: 'textarea',
+          }]
+        })
+        break;
+      case 8:
+        wx.setNavigationBarTitle({
+          title: "升降级意见"
+        });
+        this.setData({
+          formField: [{
+            name: 'gradeType',
+            required: true,
+            dictTitle: '升降级',
+            value: '',
+            placeholder: '请选择升级或降级',
+            type: 'select',
+            options: [{
+              label: '升级',
+              value: '2'
+            }, {
+              label: '降级',
+              value: '3'
+            }]
+          }, {
+            name: 'content',
+            required: true,
+            title: '发表意见',
+            placeholder: '请输入您的意见',
+            type: 'textarea',
+          }]
+        })
+        break;
+      case 4:
+        // 根据warningId取模板短信
+        //this.showSpin = true;
+        operApi.getSmsTemplateContent(this.data.warningId).then(res => {
+          if (res.code === 200) {
+            //this.formData.content = res.data;
+            this.setData({
+              ['formField[1].value']:res.data
+            })
+            console.log(this.data.formField)
+          } else {
+            console.error("获取警情短信模板内容失败," + res.msg);
+          }
+          //this.showSpin = false;
+        }).catch(err => {
+          //this.showSpin = false;
+          console.error("获取警情短信模板内容失败")
+          console.error(err)
+        });
+        wx.setNavigationBarTitle({
+          title: "发送短信"
+        });
+        this.setData({
+          formField: [{
+            name: 'users',
+            title: '',
+            value: '1',
+            placeholder: '',
+            type: 'user',
+          }, {
+            name: 'content',
+            title: '',
+            placeholder: '请输入短信内容',
+            type: 'textarea',
+            value:''
+          }]
+        })
+        break;
+      case 5:
+        wx.setNavigationBarTitle({
+          title: "发表意见"
+        });
+        this.setData({
+          formField: [{
+            name: 'content',
+            required: true,
+            title: '发表意见',
+            placeholder: '请输入意见内容',
+            type: 'textarea',
+          }]
+        })
+        break;
+      case 6:
+        //获取当前警情的专家列表
+        //this.findWarningExpertList(warnId);
+        wx.setNavigationBarTitle({
+          title: "移交专家"
+        });
+        this.setData({
+          formField: [{
+            name: 'leader',
+            title: '专家长',
+            value: '',
+            max: 1,
+            placeholder: '专家长',
+            type: 'user',
+          }, {
+            name: 'users',
+            title: '专家组',
+            placeholder: '专家组',
+            type: 'user',
+          }]
+        })
+        break;
+      case 7:
+        wx.setNavigationBarTitle({
+          title: "完结"
+        });
+        this.setData({
+          formField: [{
+            name: 'content',
+            required: true,
+            title: '警情完结',
+            placeholder: '请输入完结意见',
+            type: 'textarea',
+          }]
+        })
+        break;
+      default:
+        break;
+    }
+  },
+  /**
+   * 用户选择框变化
+   */
+  onUserChange(e) {
+    console.log(e)
+    let ix = -1;
+    for (var i = 0; i < this.data.formField.length; i++) {
+      if (this.data.formField[i].name === e.target.dataset.name) {
+        ix = i;
+      }
+    }
+    if (ix > -1) {
+      let key = 'formField[' + ix + '].value'
+      this.setData({
+        [key]: e.detail.users
+      })
+    }
+  },
+  /**
+   * 单选框值变化
+   */
+  onRadioChange(e) {
+    console.log(e)
+    let ix = -1;
+    for (var i = 0; i < this.data.formField.length; i++) {
+      if (this.data.formField[i].name === e.target.dataset.name) {
+        ix = i;
+      }
+    }
+    if (ix > -1) {
+      let key = 'formField[' + ix + '].value'
+      this.setData({
+        [key]: e.detail.value
+      })
+    }
+  },
+  // start 文件上传控件事件函数
+  onChange(e) {
+    const {
+      file,
+      fileList
+    } = e.detail
+    if (file.status === 'remove') {
+      this.setData({
+        fileList: fileList.filter((n) => n.uid !== file.uid),
+      })
+    }
+  },
+  onSuccess(e) {
+    const {
+      file,
+      fileList
+    } = e.detail
+    this.setData({
+      showUploadStatus: 'success'
+    });
+    var serverFile = JSON.parse(file.res.data);
+    if (serverFile.code === 200) {
+      fileList.forEach(item => {
+        if (item.uid === file.uid) {
+          item.sid = serverFile.data.id;
+          item.type = serverFile.data.type;
+        }
+      })
+      // 这里需要找到 e.target.dataset.name 对应对象的来更新
+      let ix = -1;
+      for (var i = 0; i < this.data.formField.length; i++) {
+        if (this.data.formField[i].name === e.target.dataset.name) {
+          ix = i;
+        }
+      }
+      if (ix > -1) {
+        let key = 'formField[' + ix + '].fileList'
+        this.setData({
+          [key]: fileList
+        })
+      }
+    };
+  },
+  onFail(e) {
+    this.setData({
+      showUploadStatus: 'error'
+    });
+
+  },
+  onComplete(e) {
+    setTimeout(() => {
+      this.setData({
+        showUploadMask: false
+      })
+    }, 2000)
+  },
+  onProgress(e) {
+    this.setData({
+      showUploadMask: true,
+      showUploadStatus: 'uploading'
+    })
+  },
+  onPreview(e) {
+    const {
+      file,
+      fileList
+    } = e.detail
+    wx.previewImage({
+      current: file.url,
+      urls: fileList.map((n) => n.url),
+    })
+  },
+  // end 文件上传控件事件函数
+  onSubmit() {
+    const {
+      getFieldsValue,
+      getFieldValue,
+      setFieldsValue
+    } = $wuxForm()
+    const value = getFieldsValue()
+
+    var submitData = {}
+    // 构造提交数据
+    for (var i = 0; i < this.data.formField.length; i++) {
+      let key = this.data.formField[i].name
+      let fieldType = this.data.formField[i].type
+      if (fieldType === 'textarea') {
+        submitData[key] = value[key]
+      } else if (fieldType === 'select') {
+        submitData[key] = this.data.formField[i].value
+      } else if (fieldType === 'user') {
+        submitData[key] = this.data.formField[i].value
+      } else {
+        // 图片、视频
+        let ids = this.data.formField[i].fileList.map((n) => n.sid)
+        submitData[key] = ids.join(',')
+      }
+    }
+
+    wx.showLoading({
+      title: '正在上报',
+      mask: true,
+    })
+    var submitFunction = null;
+    switch (this.data.operType) {
+      case 0:
+        // 派遣人员
+        // 参数需要特殊处理下
+        submitData.userList = [];
+        submitData.operationType = 0;
+        submitData.users.forEach(user => {
+          submitData.userList.push({
+            userId: user.id,
+          })
+        })
+        submitFunction = operApi.saveDispatcher
+        break;
+      case 6:
+        // 移交专家
+        submitFunction = operApi.saveDispatcher
+        submitData.userList = [];
+        submitData.operationType = 6;
+        // 组长
+        submitData.userList.push({
+          userId: submitData.leader[0].id,
+          userType: 0
+        })
+        // 组员
+        submitData.users.forEach(user => {
+          submitData.userList.push({
+            userId: user.id,
+            userType: 1
+          })
+        })
+        break;
+      case 1:
+        // 反馈
+        submitFunction = operApi.saveFeedback
+        break;
+        // 升降意见
+      case 2:
+      case 3:
+      case 8:
+        // 降级意见
+        submitFunction = operApi.saveGradeChanged
+        break;
+      case 4:
+        // 发送短信
+        submitData.userList = [];
+        submitData.users.forEach(user => {
+          submitData.userList.push({
+            userId: user.id,
+          })
+        })
+        submitFunction = operApi.saveSmRecord
+        break;
+      case 5:
+        // 发表意见
+        submitFunction = operApi.saveOpinion
+        break;
+      case 7:
+        // 完结
+        submitFunction = operApi.warningFinish
+        break;
+      default:
+        break;
+    }
+    // 统一加上 warningId
+    submitData["warningId"] = this.data.warningId
+    if (submitFunction) {
+      submitFunction(submitData).then(res => {
+        wx.hideLoading()
+        if (res.code == 200) {
+          // 退回警情界面
+          wx.navigateBack();
+        } else {
+          wx.showToast({
+            icon:'error',
+            title: res.msg || '操作失败,请稍后重试',
+          })
+        }
+      }).catch(err => {
+        wx.hideLoading()
+        wx.showToast({
+          icon: 'error',
+          title: '服务异常,请稍后重试',
+        })
+      })
+    } else {
+      wx.hideLoading()
+      wx.showToast({
+        icon: 'error',
+        title: '未知操作',
+      })
+    }
+  }
+})

@@ -1,0 +1,59 @@
+@import '../../../static/icon/iconfont.wxss';
+page{
+  height: 100%;
+}
+.page{
+  height: 100%;
+  width: 100%;
+}
+.wuxform{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.flex{
+  flex: 1;
+}
+/* .slide-image{
+  width:  750rpx;
+  height: auto;
+} */
+.wux-cell{
+  width: 96%;
+  margin-left:30rpx;
+  
+}
+.wux-cell text{
+  line-height: 40rpx;
+}
+.textleft{
+  width: 22%;
+  font-size: 28rpx;
+  color: #333333;
+  font-weight:400;
+  float: left;
+}
+.textright{
+  width: 75%;
+  font-size: 28rpx;
+  color: #7D9AB6;
+  font-weight:400;
+  float: left;
+}
+.text-remarks{
+  font-size: 28rpx;
+  color: #7D9AB6;
+  font-weight:400; 
+}
+.iconfont{
+  color: #1EBD0B;
+  float: right;
+}
+.wux-button--block{
+  margin-bottom: 0rpx !important;
+}
+.wux-button--full{
+  margin-bottom: 0rpx !important;
+}
+

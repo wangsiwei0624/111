@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="list">
+        <view class="list-in">
+          <view class="list-in-cell-title">
+            <view class="title1">
+              <text>巡查</text>
+            </view>
+            <!-- <view class="title2" bindtap="onMorePatrol">
+              <text>更多</text>
+            </view> -->
+          </view>
+
+          <view class="list-in-cell-no" wx:if="{{patrolonoff}}">
+            <text>暂无代办事项</text>
+          </view>
+
+          <view class="list-in-cell-detail" wx:for="{{patrolMessage}}" wx:key="{{index}}">
+            <view class="list-in-cell-detail-cell">
+              <text class="detail-theme">{{item.taskName}}</text>
+              <view class="detail-timeslot">
+                <i class="iconfont icon-denglu-yanjingzhengyan"></i>
+                <text>{{item.startTime}}~{{item.endTime}}</text>
+              </view>
+              <view class="detail-address">
+                <i class="iconfont icon-shouye-jingqingliebiao-xiangmudizhi"></i>
+                <text>深圳市坪山区垃圾场</text>
+                <text class="time">{{item.completionTime}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+  </view>

@@ -1,0 +1,30 @@
+<!--pages/components/dict-selector/index.wxml-->
+<view class="dict-selector">
+  <wux-white-space  body-style="height: 10rpx"/>
+  <view class="select-box" bindtap="showSelectDialog">
+    {{label || placeholder}}
+    <i class="select-icon iconfont icon-shengjiangjiyijian-xialajiantou"></i>
+  </view>
+</view>
+
+<view class="common-dialog" hidden="{{!showDialog}}">
+<view class="common-dialog-mask"></view>
+<view class="common-dialog-content">
+  <view class="common-dialog-content-header">
+    <text class="common-dialog-content-header-title">{{title}}</text>
+  </view>
+  <view class="common-dialog-content-body">
+    <wux-picker-view value="{{ selectValue }}" controlled options="{{ options }}" bind:valueChange="onValueChange" />
+  </view>
+  <view class="common-dialog-content-footer">
+      <wux-row>
+            <wux-col span="6">
+                <wux-button   clear type="stable" bind:click="onCancel">取消</wux-button>
+            </wux-col>
+            <wux-col span="6">
+                <wux-button  clear type="calm" bind:click="onOk">确定</wux-button>
+            </wux-col>
+        </wux-row>
+  </view>
+</view>
+</view>
